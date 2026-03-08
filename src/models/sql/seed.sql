@@ -31,6 +31,37 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 /* ================================
+ TEST USERS
+ ================================ */
+INSERT INTO users (
+        role_id,
+        first_name,
+        last_name,
+        email,
+        password_hash
+    )
+VALUES (
+        1,
+        'John',
+        'Customer',
+        'customer@test.com',
+        '$2b$10$MmOxfxKXuSspTMXQAsisUOGMEaDlFKwJDlwWKmSUd4XieBw9Axuom'
+    ),
+    (
+        2,
+        'Emily',
+        'Employee',
+        'employee@test.com',
+        '$2b$10$MmOxfxKXuSspTMXQAsisUOGMEaDlFKwJDlwWKmSUd4XieBw9Axuom'
+    ),
+    (
+        3,
+        'Admin',
+        'Owner',
+        'admin@test.com',
+        '$2b$10$MmOxfxKXuSspTMXQAsisUOGMEaDlFKwJDlwWKmSUd4XieBw9Axuom'
+    );
+/* ================================
  CATEGORIES
  ================================ */
 CREATE TABLE categories (
@@ -46,7 +77,6 @@ VALUES ('SUV', 'suv', 'Sport utility vehicles'),
     ('Car', 'car', 'Standard passenger cars');
 /* ================================
  VEHICLES
- Slug Example: toyota-4runner-2021
  ================================ */
 CREATE TABLE vehicles (
     vehicle_id SERIAL PRIMARY KEY,
@@ -71,8 +101,7 @@ INSERT INTO vehicles (
         mileage,
         description
     )
-VALUES -- SUVs
-    (
+VALUES (
         1,
         'toyota-4runner-2021',
         'Toyota',
@@ -102,7 +131,6 @@ VALUES -- SUVs
         32000,
         'Three-row SUV with excellent towing capability.'
     ),
-    -- Trucks
     (
         2,
         'ford-f150-2020',
@@ -123,7 +151,6 @@ VALUES -- SUVs
         29000,
         'Powerful full-size truck with impressive towing capacity.'
     ),
-    -- Vans
     (
         3,
         'chrysler-pacifica-2021',
@@ -144,7 +171,6 @@ VALUES -- SUVs
         21000,
         'Hybrid minivan with excellent fuel efficiency.'
     ),
-    -- Cars
     (
         4,
         'toyota-camry-2023',
@@ -195,12 +221,7 @@ VALUES (
         5,
         'Fantastic SUV for road trips and camping.'
     ),
-    (
-        4,
-        1,
-        4,
-        'Great truck with lots of towing power.'
-    ),
+    (4, 1, 4, 'Great truck with lots of towing power.'),
     (
         8,
         1,
@@ -268,7 +289,6 @@ VALUES (
     );
 /* ================================
  SESSION TABLE
- (Used by connect-pg-simple)
  ================================ */
 CREATE TABLE session (
     sid varchar PRIMARY KEY,
@@ -276,36 +296,8 @@ CREATE TABLE session (
     expire timestamp NOT NULL
 );
 /* ================================
- TEST USERS
+ INDEXES
  ================================ */
-INSERT INTO users (
-        role_id,
-        first_name,
-        last_name,
-        email,
-        password_hash
-    )
-VALUES (
-        1,
-        'John',
-        'Customer',
-        'customer@test.com',
-        '$2b$10$MmOxfxKXuSspTMXQAsisUOGMEaDlFKwJDlwWKmSUd4XieBw9Axuom'
-    ),
-    (
-        2,
-        'Emily',
-        'Employee',
-        'employee@test.com',
-        '$2b$10$MmOxfxKXuSspTMXQAsisUOGMEaDlFKwJDlwWKmSUd4XieBw9Axuom'
-    ),
-    (
-        3,
-        'Admin',
-        'Owner',
-        'admin@test.com',
-        '$2b$10$MmOxfxKXuSspTMXQAsisUOGMEaDlFKwJDlwWKmSUd4XieBw9Axuom'
-    );
 CREATE INDEX idx_vehicle_slug ON vehicles(slug);
 CREATE INDEX idx_category_slug ON categories(slug);
 CREATE INDEX idx_vehicle_category ON vehicles(category_id);
