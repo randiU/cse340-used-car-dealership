@@ -1,28 +1,36 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import routes from "./src/controllers/routes.js";
+
+// Import MVC Components
+import router from "./src/controllers/routes.js";
+
+// Import database setup functions
 import { setupDatabase, testConnection } from "./src/models/setup.js";
 
-const app = express();
-
+/**
+ * Server configuration
+ */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || "production";
+const PORT = process.env.PORT || 3000;
+
+const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src/views"));
 
-app.use("/", routes);
+app.use("/", router);
 
 async function startServer() {
   try {
-    await testConnection();   // tests PostgreSQL connection
-    await setupDatabase();    // runs seed.sql if needed
+    await testConnection();
+    await setupDatabase();
 
-    app.listen(3000, () => {
-      console.log("Server running on http://localhost:3000");
+    app.listen(PORT, () => {
+      console.log(`Server running in ${NODE_ENV} mode on http://localhost:${PORT}`);
     });
-
   } catch (error) {
     console.error("Failed to start server:", error);
   }
