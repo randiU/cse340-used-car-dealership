@@ -1,0 +1,13 @@
+.category-filters a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border: 1px solid #333;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.category-filters a:hover {
+  background-color: #333;
+  color: #fff;
+}

@@ -2,12 +2,26 @@
 
 <h1><%= title %></h1>
 
+<nav class="category-filters">
+    <a href="/vehicles">All Vehicles</a>
+
+    <% if (categories && categories.length > 0) { %>
+    <% categories.forEach(category => { %>
+    <a href="/vehicles/category/<%= category.slug %>">
+        <%= category.name %>
+    </a>
+    <% }) %>
+    <% } %>
+</nav>
+
 <main>
     <% if (vehicles && vehicles.length > 0) { %>
     <% vehicles.forEach(vehicle => { %>
     <article>
         <h2>
-            <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+            <a href="/vehicles/<%= vehicle.slug %>">
+                <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+            </a>
         </h2>
 
         <p><strong>Category:</strong> <%= vehicle.category_name %></p>

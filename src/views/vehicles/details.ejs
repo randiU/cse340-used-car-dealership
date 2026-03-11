@@ -1,0 +1,17 @@
+<%- include("../partials/header") %>
+
+<h1><%= title %></h1>
+
+<main>
+    <article>
+        <p><strong>Category:</strong> <%= vehicle.category_name %></p>
+        <p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
+        <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %></p>
+        <p><strong>Status:</strong> <%= vehicle.status %></p>
+        <p><%= vehicle.description %></p>
+    </article>
+
+    <p><a href="/vehicles">Back to Inventory</a></p>
+</main>
+
+<%- include("../partials/footer") %>

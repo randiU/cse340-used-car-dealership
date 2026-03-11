@@ -1,0 +1,10 @@
+<%- include("../partials/header") %>
+
+<h1><%= title %></h1>
+<p>Something went wrong on the server.</p>
+
+<% if (error) { %>
+<p><strong>Error:</strong> <%= error %></p>
+<% } %>
+
+<%- include("../partials/footer") %>
