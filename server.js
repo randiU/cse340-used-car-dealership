@@ -29,6 +29,9 @@ app.set("views", path.join(__dirname, "src/views"));
 // Serve static files from public directory
 app.use(express.static(path.join(__dirname, "public")));
 
+// Parse form data
+app.use(express.urlencoded({ extended: true }));
+
 // Global Middleware
 app.use(addLocalVariables);
 
