@@ -1,11 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css">
     <%- renderStyles() %>
 </head>
 
 <body>
+    <header>
+        <h1>Wasatch Auto Group</h1>
+        <%- include("../partials/nav") %>
+    </header>
 
-    <%- include('../partials/nav') %>
+    <%
+        const messages = flash();
+        const hasMessages = Object.values(messages).some(arr => arr.length > 0);
+    %>
+
+    <% if (hasMessages) { %>
+    <div class="flash-messages">
+        <% Object.keys(messages).forEach(type => { %>
+        <% messages[type].forEach(message => { %>
+        <div class="flash <%= type %>">
+            <%= message %>
+        </div>
+        <% }) %>
+        <% }) %>
+    </div>
+    <% } %>

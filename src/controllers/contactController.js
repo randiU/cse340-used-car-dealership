@@ -13,9 +13,8 @@ const handleContactSubmission = async (req, res) => {
 
   await createContactMessage({ name, email, subject, message });
 
-  res.render("contact/success", {
-    title: "Message Sent"
-  });
+  req.flash("success", "Your message has been sent successfully.");
+  res.redirect("/contact");
 };
 
 export { showContactForm, handleContactSubmission };
