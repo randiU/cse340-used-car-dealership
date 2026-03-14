@@ -92,4 +92,30 @@ async function getAllCategories() {
   return db.query(sql);
 }
 
-export { getAllVehicles, getVehicleBySlug, getVehiclesByCategorySlug, getAllCategories };
+//Returns random featured vehicles for the home page
+async function getFeaturedVehicles(limit = 3) {
+  const sql = `
+    SELECT 
+      v.vehicle_id,
+      v.make,
+      v.model,
+      v.year,
+      v.price,
+      v.mileage,
+      v.slug,
+      v.description,
+      v.status,
+      c.name AS category_name,
+      c.slug AS category_slug
+    FROM vehicles v
+    JOIN categories c
+      ON v.category_id = c.category_id
+    WHERE v.status = 'available'
+    ORDER BY RANDOM()
+    LIMIT $1;
+  `;
+
+  return db.query(sql, [limit]);
+}
+
+export { getAllVehicles, getVehicleBySlug, getVehiclesByCategorySlug, getAllCategories, getFeaturedVehicles };

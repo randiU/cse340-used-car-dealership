@@ -1,7 +1,57 @@
 <%- include("partials/header") %>
 
-<h1>Wasatch Auto Group</h1>
 
-<p>Welcome to the dealership</p>
+<img src="/images/home-banner.jpg" alt="Wasatch Auto Group Banner" class="home-banner">
+<h1>Welcome to Wasatch Auto Group</h1>
+<p>Welcome to Wasatch Auto Group — where finding the right vehicle is simple, honest, and stress-free. We’re proud to
+    offer quality used cars, fair pricing, and friendly service you can trust. Whether you’re buying your first car or
+    upgrading for your family, we’re here to help you drive away with confidence.</p>
 
+<section class="featured-vehicles">
+    <h2>Featured Vehicles</h2>
+    <p>Check out some of our top picks from our inventory. These vehicles are popular among our customers and offer
+        great value for their price.</p>
+
+    <% if (featuredVehicles && featuredVehicles.length > 0) { %>
+    <div class="vehicle-grid">
+        <% featuredVehicles.forEach(vehicle => { %>
+        <article class="vehicle-card">
+            <h3>
+                <a href="/vehicles/<%= vehicle.slug %>">
+                    <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+                </a>
+            </h3>
+            <p><strong>Category:</strong> <%= vehicle.category_name %></p>
+            <p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
+            <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %> miles</p>
+        </article>
+        <% }) %>
+    </div>
+    <% } else { %>
+    <p>No featured vehicles available at this time.</p>
+    <% } %>
+</section>
+<section>
+    <h2>Browse Our Inventory</h2>
+    <p>Explore our wide selection of pre-owned vehicles, from reliable sedans to rugged SUVs. Each car is thoroughly
+        inspected and priced competitively to ensure you get the best value. Browse our inventory online or visit us in
+        person to find your perfect match.</p>
+
+    <nav class="category-filters">
+        <a href="/vehicles">All Vehicles</a>
+        <% if (categories && categories.length > 0) { %>
+        <% categories.forEach(category => { %>
+        <a href="/vehicles/category/<%= category.slug %>">
+            <%= category.name %>
+        </a>
+        <% }) %>
+        <% } %>
+    </nav>
+</section>
+<section>
+    <h2>Contact Us</h2>
+    <p>Have questions or want to schedule a test drive? Contact us today! Our friendly team is here to assist you with
+        any inquiries and help you find the perfect vehicle.</p>
+    <a href="/contact" class="contact-btn">Contact Us</a>
+</section>
 <%- include("partials/footer") %>

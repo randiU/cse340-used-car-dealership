@@ -2,6 +2,7 @@ import express from "express";
 import { homePage } from "./index.js";
 import { buildVehicleInventoryPage, buildVehicleDetailPage, buildCategoryVehiclePage } from "./inventoryController.js";
 import { showContactForm, handleContactSubmission } from "./contactController.js";
+import { contactValidation } from "../middleware/validation.js";
 
 const router = express.Router();
 
@@ -27,7 +28,7 @@ router.get("/vehicles/:slug", buildVehicleDetailPage);
 
 //Contact Routes
 router.get("/contact", showContactForm);
-router.post("/contact", handleContactSubmission);
+router.post("/contact", contactValidation, handleContactSubmission);
 
 //Test route for 500 error
 router.get("/test-error", (req, res, next) => {
