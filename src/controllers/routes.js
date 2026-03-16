@@ -2,7 +2,7 @@ import express from "express";
 import { homePage } from "./index.js";
 import { buildVehicleInventoryPage, buildVehicleDetailPage, buildCategoryVehiclePage } from "./inventoryController.js";
 import { showContactForm, handleContactSubmission } from "./contactController.js";
-import { contactValidation } from "../middleware/validation.js";
+import { contactValidation, registrationValidation, loginValidation } from "../middleware/validation.js";
 import {
   showRegistrationForm,
   processRegistration,
@@ -10,6 +10,7 @@ import {
   processLogin,
   processLogout
 } from "./accountController.js";
+import { requireLogin } from "../middleware/auth.js";
 
 
 
@@ -41,11 +42,11 @@ router.post("/contact", contactValidation, handleContactSubmission);
 
 //Registration Routes
 router.get("/register", showRegistrationForm);
-router.post("/register", processRegistration);
+router.post("/register", registrationValidation, processRegistration);
 
 //Login Routes
 router.get("/login", showLoginForm);
-router.post("/login", processLogin);
+router.post("/login", loginValidation, processLogin);
 router.get("/logout", processLogout);
 
 //Temporary route for dashboard until it's been created

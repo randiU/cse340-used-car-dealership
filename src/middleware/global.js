@@ -34,6 +34,9 @@ const addLocalVariables = (req, res, next) => {
   //checks if user is logged in by checking for session user object, then sets isLoggedIn to true or false accordingly
   res.locals.isLoggedIn = !!(req.session && req.session.user);
 
+  //Make user info available in all views via res.locals.user
+  res.locals.user = req.session?.user || null;
+
   next();
 };
 

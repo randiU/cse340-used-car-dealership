@@ -3,7 +3,8 @@
 <h1><%= title %></h1>
 
 <main>
-    <p>Welcome to your dashboard.</p>
+    <p>Welcome, <%= user ? user.firstName : "User" %>.</p>
+    <p>Your role: <%= user ? user.roleName : "" %></p>
 </main>
 
 <%- include("../partials/footer") %>

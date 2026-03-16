@@ -1,5 +1,7 @@
 import bcrypt from "bcrypt";
 import { getUserByEmail, createUser } from "../models/accountModel.js";
+import { validationResult } from "express-validator";
+
 
 const showRegistrationForm = (req, res) => {
   res.render("account/register", {
@@ -9,6 +11,12 @@ const showRegistrationForm = (req, res) => {
 
 //Process registration form submission
 const processRegistration = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    errors.array().forEach(error => req.flash("error", error.msg));
+    return res.redirect("/register");
+  }
+
   const { first_name, last_name, email, password } = req.body;
 
   const existingUser = await getUserByEmail(email);
@@ -37,6 +45,14 @@ const showLoginForm = (req, res) => {
 };
 
 const processLogin = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    const errorMessages = errors.array().map(error => error.msg);
+    errorMessages.forEach(message => req.flash("error", message));
+    return res.redirect("/login");
+  }
+
   const { email, password } = req.body;
 
   const result = await getUserByEmail(email);
