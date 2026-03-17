@@ -1,4 +1,9 @@
-import { createContactMessage } from "../models/contactModel.js";
+import {
+  createContactMessage,
+  getAllContactMessages,
+  deleteContactMessage
+} from "../models/contactModel.js";
+
 import { validationResult } from "express-validator";
 
 //Route handlers for contact pages
@@ -27,4 +32,30 @@ const handleContactSubmission = async (req, res) => {
   res.redirect("/contact");
 };
 
-export { showContactForm, handleContactSubmission };
+//Admin route handler to show all contact messages
+const showContactMessages = async (req, res) => {
+  const data = await getAllContactMessages();
+
+  res.render("dashboard/admin/contact-messages", {
+    title: "Contact Messages",
+    messages: data.rows
+  });
+};
+
+//Admin route handler to delete a contact message
+const deleteContactMessageById = async (req, res) => {
+  const { messageId } = req.params;
+
+  const result = await deleteContactMessage(messageId);
+
+  if (!result.rows.length) {
+    req.flash("error", "Contact message not found.");
+    return res.redirect("/admin/contact-messages");
+  }
+
+  req.flash("success", "Contact message deleted successfully.");
+  res.redirect("/admin/contact-messages");
+};
+
+
+export { showContactForm, handleContactSubmission, showContactMessages, deleteContactMessageById };

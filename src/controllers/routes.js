@@ -1,7 +1,7 @@
 import express from "express";
 import { homePage } from "./index.js";
 import { buildVehicleInventoryPage, buildVehicleDetailPage, buildCategoryVehiclePage } from "./inventoryController.js";
-import { showContactForm, handleContactSubmission } from "./contactController.js";
+import { showContactForm, handleContactSubmission, showContactMessages, deleteContactMessageById } from "./contactController.js";
 import { contactValidation, registrationValidation, loginValidation } from "../middleware/validation.js";
 import {
   showRegistrationForm,
@@ -68,6 +68,11 @@ router.get("/admin", requireAdmin, (req, res) => {
     title: "Admin Dashboard"
   });
 });
+
+//Admin routes
+router.get("/admin/contact-messages", requireEmployee, showContactMessages);
+router.post("/admin/contact-messages/:messageId/delete", requireEmployee, deleteContactMessageById);
+
 
 
 

@@ -16,4 +16,31 @@ const createContactMessage = async ({ name, email, subject, message }) => {
   return db.query(sql, [name, email, subject, message]);
 };
 
-export { createContactMessage };
+const getAllContactMessages = async () => {
+  const sql = `
+    SELECT
+      message_id,
+      name,
+      email,
+      subject,
+      message,
+      created_at
+    FROM contact_messages
+    ORDER BY created_at DESC;
+  `;
+
+  return db.query(sql);
+};
+
+const deleteContactMessage = async (messageId) => {
+  const sql = `
+    DELETE FROM contact_messages
+    WHERE message_id = $1
+    RETURNING message_id;
+  `;
+
+  return db.query(sql, [messageId]);
+};
+
+
+export { createContactMessage, getAllContactMessages, deleteContactMessage };
