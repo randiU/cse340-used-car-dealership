@@ -10,7 +10,8 @@ import {
   processLogin,
   processLogout
 } from "./accountController.js";
-import { requireLogin } from "../middleware/auth.js";
+import { requireLogin, requireEmployee, requireAdmin } from "../middleware/auth.js";
+
 
 
 
@@ -49,10 +50,22 @@ router.get("/login", showLoginForm);
 router.post("/login", loginValidation, processLogin);
 router.get("/logout", processLogout);
 
-//Temporary route for dashboard until it's been created
-router.get("/dashboard", (req, res) => {
-  res.render("account/dashboard", {
+//Temporary routes for dashboard until it's been created
+router.get("/dashboard", requireLogin, (req, res) => {
+  res.render("dashboard/dashboard", {
     title: "Dashboard"
+  });
+});
+
+router.get("/employee", requireEmployee, (req, res) => {
+  res.render("dashboard/employee", {
+    title: "Employee Dashboard"
+  });
+});
+
+router.get("/admin", requireAdmin, (req, res) => {
+  res.render("dashboard/admin", {
+    title: "Admin Dashboard"
   });
 });
 
