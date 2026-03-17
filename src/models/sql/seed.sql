@@ -1,6 +1,7 @@
 BEGIN;
 DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS service_requests CASCADE;
+DROP TABLE IF EXISTS user_vehicles CASCADE;
 DROP TABLE IF EXISTS vehicles CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
@@ -60,6 +61,39 @@ VALUES (
         'Owner',
         'admin@test.com',
         '$2b$10$MmOxfxKXuSspTMXQAsisUOGMEaDlFKwJDlwWKmSUd4XieBw9Axuom'
+    );
+/* ================================
+ USER VEHICLES
+ ================================ */
+CREATE TABLE user_vehicles (
+    user_vehicle_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    make VARCHAR(50) NOT NULL,
+    model VARCHAR(50) NOT NULL,
+    year INT NOT NULL,
+    mileage INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+INSERT INTO user_vehicles (
+        user_id,
+        make,
+        model,
+        year,
+        mileage
+    )
+VALUES (
+        1,
+        'Toyota',
+        'Highlander',
+        2021,
+        42000
+    ),
+    (
+        1,
+        'Honda',
+        'Civic',
+        2019,
+        61000
     );
 /* ================================
  CATEGORIES
@@ -221,7 +255,12 @@ VALUES (
         5,
         'Fantastic SUV for road trips and camping.'
     ),
-    (4, 1, 4, 'Great truck with lots of towing power.'),
+    (
+        4,
+        1,
+        4,
+        'Great truck with lots of towing power.'
+    ),
     (
         8,
         1,
@@ -233,8 +272,8 @@ VALUES (
  ================================ */
 CREATE TABLE service_requests (
     request_id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(user_id),
-    vehicle_id INT REFERENCES vehicles(vehicle_id),
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+    user_vehicle_id INT REFERENCES user_vehicles(user_vehicle_id) ON DELETE CASCADE,
     service_type VARCHAR(50),
     description TEXT,
     status VARCHAR(20) DEFAULT 'submitted' CHECK (
@@ -244,7 +283,7 @@ CREATE TABLE service_requests (
 );
 INSERT INTO service_requests (
         user_id,
-        vehicle_id,
+        user_vehicle_id,
         service_type,
         description,
         status
@@ -258,7 +297,7 @@ VALUES (
     ),
     (
         1,
-        4,
+        2,
         'Brake Inspection',
         'Brakes feel slightly soft when stopping',
         'in_progress'
@@ -302,4 +341,7 @@ CREATE INDEX idx_vehicle_slug ON vehicles(slug);
 CREATE INDEX idx_category_slug ON categories(slug);
 CREATE INDEX idx_vehicle_category ON vehicles(category_id);
 CREATE INDEX idx_review_vehicle ON reviews(vehicle_id);
+CREATE INDEX idx_user_vehicle_user ON user_vehicles(user_id);
+CREATE INDEX idx_service_request_user ON service_requests(user_id);
+CREATE INDEX idx_service_request_user_vehicle ON service_requests(user_vehicle_id);
 COMMIT;

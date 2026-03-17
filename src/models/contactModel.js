@@ -16,6 +16,7 @@ const createContactMessage = async ({ name, email, subject, message }) => {
   return db.query(sql, [name, email, subject, message]);
 };
 
+
 const getAllContactMessages = async () => {
   const sql = `
     SELECT
