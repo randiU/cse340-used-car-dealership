@@ -1,0 +1,41 @@
+<%- include("../partials/header") %>
+
+<h1><%= title %></h1>
+
+<main>
+    <form action="/service/request" method="post">
+        <div>
+            <label for="user_vehicle_id">My Vehicle</label>
+            <select id="user_vehicle_id" name="user_vehicle_id" required>
+                <option value="">Select a vehicle</option>
+                <% if (vehicles && vehicles.length > 0) { %>
+                <% vehicles.forEach(vehicle => { %>
+                <option value="<%= vehicle.user_vehicle_id %>">
+                    <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+                </option>
+                <% }) %>
+                <% } %>
+            </select>
+        </div>
+
+        <div>
+            <label for="service_type">Service Type</label>
+            <select id="service_type" name="service_type" required>
+                <option value="">Select a service</option>
+                <option value="Oil Change">Oil Change</option>
+                <option value="Tire Rotation">Tire Rotation</option>
+                <option value="Brake Inspection">Brake Inspection</option>
+                <option value="Engine Diagnostic">Engine Diagnostic</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="6" required></textarea>
+        </div>
+
+        <button type="submit">Submit Request</button>
+    </form>
+</main>
+
+<%- include("../partials/footer") %>

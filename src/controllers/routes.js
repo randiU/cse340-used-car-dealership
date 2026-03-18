@@ -2,18 +2,26 @@ import express from "express";
 import { homePage } from "./index.js";
 import { buildVehicleInventoryPage, buildVehicleDetailPage, buildCategoryVehiclePage } from "./inventoryController.js";
 import { showContactForm, handleContactSubmission, showContactMessages, deleteContactMessageById } from "./contactController.js";
-import { contactValidation, registrationValidation, loginValidation } from "../middleware/validation.js";
+import { contactValidation, registrationValidation, loginValidation, serviceRequestValidation } from "../middleware/validation.js";
 import {
   showRegistrationForm,
   processRegistration,
   showLoginForm,
   processLogin,
-  processLogout
+  processLogout,
 } from "./accountController.js";
 import { requireLogin, requireEmployee, requireAdmin } from "../middleware/auth.js";
-
-
-
+import { handleAddUserVehicle } from "./userVehicleController.js";
+import {
+  showUserDashboard,
+  showEmployeeDashboard,
+  showAdminDashboard
+} from "./dashboardController.js";
+import {
+  showServiceRequestForm,
+  handleServiceRequestSubmission,
+  showUserServiceHistory
+} from "./serviceController.js";
 
 const router = express.Router();
 
@@ -28,55 +36,46 @@ router.use("/contact", (req, res, next) => {
   next();
 });
 
-
-//Home page route
+// Home page route
 router.get("/", homePage);
 
-//Inventory Routes
+// Inventory Routes
 router.get("/vehicles", buildVehicleInventoryPage);
 router.get("/vehicles/category/:slug", buildCategoryVehiclePage);
 router.get("/vehicles/:slug", buildVehicleDetailPage);
 
-//Contact Routes
+// Contact Routes
 router.get("/contact", showContactForm);
 router.post("/contact", contactValidation, handleContactSubmission);
 
-//Registration Routes
+// Registration Routes
 router.get("/register", showRegistrationForm);
 router.post("/register", registrationValidation, processRegistration);
 
-//Login Routes
+// Login Routes
 router.get("/login", showLoginForm);
 router.post("/login", loginValidation, processLogin);
 router.get("/logout", processLogout);
 
-//Temporary routes for dashboard until it's been created
-router.get("/dashboard", requireLogin, (req, res) => {
-  res.render("dashboard/dashboard", {
-    title: "Dashboard"
-  });
-});
+// Dashboard Routes
+router.get("/dashboard", requireLogin, showUserDashboard);
+router.get("/employee", requireEmployee, showEmployeeDashboard);
+router.get("/admin", requireAdmin, showAdminDashboard);
 
-router.get("/employee", requireEmployee, (req, res) => {
-  res.render("dashboard/employee", {
-    title: "Employee Dashboard"
-  });
-});
-
-router.get("/admin", requireAdmin, (req, res) => {
-  res.render("dashboard/admin", {
-    title: "Admin Dashboard"
-  });
-});
-
-//Admin routes
+// Admin Routes
 router.get("/admin/contact-messages", requireEmployee, showContactMessages);
 router.post("/admin/contact-messages/:messageId/delete", requireEmployee, deleteContactMessageById);
 
+// User Vehicle action route
+router.post("/my-vehicles/add", requireLogin, handleAddUserVehicle);
+
+// Service Request Routes
+router.get("/service/request", requireLogin, showServiceRequestForm);
+router.post("/service/request", requireLogin, serviceRequestValidation, handleServiceRequestSubmission);
+router.get("/service/history", requireLogin, showUserServiceHistory);
 
 
-
-//Test route for 500 error
+// Test route for 500 error
 router.get("/test-error", (req, res, next) => {
   next(new Error("This is a test error"));
 });

@@ -1,0 +1,22 @@
+<%- include("../partials/header") %>
+
+<h1><%= title %></h1>
+
+<main>
+    <% if (requests && requests.length > 0) { %>
+    <% requests.forEach(request => { %>
+    <article>
+        <h2><%= request.year %> <%= request.make %> <%= request.model %></h2>
+        <p><strong>Service Type:</strong> <%= request.service_type %></p>
+        <p><strong>Status:</strong> <%= request.status %></p>
+        <p><strong>Submitted:</strong> <%= new Date(request.created_at).toLocaleString() %></p>
+        <p><%= request.description %></p>
+    </article>
+    <hr>
+    <% }) %>
+    <% } else { %>
+    <p>You have not submitted any service requests yet.</p>
+    <% } %>
+</main>
+
+<%- include("../partials/footer") %>

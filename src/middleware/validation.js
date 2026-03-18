@@ -93,6 +93,31 @@ const loginValidation = [
     .withMessage("Password must be between 8 and 128 characters")
 ];
 
-export { contactValidation, registrationValidation, loginValidation };
+const serviceRequestValidation = [
+  body("user_vehicle_id")
+    .notEmpty()
+    .withMessage("Please select a vehicle")
+    .isInt({ min: 1 })
+    .withMessage("Please select a valid vehicle"),
+
+  body("service_type")
+    .notEmpty()
+    .withMessage("Please select a service type")
+    .isIn([
+      "Oil Change",
+      "Tire Rotation",
+      "Brake Inspection",
+      "Engine Diagnostic"
+    ])
+    .withMessage("Please select a valid service type"),
+
+  body("description")
+    .trim()
+    .isLength({ min: 10, max: 1000 })
+    .withMessage("Description must be between 10 and 1000 characters")
+];
+
+
+export { contactValidation, registrationValidation, loginValidation, serviceRequestValidation };
 
 

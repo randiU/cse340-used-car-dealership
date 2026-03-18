@@ -1,17 +1,18 @@
 import bcrypt from "bcrypt";
-import { getUserByEmail, createUser } from "../models/accountModel.js";
 import { validationResult } from "express-validator";
+import { getUserByEmail, createUser } from "../models/accountModel.js";
 
-
+// Show registration form
 const showRegistrationForm = (req, res) => {
   res.render("account/register", {
     title: "Register"
   });
 };
 
-//Process registration form submission
+// Process registration form submission
 const processRegistration = async (req, res) => {
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     errors.array().forEach(error => req.flash("error", error.msg));
     return res.redirect("/register");
@@ -38,12 +39,14 @@ const processRegistration = async (req, res) => {
   res.redirect("/login");
 };
 
+// Show login form
 const showLoginForm = (req, res) => {
   res.render("account/login", {
     title: "Login"
   });
 };
 
+// Process login form submission
 const processLogin = async (req, res) => {
   const errors = validationResult(req);
 
@@ -80,18 +83,10 @@ const processLogin = async (req, res) => {
   };
 
   req.flash("success", "You are now logged in.");
-  
-  // Redirect based on user role
-  const roleName = user.role_name.toLowerCase();
-  if (roleName === "admin") {
-    res.redirect("/admin");
-  } else if (roleName === "employee") {
-    res.redirect("/employee");
-  } else {
-    res.redirect("/dashboard");
-  }
+  res.redirect("/dashboard");
 };
 
+// Process logout
 const processLogout = (req, res) => {
   req.session.regenerate((error) => {
     if (error) {
