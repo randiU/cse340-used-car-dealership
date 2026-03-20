@@ -1,11 +1,16 @@
 <nav>
+  <% const dashboardPath = user?.roleName?.toLowerCase() === "admin"
+    ? "/admin"
+    : user?.roleName?.toLowerCase() === "employee"
+      ? "/employee"
+      : "/dashboard"; %>
   <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/vehicles">Browse Vehicles</a></li>
     <li><a href="/contact">Contact Us</a></li>
 
     <% if (isLoggedIn) { %>
-    <li><a href="/dashboard">Dashboard</a></li>
+    <li><a href="<%= dashboardPath %>">Dashboard</a></li>
     <li><a href="/logout">Logout</a></li>
     <% } %>
 

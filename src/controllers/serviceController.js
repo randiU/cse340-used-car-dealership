@@ -2,8 +2,11 @@ import { validationResult } from "express-validator";
 import { getUserVehiclesByUserId } from "../models/userVehicleModel.js";
 import {
   createServiceRequest,
-  getServiceRequestsByUserId
+  getServiceRequestsByUserId,
+  getAllServiceRequests,
+  updateServiceRequestStatus
 } from "../models/serviceRequestModel.js";
+import { updateServiceRequestNotes } from "../models/serviceRequestModel.js";
 
 // Show the service request form
 const showServiceRequestForm = async (req, res) => {
@@ -52,8 +55,65 @@ const showUserServiceHistory = async (req, res) => {
   });
 };
 
+// Show all service requests for employee/admin
+const showAllServiceRequests = async (req, res) => {
+  const data = await getAllServiceRequests();
+
+  res.render("dashboard/admin/service-requests", {
+    title: "Manage Service Requests",
+    requests: data.rows
+  });
+};
+
+// Update service request status
+const updateServiceRequestStatusById = async (req, res) => {
+  const { requestId } = req.params;
+  const { status } = req.body;
+
+  const allowedStatuses = ["submitted", "in_progress", "completed"];
+
+  if (!allowedStatuses.includes(status)) {
+    req.flash("error", "Invalid service request status.");
+    return res.redirect("/employee/service-requests");
+  }
+
+  const result = await updateServiceRequestStatus(requestId, status);
+
+  if (!result.rows.length) {
+    req.flash("error", "Service request not found.");
+    return res.redirect("/employee/service-requests");
+  }
+
+  req.flash("success", "Service request status updated.");
+  res.redirect("/employee/service-requests");
+};
+
+// Update service request notes
+const updateServiceRequestNotesById = async (req, res) => {
+  const { requestId } = req.params;
+  const { notes } = req.body;
+
+  if (!notes || notes.trim() === "") {
+    req.flash("error", "Notes cannot be empty.");
+    return res.redirect("/employee/service-requests");
+  }
+
+  const result = await updateServiceRequestNotes(requestId, notes);
+
+  if (!result.rows.length) {
+    req.flash("error", "Service request not found.");
+    return res.redirect("/employee/service-requests");
+  }
+
+  req.flash("success", "Notes updated successfully.");
+  res.redirect("/employee/service-requests");
+};
+
 export {
   showServiceRequestForm,
   handleServiceRequestSubmission,
-  showUserServiceHistory
+  showUserServiceHistory,
+  showAllServiceRequests,
+  updateServiceRequestStatusById,
+  updateServiceRequestNotesById
 };

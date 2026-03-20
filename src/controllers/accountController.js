@@ -83,7 +83,14 @@ const processLogin = async (req, res) => {
   };
 
   req.flash("success", "You are now logged in.");
-  res.redirect("/dashboard");
+  const roleName = user.role_name.toLowerCase();
+  if (roleName === "admin") {
+    res.redirect("/admin");
+  } else if (roleName === "employee") {
+    res.redirect("/employee");
+  } else {
+    res.redirect("/dashboard");
+  }
 };
 
 // Process logout

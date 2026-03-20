@@ -118,4 +118,77 @@ async function getFeaturedVehicles(limit = 3) {
   return db.query(sql, [limit]);
 }
 
-export { getAllVehicles, getVehicleBySlug, getVehiclesByCategorySlug, getAllCategories, getFeaturedVehicles };
+// Reviews logic
+async function getReviewsByVehicleId(vehicleId) {
+  const sql = `
+    SELECT
+      r.review_id,
+      r.vehicle_id,
+      r.user_id,
+      r.rating,
+      r.review_text,
+      r.created_at,
+      u.first_name,
+      u.last_name
+    FROM reviews r
+    JOIN users u
+      ON r.user_id = u.user_id
+    WHERE r.vehicle_id = $1
+    ORDER BY r.created_at DESC;
+  `;
+  return db.query(sql, [vehicleId]);
+}
+
+async function createReview(vehicleId, userId, rating, reviewText) {
+  const sql = `
+    INSERT INTO reviews (
+      vehicle_id,
+      user_id,
+      rating,
+      review_text
+    )
+    VALUES ($1, $2, $3, $4)
+    RETURNING *;
+  `;
+  return db.query(sql, [vehicleId, userId, rating, reviewText]);
+}
+
+async function getReviewById(reviewId) {
+  const sql = `
+    SELECT
+      review_id,
+      vehicle_id,
+      user_id,
+      rating,
+      review_text,
+      created_at
+    FROM reviews
+    WHERE review_id = $1
+    LIMIT 1;
+  `;
+  return db.query(sql, [reviewId]);
+}
+
+async function updateReview(reviewId, rating, reviewText) {
+  const sql = `
+    UPDATE reviews
+    SET
+      rating = $2,
+      review_text = $3
+    WHERE review_id = $1
+    RETURNING *;
+  `;
+  return db.query(sql, [reviewId, rating, reviewText]);
+}
+
+async function deleteReview(reviewId) {
+  const sql = `
+    DELETE FROM reviews
+    WHERE review_id = $1
+    RETURNING *;
+  `;
+  return db.query(sql, [reviewId]);
+}
+
+
+export { getAllVehicles, getVehicleBySlug, getVehiclesByCategorySlug, getAllCategories, getFeaturedVehicles, getReviewsByVehicleId, createReview, getReviewById, updateReview, deleteReview };

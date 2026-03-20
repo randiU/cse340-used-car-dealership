@@ -11,6 +11,97 @@
         <p><%= vehicle.description %></p>
     </article>
 
+    <section>
+        <h2>Customer Reviews</h2>
+
+        <% if (isLoggedIn) { %>
+        <form action="/vehicles/<%= vehicle.slug %>/reviews" method="post">
+            <div>
+                <label for="rating">Rating</label>
+                <select id="rating" name="rating" required>
+                    <option value="">Select a rating</option>
+                    <option value="5">5 - Excellent</option>
+                    <option value="4">4 - Very Good</option>
+                    <option value="3">3 - Good</option>
+                    <option value="2">2 - Fair</option>
+                    <option value="1">1 - Poor</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="review_text">Review</label>
+                <textarea id="review_text" name="review_text" rows="5" required></textarea>
+            </div>
+
+            <button type="submit">Submit Review</button>
+        </form>
+        <% } else { %>
+        <p><a href="/login">Log in</a> to leave a review.</p>
+        <% } %>
+
+        <hr>
+
+        <% if (reviews && reviews.length > 0) { %>
+        <% reviews.forEach(review => { %>
+        <article>
+            <p>
+                <strong><%= review.first_name %> <%= review.last_name %></strong>
+                — <%= review.rating %>/5
+            </p>
+            <p><%= review.review_text %></p>
+            <p>
+                <small>
+                    Posted on
+                    <%= new Date(review.created_at).toLocaleDateString() %>
+                </small>
+            </p>
+
+            <% if (
+                        user &&
+                        (
+                            user.userId === review.user_id ||
+                            user.roleName === "employee" ||
+                            user.roleName === "admin"
+                        )
+                    ) { %>
+            <details>
+                <summary>Edit or Delete Review</summary>
+
+                <form action="/vehicles/<%= vehicle.slug %>/reviews/<%= review.review_id %>/update" method="post">
+                    <div>
+                        <label for="rating-<%= review.review_id %>">Rating</label>
+                        <select id="rating-<%= review.review_id %>" name="rating" required>
+                            <option value="5" <%= review.rating === 5 ? "selected" : "" %>>5 - Excellent</option>
+                            <option value="4" <%= review.rating === 4 ? "selected" : "" %>>4 - Very Good</option>
+                            <option value="3" <%= review.rating === 3 ? "selected" : "" %>>3 - Good</option>
+                            <option value="2" <%= review.rating === 2 ? "selected" : "" %>>2 - Fair</option>
+                            <option value="1" <%= review.rating === 1 ? "selected" : "" %>>1 - Poor</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="review_text-<%= review.review_id %>">Review</label>
+                        <textarea id="review_text-<%= review.review_id %>" name="review_text" rows="4"
+                            required><%= review.review_text %></textarea>
+                    </div>
+
+                    <button type="submit">Update Review</button>
+                </form>
+
+                <form action="/vehicles/<%= vehicle.slug %>/reviews/<%= review.review_id %>/delete" method="post">
+                    <button type="submit">Delete Review</button>
+                </form>
+            </details>
+            <% } %>
+        </article>
+
+        <hr>
+        <% }) %>
+        <% } else { %>
+        <p>No reviews yet. Be the first to leave one.</p>
+        <% } %>
+    </section>
+
     <p><a href="/vehicles">Back to Inventory</a></p>
 </main>
 

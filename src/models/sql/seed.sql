@@ -279,28 +279,32 @@ CREATE TABLE service_requests (
     status VARCHAR(20) DEFAULT 'submitted' CHECK (
         status IN ('submitted', 'in_progress', 'completed')
     ),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    notes TEXT
 );
 INSERT INTO service_requests (
         user_id,
         user_vehicle_id,
         service_type,
         description,
-        status
+        status,
+        notes
     )
 VALUES (
         1,
         1,
         'Oil Change',
         'Routine oil change for scheduled maintenance',
-        'submitted'
+        'submitted',
+        'Regular maintenance'
     ),
     (
         1,
         2,
         'Brake Inspection',
         'Brakes feel slightly soft when stopping',
-        'in_progress'
+        'in_progress',
+        'Brakes need adjustment'
     );
 /* ================================
  CONTACT MESSAGES
