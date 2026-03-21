@@ -1,0 +1,31 @@
+<%- include("../../partials/header") %>
+
+<h1><%= title %></h1>
+
+<main>
+    <form action="/admin/categories/<%= category.category_id %>/edit" method="post">
+        <div>
+            <label for="name">Category Name</label>
+            <input type="text" id="name" name="name" value="<%= category.name %>" required>
+            <p>Example: Luxury SUV</p>
+        </div>
+
+        <div>
+            <label for="slug">Slug</label>
+            <input type="text" id="slug" name="slug" value="<%= category.slug %>" required>
+            <p>Use lowercase letters and hyphens only. Example: luxury-suv</p>
+        </div>
+
+        <div>
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="5"><%= category.description %></textarea>
+            <p>Example: Premium sport utility vehicles with upgraded features.</p>
+        </div>
+
+        <button type="submit">Update Category</button>
+    </form>
+
+    <p><a href="/admin/categories">Back to Category Management</a></p>
+</main>
+
+<%- include("../../partials/footer") %>

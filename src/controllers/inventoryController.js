@@ -7,8 +7,24 @@ import {
   createReview,
   getReviewById,
   updateReview as updateReviewModel,
-  deleteReview as deleteReviewModel
+  deleteReview as deleteReviewModel,
+  getAllVehiclesForManagement,
+  getVehicleById,
+  createVehicle,
+  updateVehicleById,
+  deleteVehicleById,
+  getCategoryById,
+  createCategory,
+  updateCategoryById,
+  deleteCategoryById
 } from "../models/inventoryModel.js";
+
+const buildSlug = (make, model, year) => {
+  return `${make}-${model}-${year}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+};
 
 // Route handlers for inventory pages
 const buildVehicleInventoryPage = async (req, res, next) => {
@@ -179,11 +195,259 @@ const deleteReview = async (req, res, next) => {
   }
 };
 
+// Additional route handlers for inventory management (for employee/admin)
+
+const showVehicleManagementPage = async (req, res, next) => {
+  try {
+    const vehicleData = await getAllVehiclesForManagement();
+
+    res.render("dashboard/employee/vehicles", {
+      title: "Manage Inventory",
+      vehicles: vehicleData.rows
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const showAddVehicleForm = async (req, res, next) => {
+  try {
+    const categoryData = await getAllCategories();
+
+    res.render("dashboard/admin/add-vehicle", {
+      title: "Add Vehicle",
+      categories: categoryData.rows
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const handleAddVehicle = async (req, res, next) => {
+  try {
+    const {
+      category_id,
+      make,
+      model,
+      year,
+      price,
+      mileage,
+      description,
+      status
+    } = req.body;
+
+    const slug = buildSlug(make, model, year);
+
+    await createVehicle({
+      categoryId: Number(category_id),
+      slug,
+      make: make.trim(),
+      model: model.trim(),
+      year: Number(year),
+      price: Number(price),
+      mileage: Number(mileage),
+      description: description?.trim() || "",
+      status: status?.trim() || "available"
+    });
+
+    req.flash("success", "Vehicle added successfully.");
+    return res.redirect("/employee/vehicles");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const showEditVehicleForm = async (req, res, next) => {
+  try {
+    const { vehicleId } = req.params;
+    const vehicleData = await getVehicleById(vehicleId);
+    const categoryData = await getAllCategories();
+
+    if (!vehicleData.rows.length) {
+      const err = new Error("Vehicle not found");
+      err.status = 404;
+      return next(err);
+    }
+
+    res.render("dashboard/employee/edit-vehicle", {
+      title: "Edit Vehicle",
+      vehicle: vehicleData.rows[0],
+      categories: categoryData.rows
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const handleUpdateVehicle = async (req, res, next) => {
+  try {
+    const { vehicleId } = req.params;
+    const {
+      category_id,
+      make,
+      model,
+      year,
+      price,
+      mileage,
+      description,
+      status
+    } = req.body;
+
+    const slug = buildSlug(make, model, year);
+
+    const existingVehicle = await getVehicleById(vehicleId);
+    if (!existingVehicle.rows.length) {
+      const err = new Error("Vehicle not found");
+      err.status = 404;
+      return next(err);
+    }
+
+    await updateVehicleById({
+      vehicleId: Number(vehicleId),
+      categoryId: Number(category_id),
+      slug,
+      make: make.trim(),
+      model: model.trim(),
+      year: Number(year),
+      price: Number(price),
+      mileage: Number(mileage),
+      description: description?.trim() || "",
+      status: status?.trim() || "available"
+    });
+
+    req.flash("success", "Vehicle updated successfully.");
+    return res.redirect("/employee/vehicles");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const handleDeleteVehicle = async (req, res, next) => {
+  try {
+    const { vehicleId } = req.params;
+
+    const vehicleData = await getVehicleById(vehicleId);
+    if (!vehicleData.rows.length) {
+      const err = new Error("Vehicle not found");
+      err.status = 404;
+      return next(err);
+    }
+
+    await deleteVehicleById(vehicleId);
+
+    req.flash("success", "Vehicle deleted successfully.");
+    return res.redirect("/employee/vehicles");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const showCategoryManagementPage = async (req, res, next) => {
+  try {
+    const categoryData = await getAllCategories();
+
+    res.render("dashboard/admin/categories", {
+      title: "Manage Categories",
+      categories: categoryData.rows
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const showAddCategoryForm = (req, res) => {
+  res.render("dashboard/admin/add-category", {
+    title: "Add Category"
+  });
+};
+
+const handleAddCategory = async (req, res, next) => {
+  try {
+    const { name, slug, description } = req.body;
+
+    await createCategory({
+      name: name.trim(),
+      slug: slug.trim().toLowerCase(),
+      description: description?.trim() || ""
+    });
+
+    req.flash("success", "Category added successfully.");
+    return res.redirect("/admin/categories");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const showEditCategoryForm = async (req, res, next) => {
+  try {
+    const { categoryId } = req.params;
+    const categoryData = await getCategoryById(categoryId);
+
+    if (!categoryData.rows.length) {
+      const err = new Error("Category not found");
+      err.status = 404;
+      return next(err);
+    }
+
+    res.render("dashboard/admin/edit-category", {
+      title: "Edit Category",
+      category: categoryData.rows[0]
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const handleUpdateCategory = async (req, res, next) => {
+  try {
+    const { categoryId } = req.params;
+    const { name, slug, description } = req.body;
+
+    await updateCategoryById({
+      categoryId: Number(categoryId),
+      name: name.trim(),
+      slug: slug.trim().toLowerCase(),
+      description: description?.trim() || ""
+    });
+
+    req.flash("success", "Category updated successfully.");
+    return res.redirect("/admin/categories");
+  } catch (error) {
+    next(error);
+  }
+};
+
+const handleDeleteCategory = async (req, res, next) => {
+  try {
+    const { categoryId } = req.params;
+
+    await deleteCategoryById(categoryId);
+
+    req.flash("success", "Category deleted successfully.");
+    return res.redirect("/admin/categories");
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 export {
   buildVehicleInventoryPage,
   buildVehicleDetailPage,
   buildCategoryVehiclePage,
   postReview,
   updateReview,
-  deleteReview
+  deleteReview,
+  showVehicleManagementPage,
+  showAddVehicleForm,
+  handleAddVehicle,
+  showEditVehicleForm,
+  handleUpdateVehicle,
+  handleDeleteVehicle,
+  showCategoryManagementPage,
+  showAddCategoryForm,
+  handleAddCategory,
+  showEditCategoryForm,
+  handleUpdateCategory,
+  handleDeleteCategory
 };

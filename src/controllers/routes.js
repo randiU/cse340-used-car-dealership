@@ -6,7 +6,19 @@ import {
   buildCategoryVehiclePage,
   postReview,
   updateReview,
-  deleteReview
+  deleteReview,
+  showVehicleManagementPage,
+  showAddVehicleForm,
+  handleAddVehicle,
+  showEditVehicleForm,
+  handleUpdateVehicle,
+  handleDeleteVehicle,
+  showCategoryManagementPage,
+  showAddCategoryForm,
+  handleAddCategory,
+  showEditCategoryForm,
+  handleUpdateCategory,
+  handleDeleteCategory
 } from "./inventoryController.js";
 import { showContactForm, handleContactSubmission, showContactMessages, deleteContactMessageById } from "./contactController.js";
 import { contactValidation, registrationValidation, loginValidation, serviceRequestValidation } from "../middleware/validation.js";
@@ -58,9 +70,33 @@ router.get("/vehicles", buildVehicleInventoryPage);
 router.get("/vehicles/category/:slug", buildCategoryVehiclePage);
 router.get("/vehicles/:slug", buildVehicleDetailPage);
 
+// Vehicle management routes
 router.post("/vehicles/:slug/reviews", requireLogin, postReview);
 router.post("/vehicles/:slug/reviews/:reviewId/update", requireLogin, updateReview);
 router.post("/vehicles/:slug/reviews/:reviewId/delete", requireLogin, deleteReview);
+router.get("/employee/vehicles", requireEmployee, showVehicleManagementPage);
+router.get("/employee/vehicles/:vehicleId/edit", requireEmployee, showEditVehicleForm);
+router.post("/employee/vehicles/:vehicleId/edit", requireEmployee, handleUpdateVehicle);
+
+// Admin routes for vehicle and category management
+router.get("/admin/vehicles/new", requireAdmin, showAddVehicleForm);
+router.post("/admin/vehicles/new", requireAdmin, handleAddVehicle);
+router.post("/admin/vehicles/:vehicleId/delete", requireAdmin, handleDeleteVehicle);
+
+// Category management routes
+router.get("/admin/categories", requireAdmin, showCategoryManagementPage);
+router.get("/admin/categories/new", requireAdmin, showAddCategoryForm);
+router.post("/admin/categories/new", requireAdmin, handleAddCategory);
+router.get("/admin/categories/:categoryId/edit", requireAdmin, showEditCategoryForm);
+router.post("/admin/categories/:categoryId/edit", requireAdmin, handleUpdateCategory);
+router.post("/admin/categories/:categoryId/delete", requireAdmin, handleDeleteCategory);
+
+// Employee vehicle management routes
+router.get("/employee/vehicles", requireEmployee, showVehicleManagementPage);
+router.get("/employee/vehicles/:vehicleId/edit", requireEmployee, showEditVehicleForm);
+router.post("/employee/vehicles/:vehicleId/edit", requireEmployee, handleUpdateVehicle);
+
+
 
 
 // Contact Routes
