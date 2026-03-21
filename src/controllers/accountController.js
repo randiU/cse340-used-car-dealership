@@ -1,6 +1,13 @@
 import bcrypt from "bcrypt";
 import { validationResult } from "express-validator";
-import { getUserByEmail, createUser } from "../models/accountModel.js";
+import {
+  getUserByEmail,
+  createUser,
+  getAllUsersWithRoles,
+  updateUserRoleById,
+  getRoleByName,
+  getUserById
+} from "../models/accountModel.js";
 
 // Show registration form
 const showRegistrationForm = (req, res) => {
@@ -106,10 +113,72 @@ const processLogout = (req, res) => {
   });
 };
 
+const showEmployeeAccounts = async (req, res, next) => {
+  try {
+    const usersResult = await getAllUsersWithRoles();
+
+    res.render("dashboard/admin/employees", {
+      title: "Manage Employee Accounts",
+      users: usersResult.rows
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateEmployeeRole = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { role_name } = req.body;
+    const currentAdmin = req.session.user;
+
+    const targetUserResult = await getUserById(userId);
+    if (!targetUserResult.rows.length) {
+      req.flash("error", "User not found.");
+      return res.redirect("/admin/employees");
+    }
+
+    const targetUser = targetUserResult.rows[0];
+
+    if (Number(userId) === currentAdmin.userId) {
+      req.flash("error", "You cannot change your own admin role.");
+      return res.redirect("/admin/employees");
+    }
+
+    if (targetUser.role_name === "admin") {
+      req.flash("error", "Admin accounts cannot be changed here.");
+      return res.redirect("/admin/employees");
+    }
+
+    if (role_name !== "user" && role_name !== "employee") {
+      req.flash("error", "Invalid role selected.");
+      return res.redirect("/admin/employees");
+    }
+
+    const roleResult = await getRoleByName(role_name);
+    if (!roleResult.rows.length) {
+      req.flash("error", "Role not found.");
+      return res.redirect("/admin/employees");
+    }
+
+    const role = roleResult.rows[0];
+
+    await updateUserRoleById(userId, role.role_id);
+
+    req.flash("success", `User role updated to ${role.role_name}.`);
+    return res.redirect("/admin/employees");
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   showRegistrationForm,
   processRegistration,
   showLoginForm,
   processLogin,
-  processLogout
+  processLogout,
+  showEmployeeAccounts,
+  updateEmployeeRole
 };
+
