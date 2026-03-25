@@ -1,0 +1,137 @@
+<%- include("../../partials/header") %>
+
+<h1><%= title %></h1>
+
+<main>
+    <p>Use this page to view system-wide activity and user data.</p>
+
+    <section>
+        <h2>Summary</h2>
+        <ul>
+            <li>Total Users: <%= totals.users %></li>
+            <li>Total Contact Messages: <%= totals.contactMessages %></li>
+            <li>Total Service Requests: <%= totals.serviceRequests %></li>
+            <li>Total User Vehicles: <%= totals.userVehicles %></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Users</h2>
+        <% if (users && users.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(userAccount => { %>
+                <tr>
+                    <td><%= userAccount.first_name %> <%= userAccount.last_name %></td>
+                    <td><%= userAccount.email %></td>
+                    <td><%= userAccount.role_name %></td>
+                    <td><%= new Date(userAccount.created_at).toLocaleDateString() %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <% } else { %>
+        <p>No users found.</p>
+        <% } %>
+    </section>
+
+    <section>
+        <h2>Service Requests</h2>
+        <% if (serviceRequests && serviceRequests.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Vehicle</th>
+                    <th>Service Type</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% serviceRequests.forEach(request => { %>
+                <tr>
+                    <td><%= request.first_name %> <%= request.last_name %></td>
+                    <td><%= request.year %> <%= request.make %> <%= request.model %></td>
+                    <td><%= request.service_type %></td>
+                    <td><%= request.status %></td>
+                    <td><%= new Date(request.created_at).toLocaleDateString() %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <% } else { %>
+        <p>No service requests found.</p>
+        <% } %>
+    </section>
+
+    <section>
+        <h2>Contact Messages</h2>
+        <% if (contactMessages && contactMessages.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% contactMessages.forEach(message => { %>
+                <tr>
+                    <td><%= message.name %></td>
+                    <td><%= message.email %></td>
+                    <td><%= message.subject %></td>
+                    <td><%= new Date(message.created_at).toLocaleDateString() %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <% } else { %>
+        <p>No contact messages found.</p>
+        <% } %>
+    </section>
+
+    <section>
+        <h2>User Vehicles</h2>
+        <% if (userVehicles && userVehicles.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Owner</th>
+                    <th>Email</th>
+                    <th>Vehicle</th>
+                    <th>Mileage</th>
+                    <th>Added</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% userVehicles.forEach(vehicle => { %>
+                <tr>
+                    <td><%= vehicle.first_name %> <%= vehicle.last_name %></td>
+                    <td><%= vehicle.email %></td>
+                    <td><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></td>
+                    <td><%= Number(vehicle.mileage).toLocaleString() %></td>
+                    <td><%= new Date(vehicle.created_at).toLocaleDateString() %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <% } else { %>
+        <p>No user vehicles found.</p>
+        <% } %>
+    </section>
+
+    <p><a href="/admin">Back to Admin Dashboard</a></p>
+</main>
+
+<%- include("../../partials/footer") %>

@@ -158,6 +158,29 @@ async function getReviewsByVehicleId(vehicleId) {
   return db.query(sql, [vehicleId]);
 }
 
+async function getReviewsByUserId(userId) {
+  const sql = `
+    SELECT
+      r.review_id,
+      r.vehicle_id,
+      r.user_id,
+      r.rating,
+      r.review_text,
+      r.created_at,
+      v.slug,
+      v.make,
+      v.model,
+      v.year
+    FROM reviews r
+    JOIN vehicles v
+      ON r.vehicle_id = v.vehicle_id
+    WHERE r.user_id = $1
+    ORDER BY r.created_at DESC;
+  `;
+  return db.query(sql, [userId]);
+}
+
+
 async function createReview(vehicleId, userId, rating, reviewText) {
   const sql = `
     INSERT INTO reviews (
@@ -411,4 +434,27 @@ const getImagesByVehicleId = async (vehicleId) => {
 
 
 
-export { getAllVehicles, getVehicleBySlug, getVehiclesByCategorySlug, getAllCategories, getFeaturedVehicles, getReviewsByVehicleId, createReview, getReviewById, updateReview, deleteReview, getAllVehiclesForManagement, getVehicleById, createVehicle, updateVehicleById, deleteVehicleById, getCategoryById, createCategory, updateCategoryById, deleteCategoryById, getImagesByVehicleId };
+export {
+  getAllVehicles,
+  getVehicleBySlug,
+  getVehiclesByCategorySlug,
+  getAllCategories,
+  getFeaturedVehicles,
+  getReviewsByVehicleId,
+  getReviewsByUserId,
+  createReview,
+  getReviewById,
+  updateReview,
+  deleteReview,
+  getAllVehiclesForManagement,
+  getVehicleById,
+  createVehicle,
+  updateVehicleById,
+  deleteVehicleById,
+  getCategoryById,
+  createCategory,
+  updateCategoryById,
+  deleteCategoryById,
+  getImagesByVehicleId
+};
+

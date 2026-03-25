@@ -47,6 +47,8 @@ import {
   updateServiceRequestStatusById,
   updateServiceRequestNotesById
 } from "./serviceController.js";
+import { showSystemOverview } from "./systemController.js";
+
 
 const router = express.Router();
 
@@ -91,14 +93,6 @@ router.get("/admin/categories/:categoryId/edit", requireAdmin, showEditCategoryF
 router.post("/admin/categories/:categoryId/edit", requireAdmin, handleUpdateCategory);
 router.post("/admin/categories/:categoryId/delete", requireAdmin, handleDeleteCategory);
 
-// Employee vehicle management routes
-router.get("/employee/vehicles", requireEmployee, showVehicleManagementPage);
-router.get("/employee/vehicles/:vehicleId/edit", requireEmployee, showEditVehicleForm);
-router.post("/employee/vehicles/:vehicleId/edit", requireEmployee, handleUpdateVehicle);
-
-
-
-
 // Contact Routes
 router.get("/contact", showContactForm);
 router.post("/contact", contactValidation, handleContactSubmission);
@@ -139,6 +133,10 @@ router.post("/employee/service-requests/:requestId/notes", requireEmployee, upda
 // Admin routes for managing employee accounts
 router.get("/admin/employees", requireAdmin, showEmployeeAccounts);
 router.post("/admin/employees/:userId/role", requireAdmin, updateEmployeeRole);
+
+// Admin route for system overview
+router.get("/admin/system", requireAdmin, showSystemOverview);
+
 
 // Test route for 500 error
 router.get("/test-error", (req, res, next) => {

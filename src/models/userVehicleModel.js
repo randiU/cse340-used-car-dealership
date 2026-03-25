@@ -18,6 +18,28 @@ const getUserVehiclesByUserId = async (userId) => {
   return db.query(sql, [userId]);
 };
 
+const getAllUserVehicles = async () => {
+  const sql = `
+    SELECT
+      uv.user_vehicle_id,
+      uv.user_id,
+      uv.make,
+      uv.model,
+      uv.year,
+      uv.mileage,
+      uv.created_at,
+      u.first_name,
+      u.last_name,
+      u.email
+    FROM user_vehicles uv
+    JOIN users u
+      ON uv.user_id = u.user_id
+    ORDER BY uv.created_at DESC, uv.year DESC, uv.make, uv.model;
+  `;
+
+  return db.query(sql);
+};
+
 const createUserVehicle = async ({ userId, make, model, year, mileage }) => {
   const sql = `
     INSERT INTO user_vehicles (
@@ -34,4 +56,4 @@ const createUserVehicle = async ({ userId, make, model, year, mileage }) => {
   return db.query(sql, [userId, make, model, year, mileage]);
 };
 
-export { getUserVehiclesByUserId, createUserVehicle };
+export { getUserVehiclesByUserId, getAllUserVehicles, createUserVehicle };

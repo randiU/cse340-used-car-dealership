@@ -1,4 +1,5 @@
 import { getUserVehiclesByUserId } from "../models/userVehicleModel.js";
+import { getReviewsByUserId } from "../models/inventoryModel.js";
 
 const getDashboardPathByRole = (roleName) => {
   const normalizedRole = roleName?.toLowerCase();
@@ -14,14 +15,20 @@ const getDashboardPathByRole = (roleName) => {
   return "/dashboard";
 };
 
-const showUserDashboard = async (req, res) => {
-  const userId = req.session.user.userId;
-  const vehicleData = await getUserVehiclesByUserId(userId);
+const showUserDashboard = async (req, res, next) => {
+  try {
+    const userId = req.session.user.userId;
+    const vehicleData = await getUserVehiclesByUserId(userId);
+    const reviewData = await getReviewsByUserId(userId);
 
-  res.render("dashboard/dashboard", {
-    title: "Dashboard",
-    vehicles: vehicleData.rows
-  });
+    res.render("dashboard/dashboard", {
+      title: "Dashboard",
+      vehicles: vehicleData.rows,
+      reviews: reviewData.rows
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 const showEmployeeDashboard = (req, res) => {
@@ -36,11 +43,11 @@ const showAdminDashboard = (req, res) => {
   });
 };
 
-const showRoleDashboard = async (req, res) => {
+const showRoleDashboard = async (req, res, next) => {
   const dashboardPath = getDashboardPathByRole(req.session.user.roleName);
 
   if (dashboardPath === "/dashboard") {
-    return showUserDashboard(req, res);
+    return showUserDashboard(req, res, next);
   }
 
   return res.redirect(dashboardPath);

@@ -27,6 +27,36 @@
     </section>
 
     <section>
+        <h2>My Reviews</h2>
+
+        <% if (reviews && reviews.length > 0) { %>
+        <% reviews.forEach(review => { %>
+        <article>
+            <h3>
+                <a href="/vehicles/<%= review.slug %>">
+                    <%= review.year %> <%= review.make %> <%= review.model %>
+                </a>
+            </h3>
+            <p><strong>Rating:</strong> <%= review.rating %>/5</p>
+            <p><%= review.review_text %></p>
+            <p><strong>Posted:</strong> <%= new Date(review.created_at).toLocaleDateString() %></p>
+
+            <p>
+                <a href="/vehicles/<%= review.slug %>">View / Edit Review</a>
+            </p>
+
+            <form action="/vehicles/<%= review.slug %>/reviews/<%= review.review_id %>/delete" method="post">
+                <button type="submit">Delete Review</button>
+            </form>
+        </article>
+        <hr>
+        <% }) %>
+        <% } else { %>
+        <p>You have not submitted any reviews yet.</p>
+        <% } %>
+    </section>
+
+    <section>
         <h2>Add a Vehicle</h2>
 
         <form action="/my-vehicles/add" method="post">
@@ -72,6 +102,7 @@
             <button type="submit">Add Vehicle</button>
         </form>
     </section>
+
     <section>
         <h2>Service Requests</h2>
         <p><a href="/service/request">Submit Service Request</a></p>
