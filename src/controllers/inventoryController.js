@@ -16,7 +16,8 @@ import {
   getCategoryById,
   createCategory,
   updateCategoryById,
-  deleteCategoryById
+  deleteCategoryById,
+  getImagesByVehicleId
 } from "../models/inventoryModel.js";
 
 const buildSlug = (make, model, year) => {
@@ -56,16 +57,19 @@ const buildVehicleDetailPage = async (req, res, next) => {
 
     const vehicle = vehicleData.rows[0];
     const reviewData = await getReviewsByVehicleId(vehicle.vehicle_id);
+    const imageData = await getImagesByVehicleId(vehicle.vehicle_id);
 
     res.render("vehicles/details", {
       title: `${vehicle.year} ${vehicle.make} ${vehicle.model}`,
       vehicle,
-      reviews: reviewData.rows
+      reviews: reviewData.rows,
+      images: imageData.rows
     });
   } catch (error) {
     next(error);
   }
 };
+
 
 // Route handler for category filtered inventory page
 const buildCategoryVehiclePage = async (req, res, next) => {

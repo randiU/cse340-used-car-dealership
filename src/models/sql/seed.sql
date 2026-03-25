@@ -2,6 +2,7 @@ BEGIN;
 DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS service_requests CASCADE;
 DROP TABLE IF EXISTS user_vehicles CASCADE;
+DROP TABLE IF EXISTS vehicle_images CASCADE;
 DROP TABLE IF EXISTS vehicles CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
@@ -234,6 +235,59 @@ VALUES (
         40995,
         16000,
         'Fully electric sedan with impressive range and performance.'
+    );
+/* ================================
+ VEHICLE IMAGES
+ ================================ */
+CREATE TABLE vehicle_images (
+    image_id SERIAL PRIMARY KEY,
+    vehicle_id INT NOT NULL REFERENCES vehicles(vehicle_id) ON DELETE CASCADE,
+    image_path VARCHAR(255) NOT NULL,
+    alt_text VARCHAR(255),
+    is_primary BOOLEAN DEFAULT false,
+    sort_order INT DEFAULT 0
+);
+INSERT INTO vehicle_images (
+        vehicle_id,
+        image_path,
+        alt_text,
+        is_primary,
+        sort_order
+    )
+VALUES (
+        1,
+        '/images/vehicles/toyota-4runner-2021-1.jpg',
+        '2021 Toyota 4Runner front view',
+        true,
+        1
+    ),
+    (
+        1,
+        '/images/vehicles/toyota-4runner-2021-2.jpg',
+        '2021 Toyota 4Runner side view',
+        false,
+        2
+    ),
+    (
+        2,
+        '/images/vehicles/honda-crv-2022-1.jpg',
+        '2022 Honda CRV front view',
+        true,
+        1
+    ),
+    (
+        2,
+        '/images/vehicles/honda-crv-2022-2.jpg',
+        '2022 Honda CRV interior view',
+        false,
+        2
+    ),
+    (
+        3,
+        '/images/vehicles/ford-explorer-2020-1.jpg',
+        '2020 Ford Explorer front view',
+        true,
+        1
     );
 /* ================================
  REVIEWS

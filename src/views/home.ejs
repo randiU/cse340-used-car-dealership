@@ -16,6 +16,13 @@
     <div class="vehicle-grid">
         <% featuredVehicles.forEach(vehicle => { %>
         <article class="vehicle-card">
+            <a href="/vehicles/<%= vehicle.slug %>">
+                <img src="<%= vehicle.image_path || '/images/vehicles/placeholder.jpg' %>"
+                    alt="<%= vehicle.alt_text || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>" width="300"
+                    onerror="this.onerror=null;this.src='/images/vehicles/placeholder.jpg';">
+
+            </a>
+
             <h3>
                 <a href="/vehicles/<%= vehicle.slug %>">
                     <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
@@ -31,6 +38,7 @@
     <p>No featured vehicles available at this time.</p>
     <% } %>
 </section>
+
 <section>
     <h2>Browse Our Inventory</h2>
     <p>Explore our wide selection of pre-owned vehicles, from reliable sedans to rugged SUVs. Each car is thoroughly

@@ -1,29 +1,35 @@
 import { db } from "./db.js";
 
 //Returns all vehicles
-async function getAllVehicles() {
+const getAllVehicles = async () => {
   const sql = `
-    SELECT 
+    SELECT
       v.vehicle_id,
+      v.category_id,
+      v.slug,
       v.make,
       v.model,
       v.year,
       v.price,
       v.mileage,
-      v.slug,
       v.description,
       v.status,
       v.created_at,
       c.name AS category_name,
-      c.slug AS category_slug
+      c.slug AS category_slug,
+      vi.image_path,
+      vi.alt_text
     FROM vehicles v
     JOIN categories c
       ON v.category_id = c.category_id
-    ORDER BY v.year DESC, v.make, v.model;
+    LEFT JOIN vehicle_images vi
+      ON v.vehicle_id = vi.vehicle_id
+     AND vi.is_primary = true
+    ORDER BY v.created_at DESC, v.year DESC, v.make, v.model;
   `;
 
   return db.query(sql);
-}
+};
 
 //Returns vehicle details for a specific vehicle
 async function getVehicleBySlug(slug) {
@@ -52,30 +58,37 @@ async function getVehicleBySlug(slug) {
 }
 
 //Returns all vehicles for a specific category
-async function getVehiclesByCategorySlug(categorySlug) {
+const getVehiclesByCategorySlug = async (slug) => {
   const sql = `
     SELECT
       v.vehicle_id,
+      v.category_id,
+      v.slug,
       v.make,
       v.model,
       v.year,
       v.price,
       v.mileage,
-      v.slug,
       v.description,
       v.status,
       v.created_at,
       c.name AS category_name,
-      c.slug AS category_slug
+      c.slug AS category_slug,
+      vi.image_path,
+      vi.alt_text
     FROM vehicles v
     JOIN categories c
       ON v.category_id = c.category_id
+    LEFT JOIN vehicle_images vi
+      ON v.vehicle_id = vi.vehicle_id
+     AND vi.is_primary = true
     WHERE c.slug = $1
-    ORDER BY v.year DESC, v.make, v.model;
+    ORDER BY v.created_at DESC, v.year DESC, v.make, v.model;
   `;
 
-  return db.query(sql, [categorySlug]);
-}
+  return db.query(sql, [slug]);
+};
+
 
 //Returns all categories for navigation and filtering
 async function getAllCategories() {
@@ -93,30 +106,36 @@ async function getAllCategories() {
 }
 
 //Returns random featured vehicles for the home page
-async function getFeaturedVehicles(limit = 3) {
+const getFeaturedVehicles = async (limit = 3) => {
   const sql = `
-    SELECT 
+    SELECT
       v.vehicle_id,
+      v.category_id,
+      v.slug,
       v.make,
       v.model,
       v.year,
       v.price,
       v.mileage,
-      v.slug,
       v.description,
       v.status,
       c.name AS category_name,
-      c.slug AS category_slug
+      c.slug AS category_slug,
+      vi.image_path,
+      vi.alt_text
     FROM vehicles v
     JOIN categories c
       ON v.category_id = c.category_id
+    LEFT JOIN vehicle_images vi
+      ON v.vehicle_id = vi.vehicle_id
+     AND vi.is_primary = true
     WHERE v.status = 'available'
     ORDER BY RANDOM()
     LIMIT $1;
   `;
 
   return db.query(sql, [limit]);
-}
+};
 
 // Reviews logic
 async function getReviewsByVehicleId(vehicleId) {
@@ -373,5 +392,23 @@ const deleteCategoryById = async (categoryId) => {
   return db.query(sql, [categoryId]);
 };
 
+const getImagesByVehicleId = async (vehicleId) => {
+  const sql = `
+    SELECT
+      image_id,
+      vehicle_id,
+      image_path,
+      alt_text,
+      is_primary,
+      sort_order
+    FROM vehicle_images
+    WHERE vehicle_id = $1
+    ORDER BY is_primary DESC, sort_order ASC, image_id ASC;
+  `;
 
-export { getAllVehicles, getVehicleBySlug, getVehiclesByCategorySlug, getAllCategories, getFeaturedVehicles, getReviewsByVehicleId, createReview, getReviewById, updateReview, deleteReview, getAllVehiclesForManagement, getVehicleById, createVehicle, updateVehicleById, deleteVehicleById, getCategoryById, createCategory, updateCategoryById, deleteCategoryById };
+  return db.query(sql, [vehicleId]);
+};
+
+
+
+export { getAllVehicles, getVehicleBySlug, getVehiclesByCategorySlug, getAllCategories, getFeaturedVehicles, getReviewsByVehicleId, createReview, getReviewById, updateReview, deleteReview, getAllVehiclesForManagement, getVehicleById, createVehicle, updateVehicleById, deleteVehicleById, getCategoryById, createCategory, updateCategoryById, deleteCategoryById, getImagesByVehicleId };
