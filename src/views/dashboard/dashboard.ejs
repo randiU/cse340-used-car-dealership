@@ -19,6 +19,10 @@
             <p><strong>Mileage:</strong> <%= Number(vehicle.mileage || 0).toLocaleString() %></p>
             <p><strong>Added:</strong> <%= new Date(vehicle.created_at).toLocaleString() %></p>
 
+            <p>
+                <a href="/my-vehicles/<%= vehicle.user_vehicle_id %>/edit">Edit Vehicle</a>
+            </p>
+
             <form action="/my-vehicles/<%= vehicle.user_vehicle_id %>/delete" method="post">
                 <button type="submit">Delete Vehicle</button>
             </form>

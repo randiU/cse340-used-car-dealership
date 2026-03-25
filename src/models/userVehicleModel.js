@@ -74,6 +74,21 @@ const createUserVehicle = async ({ userId, make, model, year, mileage }) => {
   return db.query(sql, [userId, make, model, year, mileage]);
 };
 
+const updateUserVehicleById = async ({ userVehicleId, make, model, year, mileage }) => {
+  const sql = `
+    UPDATE user_vehicles
+    SET
+      make = $2,
+      model = $3,
+      year = $4,
+      mileage = $5
+    WHERE user_vehicle_id = $1
+    RETURNING user_vehicle_id, user_id, make, model, year, mileage, created_at;
+  `;
+
+  return db.query(sql, [userVehicleId, make, model, year, mileage]);
+};
+
 const deleteUserVehicleById = async (userVehicleId) => {
   const sql = `
     DELETE FROM user_vehicles
@@ -89,6 +104,7 @@ export {
   getUserVehicleById,
   getAllUserVehicles,
   createUserVehicle,
+  updateUserVehicleById,
   deleteUserVehicleById
 };
 
