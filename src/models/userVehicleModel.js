@@ -18,6 +18,24 @@ const getUserVehiclesByUserId = async (userId) => {
   return db.query(sql, [userId]);
 };
 
+const getUserVehicleById = async (userVehicleId) => {
+  const sql = `
+    SELECT
+      user_vehicle_id,
+      user_id,
+      make,
+      model,
+      year,
+      mileage,
+      created_at
+    FROM user_vehicles
+    WHERE user_vehicle_id = $1
+    LIMIT 1;
+  `;
+
+  return db.query(sql, [userVehicleId]);
+};
+
 const getAllUserVehicles = async () => {
   const sql = `
     SELECT
@@ -56,4 +74,21 @@ const createUserVehicle = async ({ userId, make, model, year, mileage }) => {
   return db.query(sql, [userId, make, model, year, mileage]);
 };
 
-export { getUserVehiclesByUserId, getAllUserVehicles, createUserVehicle };
+const deleteUserVehicleById = async (userVehicleId) => {
+  const sql = `
+    DELETE FROM user_vehicles
+    WHERE user_vehicle_id = $1
+    RETURNING user_vehicle_id, user_id, make, model, year, mileage, created_at;
+  `;
+
+  return db.query(sql, [userVehicleId]);
+};
+
+export {
+  getUserVehiclesByUserId,
+  getUserVehicleById,
+  getAllUserVehicles,
+  createUserVehicle,
+  deleteUserVehicleById
+};
+
