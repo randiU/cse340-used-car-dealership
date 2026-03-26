@@ -8,23 +8,17 @@
         <h2>Vehicle Images</h2>
 
         <div>
-            <img
-                src="<%= images[0].image_path || '/images/vehicles/placeholder.jpg' %>"
-                alt="<%= images[0].alt_text || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>"
-                width="500"
-                onerror="this.onerror=null;this.src='/images/vehicles/placeholder.jpg';"
-            >
+            <img src="<%= images[0].image_path || '/images/vehicles/placeholder.jpg' %>"
+                alt="<%= images[0].alt_text || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>" width="500"
+                onerror="this.onerror=null;this.src='/images/vehicles/placeholder.jpg';">
         </div>
 
         <% if (images.length > 1) { %>
         <div>
             <% images.slice(1).forEach(image => { %>
-            <img
-                src="<%= image.image_path || '/images/vehicles/placeholder.jpg' %>"
-                alt="<%= image.alt_text || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>"
-                width="150"
-                onerror="this.onerror=null;this.src='/images/vehicles/placeholder.jpg';"
-            >
+            <img src="<%= image.image_path || '/images/vehicles/placeholder.jpg' %>"
+                alt="<%= image.alt_text || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>" width="150"
+                onerror="this.onerror=null;this.src='/images/vehicles/placeholder.jpg';">
             <% }) %>
         </div>
         <% } %>
@@ -34,17 +28,14 @@
         <h2>Vehicle Images</h2>
 
         <div>
-            <img
-                src="/images/vehicles/placeholder.jpg"
-                alt="<%= `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>"
-                width="500"
-            >
+            <img src="/images/vehicles/placeholder.jpg" alt="<%= `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>"
+                width="500">
         </div>
     </section>
     <% } %>
 
     <article>
-        <p><strong>Category:</strong> <%= vehicle.category_name %></p>
+        <p><strong>Category:</strong> <%= vehicle.category_name || "Uncategorized" %></p>
         <p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
         <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %></p>
         <p><strong>Status:</strong> <%= vehicle.status %></p>
@@ -121,7 +112,8 @@
 
                     <div>
                         <label for="review_text-<%= review.review_id %>">Review</label>
-                        <textarea id="review_text-<%= review.review_id %>" name="review_text" rows="4" required><%= review.review_text %></textarea>
+                        <textarea id="review_text-<%= review.review_id %>" name="review_text" rows="4"
+                            required><%= review.review_text %></textarea>
                     </div>
 
                     <button type="submit">Update Review</button>

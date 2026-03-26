@@ -1,90 +1,141 @@
-Used Car Dealership Web Application
+# Wasatch Auto Group
 
-CSE 340 – Web Backend Development
+Wasatch Auto Group is a full-stack used car dealership web application built for the BYU-I CSE340 final project. The site is designed for customers browsing dealership inventory, leaving vehicle reviews, managing their own vehicles, and submitting service requests. It also includes employee and admin tools for dealership operations and system management.
 
-Project Overview
+## Project Description
 
-This project is a full-stack, server-side rendered web application for a Used Car Dealership. The application will allow customers to browse vehicle inventory, leave reviews, and submit service requests. Employees and administrators will have management capabilities for vehicles, service workflows, and user-generated content.
+This site is for a used car dealership and its customers and staff.
 
-The purpose of this project is to demonstrate mastery of:
+Customers can:
 
-Database design and relationships
+- browse available inventory
+- filter by category
+- view individual vehicle detail pages
+- leave reviews on vehicles
+- edit and delete their own reviews
+- add, edit, and delete their own vehicles
+- submit service requests for their vehicles
+- view service request history and status
 
-Authentication and role-based authorization
+Employees can:
 
-MVC architecture
+- manage inventory
+- update vehicle details
+- manage service requests
+- update service request status
+- add service notes
+- view contact messages
 
-Server-side rendering with EJS
+Admins can:
 
-Multi-stage workflow implementation
+- do everything employees can do
+- add, edit, and delete vehicles
+- add, edit, and delete categories
+- manage employee accounts
+- view system activity and user data
 
-Secure backend development practices
+## Database Schema
 
-Production deployment with PostgreSQL on Render
+Add your exported ERD image to the `docs` folder, then use this image reference:
 
-This repository currently contains initial planning documentation and will be updated incrementally throughout development.
+![ERD](./docs/erd.png)
 
-Planned Technology Stack
+## User Roles
 
-Node.js
+### User
 
-Express.js
+A standard customer account. Users can browse inventory, manage their own vehicles, leave and manage their own reviews, and submit and track service requests.
 
-EJS (server-side rendering)
+### Employee
 
-PostgreSQL
+An employee account. Employees can manage inventory, view customer contact messages, and manage service requests.
 
-ES Modules (ESM)
+### Admin
 
-express-session (session-based authentication)
+A full-access owner/admin account. Admins can manage vehicles, categories, employee roles, and system-wide activity and user data.
 
-bcrypt (password hashing)
+## Test Account Credentials
 
-Render (deployment)
+Use one account for each role type:
 
-Environment variables via process.env
+### User
 
-Planned Core Features
-Public Features
+- Email: `customer@test.com`
 
-Home page with featured vehicles
+### Employee
 
-Browse vehicles by category
+- Email: `employee@test.com`
 
-Individual vehicle detail pages
+### Admin
 
-Contact form (saved to database)
+- Email: `admin@test.com`
 
-Standard User Features (Authenticated)
+Password for all seeded accounts is the standard course password from the project instructions.
 
-User registration and login
+## Tech Stack
 
-Leave vehicle reviews
+- Node.js
+- Express
+- EJS
+- PostgreSQL
+- express-session
+- connect-pg-simple
+- bcrypt
+- express-validator
+- pnpm
+- Render
 
-Edit/delete own reviews
+## Key Features
 
-Submit service requests
+### Public Features
 
-View service request status history
+- homepage with featured vehicles
+- inventory browse page
+- category filtering
+- vehicle detail pages
+- contact form
 
-Employee Features
+### Logged-In User Features
 
-Edit vehicle details (price, availability, description)
+- registration and login
+- role-based dashboard access
+- add, edit, and delete personal vehicles
+- leave, edit, and delete reviews
+- submit service requests
+- view service request history and status
 
-Manage service requests
+### Employee Features
 
-Update status (Submitted → In Progress → Completed)
+- employee dashboard
+- manage inventory
+- manage service requests
+- update status and notes
+- view contact messages
 
-Add notes
+### Admin Features
 
-Moderate/delete reviews
+- admin dashboard
+- add, edit, and delete vehicles
+- add, edit, and delete categories
+- manage employee accounts
+- view system activity and user data
 
-View contact form submissions
+## Vehicle Images
 
-Admin (Owner) Features
+Vehicle image metadata is stored in the `vehicle_images` table, while image files are served from the public folder. Placeholder images are used when a custom vehicle image is not available.
 
-Add/edit/delete vehicle categories
+## Deployment
 
-Add/edit/delete vehicles
+This project is deployed on Render.
 
-View and manage user roles (planned)
+`https://cse340-used-car-dealership.onrender.com/`
+
+## Known Limitations
+
+- Vehicle images are seeded and linked through the database rather than uploaded through an admin image-management interface.
+- Category deletion may fail if vehicles are still assigned to that category.
+- The application is designed for course-project scope rather than production dealership scale.
+
+## Author
+
+Randi Umphrey

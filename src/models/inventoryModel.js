@@ -1,6 +1,5 @@
 import { db } from "./db.js";
 
-//Returns all vehicles
 const getAllVehicles = async () => {
   const sql = `
     SELECT
@@ -20,7 +19,7 @@ const getAllVehicles = async () => {
       vi.image_path,
       vi.alt_text
     FROM vehicles v
-    JOIN categories c
+    LEFT JOIN categories c
       ON v.category_id = c.category_id
     LEFT JOIN vehicle_images vi
       ON v.vehicle_id = vi.vehicle_id
@@ -31,11 +30,11 @@ const getAllVehicles = async () => {
   return db.query(sql);
 };
 
-//Returns vehicle details for a specific vehicle
 async function getVehicleBySlug(slug) {
   const sql = `
     SELECT
       v.vehicle_id,
+      v.category_id,
       v.make,
       v.model,
       v.year,
@@ -48,7 +47,7 @@ async function getVehicleBySlug(slug) {
       c.name AS category_name,
       c.slug AS category_slug
     FROM vehicles v
-    JOIN categories c
+    LEFT JOIN categories c
       ON v.category_id = c.category_id
     WHERE v.slug = $1
     LIMIT 1;
@@ -57,7 +56,6 @@ async function getVehicleBySlug(slug) {
   return db.query(sql, [slug]);
 }
 
-//Returns all vehicles for a specific category
 const getVehiclesByCategorySlug = async (slug) => {
   const sql = `
     SELECT
@@ -77,7 +75,7 @@ const getVehiclesByCategorySlug = async (slug) => {
       vi.image_path,
       vi.alt_text
     FROM vehicles v
-    JOIN categories c
+    LEFT JOIN categories c
       ON v.category_id = c.category_id
     LEFT JOIN vehicle_images vi
       ON v.vehicle_id = vi.vehicle_id
@@ -89,9 +87,7 @@ const getVehiclesByCategorySlug = async (slug) => {
   return db.query(sql, [slug]);
 };
 
-
-//Returns all categories for navigation and filtering
-async function getAllCategories() {
+const getAllCategories = async () => {
   const sql = `
     SELECT
       category_id,
@@ -103,9 +99,8 @@ async function getAllCategories() {
   `;
 
   return db.query(sql);
-}
+};
 
-//Returns random featured vehicles for the home page
 const getFeaturedVehicles = async (limit = 3) => {
   const sql = `
     SELECT
@@ -124,7 +119,7 @@ const getFeaturedVehicles = async (limit = 3) => {
       vi.image_path,
       vi.alt_text
     FROM vehicles v
-    JOIN categories c
+    LEFT JOIN categories c
       ON v.category_id = c.category_id
     LEFT JOIN vehicle_images vi
       ON v.vehicle_id = vi.vehicle_id
@@ -137,8 +132,7 @@ const getFeaturedVehicles = async (limit = 3) => {
   return db.query(sql, [limit]);
 };
 
-// Reviews logic
-async function getReviewsByVehicleId(vehicleId) {
+const getReviewsByVehicleId = async (vehicleId) => {
   const sql = `
     SELECT
       r.review_id,
@@ -155,8 +149,9 @@ async function getReviewsByVehicleId(vehicleId) {
     WHERE r.vehicle_id = $1
     ORDER BY r.created_at DESC;
   `;
+
   return db.query(sql, [vehicleId]);
-}
+};
 
 async function getReviewsByUserId(userId) {
   const sql = `
@@ -180,22 +175,7 @@ async function getReviewsByUserId(userId) {
   return db.query(sql, [userId]);
 }
 
-
-async function createReview(vehicleId, userId, rating, reviewText) {
-  const sql = `
-    INSERT INTO reviews (
-      vehicle_id,
-      user_id,
-      rating,
-      review_text
-    )
-    VALUES ($1, $2, $3, $4)
-    RETURNING *;
-  `;
-  return db.query(sql, [vehicleId, userId, rating, reviewText]);
-}
-
-async function getReviewById(reviewId) {
+const getReviewById = async (reviewId) => {
   const sql = `
     SELECT
       review_id,
@@ -208,29 +188,65 @@ async function getReviewById(reviewId) {
     WHERE review_id = $1
     LIMIT 1;
   `;
-  return db.query(sql, [reviewId]);
-}
 
-async function updateReview(reviewId, rating, reviewText) {
+  return db.query(sql, [reviewId]);
+};
+
+const createReview = async (vehicleId, userId, rating, reviewText) => {
+  const sql = `
+    INSERT INTO reviews (
+      vehicle_id,
+      user_id,
+      rating,
+      review_text
+    )
+    VALUES ($1, $2, $3, $4)
+    RETURNING
+      review_id,
+      vehicle_id,
+      user_id,
+      rating,
+      review_text,
+      created_at;
+  `;
+
+  return db.query(sql, [vehicleId, userId, rating, reviewText]);
+};
+
+const updateReview = async (reviewId, rating, reviewText) => {
   const sql = `
     UPDATE reviews
     SET
       rating = $2,
       review_text = $3
     WHERE review_id = $1
-    RETURNING *;
+    RETURNING
+      review_id,
+      vehicle_id,
+      user_id,
+      rating,
+      review_text,
+      created_at;
   `;
-  return db.query(sql, [reviewId, rating, reviewText]);
-}
 
-async function deleteReview(reviewId) {
+  return db.query(sql, [reviewId, rating, reviewText]);
+};
+
+const deleteReview = async (reviewId) => {
   const sql = `
     DELETE FROM reviews
     WHERE review_id = $1
-    RETURNING *;
+    RETURNING
+      review_id,
+      vehicle_id,
+      user_id,
+      rating,
+      review_text,
+      created_at;
   `;
+
   return db.query(sql, [reviewId]);
-}
+};
 
 const getAllVehiclesForManagement = async () => {
   const sql = `
@@ -249,7 +265,7 @@ const getAllVehiclesForManagement = async () => {
       c.name AS category_name,
       c.slug AS category_slug
     FROM vehicles v
-    JOIN categories c
+    LEFT JOIN categories c
       ON v.category_id = c.category_id
     ORDER BY v.created_at DESC, v.year DESC, v.make, v.model;
   `;
@@ -432,8 +448,6 @@ const getImagesByVehicleId = async (vehicleId) => {
   return db.query(sql, [vehicleId]);
 };
 
-
-
 export {
   getAllVehicles,
   getVehicleBySlug,
@@ -457,4 +471,5 @@ export {
   deleteCategoryById,
   getImagesByVehicleId
 };
+
 

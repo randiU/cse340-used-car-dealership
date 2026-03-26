@@ -28,7 +28,7 @@
                     <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
                 </a>
             </h3>
-            <p><strong>Category:</strong> <%= vehicle.category_name %></p>
+            <p><strong>Category:</strong> <%= vehicle.category_name || "Uncategorized" %></p>
             <p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
             <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %> miles</p>
         </article>

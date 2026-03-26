@@ -115,16 +115,17 @@ VALUES ('SUV', 'suv', 'Sport utility vehicles'),
  ================================ */
 CREATE TABLE vehicles (
     vehicle_id SERIAL PRIMARY KEY,
-    category_id INT REFERENCES categories(category_id),
-    slug VARCHAR(150) UNIQUE NOT NULL,
-    make VARCHAR(50) NOT NULL,
-    model VARCHAR(50) NOT NULL,
-    year INT NOT NULL,
-    price NUMERIC(10, 2),
-    mileage INT,
-    description TEXT,
-    status VARCHAR(20) DEFAULT 'available',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    category_id INT REFERENCES categories(category_id) ON DELETE
+    SET NULL,
+        slug VARCHAR(150) UNIQUE NOT NULL,
+        make VARCHAR(50) NOT NULL,
+        model VARCHAR(50) NOT NULL,
+        year INT NOT NULL,
+        price NUMERIC(10, 2),
+        mileage INT,
+        description TEXT,
+        status VARCHAR(20) DEFAULT 'available',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 INSERT INTO vehicles (
         category_id,
