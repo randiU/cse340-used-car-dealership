@@ -19,8 +19,29 @@
 
         <div>
             <label for="make">Make</label>
-            <input type="text" id="make" name="make" value="<%= vehicle.make %>" required>
+            <select id="make" name="make" required>
+                <option value="">Select a make</option>
+                <option value="Toyota" <%= vehicle.make === "Toyota" ? "selected" : "" %>>Toyota</option>
+                <option value="Honda" <%= vehicle.make === "Honda" ? "selected" : "" %>>Honda</option>
+                <option value="Ford" <%= vehicle.make === "Ford" ? "selected" : "" %>>Ford</option>
+                <option value="Chevrolet" <%= vehicle.make === "Chevrolet" ? "selected" : "" %>>Chevrolet</option>
+                <option value="Nissan" <%= vehicle.make === "Nissan" ? "selected" : "" %>>Nissan</option>
+                <option value="Hyundai" <%= vehicle.make === "Hyundai" ? "selected" : "" %>>Hyundai</option>
+                <option value="Kia" <%= vehicle.make === "Kia" ? "selected" : "" %>>Kia</option>
+                <option value="Subaru" <%= vehicle.make === "Subaru" ? "selected" : "" %>>Subaru</option>
+                <option value="Mazda" <%= vehicle.make === "Mazda" ? "selected" : "" %>>Mazda</option>
+                <option value="Jeep" <%= vehicle.make === "Jeep" ? "selected" : "" %>>Jeep</option>
+                <option value="GMC" <%= vehicle.make === "GMC" ? "selected" : "" %>>GMC</option>
+                <option value="Ram" <%= vehicle.make === "Ram" ? "selected" : "" %>>Ram</option>
+                <option value="Volkswagen" <%= vehicle.make === "Volkswagen" ? "selected" : "" %>>Volkswagen</option>
+                <option value="BMW" <%= vehicle.make === "BMW" ? "selected" : "" %>>BMW</option>
+                <option value="Mercedes-Benz" <%= vehicle.make === "Mercedes-Benz" ? "selected" : "" %>>Mercedes-Benz
+                </option>
+                <option value="Audi" <%= vehicle.make === "Audi" ? "selected" : "" %>>Audi</option>
+                <option value="Tesla" <%= vehicle.make === "Tesla" ? "selected" : "" %>>Tesla</option>
+            </select>
         </div>
+
 
         <div>
             <label for="model">Model</label>

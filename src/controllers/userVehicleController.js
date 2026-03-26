@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import {
   createUserVehicle,
   getUserVehicleById,
@@ -7,6 +8,12 @@ import {
 
 const handleAddUserVehicle = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      errors.array().forEach(error => req.flash("error", error.msg));
+      return res.redirect("/dashboard");
+    }
+
     const userId = req.session.user.userId;
     const { make, model, year, mileage } = req.body;
 
@@ -55,6 +62,12 @@ const showEditUserVehicleForm = async (req, res, next) => {
 
 const handleUpdateUserVehicle = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      errors.array().forEach(error => req.flash("error", error.msg));
+      return res.redirect(`/my-vehicles/${req.params.userVehicleId}/edit`);
+    }
+
     const { userVehicleId } = req.params;
     const userId = req.session.user.userId;
     const { make, model, year, mileage } = req.body;

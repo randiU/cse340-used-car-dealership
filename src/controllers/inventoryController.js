@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import {
   getAllVehicles,
   getVehicleBySlug,
@@ -27,7 +28,6 @@ const buildSlug = (make, model, year) => {
     .replace(/^-+|-+$/g, "");
 };
 
-// Route handlers for inventory pages
 const buildVehicleInventoryPage = async (req, res, next) => {
   try {
     const vehicleData = await getAllVehicles();
@@ -43,7 +43,6 @@ const buildVehicleInventoryPage = async (req, res, next) => {
   }
 };
 
-// Route handler for vehicle details page
 const buildVehicleDetailPage = async (req, res, next) => {
   try {
     const { slug } = req.params;
@@ -70,8 +69,6 @@ const buildVehicleDetailPage = async (req, res, next) => {
   }
 };
 
-
-// Route handler for category filtered inventory page
 const buildCategoryVehiclePage = async (req, res, next) => {
   try {
     const { slug } = req.params;
@@ -199,8 +196,6 @@ const deleteReview = async (req, res, next) => {
   }
 };
 
-// Additional route handlers for inventory management (for employee/admin)
-
 const showVehicleManagementPage = async (req, res, next) => {
   try {
     const vehicleData = await getAllVehiclesForManagement();
@@ -229,6 +224,12 @@ const showAddVehicleForm = async (req, res, next) => {
 
 const handleAddVehicle = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      errors.array().forEach(error => req.flash("error", error.msg));
+      return res.redirect("/admin/vehicles/new");
+    }
+
     const {
       category_id,
       make,
@@ -285,6 +286,12 @@ const showEditVehicleForm = async (req, res, next) => {
 
 const handleUpdateVehicle = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      errors.array().forEach(error => req.flash("error", error.msg));
+      return res.redirect(`/employee/vehicles/${req.params.vehicleId}/edit`);
+    }
+
     const { vehicleId } = req.params;
     const {
       category_id,
@@ -367,6 +374,12 @@ const showAddCategoryForm = (req, res) => {
 
 const handleAddCategory = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      errors.array().forEach(error => req.flash("error", error.msg));
+      return res.redirect("/admin/categories/new");
+    }
+
     const { name, slug, description } = req.body;
 
     await createCategory({
@@ -404,6 +417,12 @@ const showEditCategoryForm = async (req, res, next) => {
 
 const handleUpdateCategory = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      errors.array().forEach(error => req.flash("error", error.msg));
+      return res.redirect(`/admin/categories/${req.params.categoryId}/edit`);
+    }
+
     const { categoryId } = req.params;
     const { name, slug, description } = req.body;
 
@@ -434,7 +453,6 @@ const handleDeleteCategory = async (req, res, next) => {
   }
 };
 
-
 export {
   buildVehicleInventoryPage,
   buildVehicleDetailPage,
@@ -455,3 +473,4 @@ export {
   handleUpdateCategory,
   handleDeleteCategory
 };
+
