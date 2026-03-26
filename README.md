@@ -36,9 +36,9 @@ Admins can:
 
 ## Database Schema
 
-Add your exported ERD image to the `docs` folder, then use this image reference:
-
 ![ERD](./docs/erd.png)
+
+The database uses multiple related tables with foreign keys and a normalized structure. Vehicle records remain in the system if a category is deleted because `vehicles.category_id` uses `ON DELETE SET NULL`, which helps prevent accidental inventory loss.
 
 ## User Roles
 
@@ -133,7 +133,7 @@ This project is deployed on Render.
 ## Known Limitations
 
 - Vehicle images are seeded and linked through the database rather than uploaded through an admin image-management interface.
-- Category deletion may fail if vehicles are still assigned to that category.
+- Deleting a category does not delete associated vehicles. Those vehicles remain in inventory and become uncategorized until reassigned.
 - The application is designed for course-project scope rather than production dealership scale.
 
 ## Author
