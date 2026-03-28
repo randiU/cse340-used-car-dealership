@@ -2,36 +2,72 @@
    BROWSE / DETAILS
    ================================ */
 
+/* CATEGORY FILTERS */
 .category-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-sm);
+  gap: var(--space-md);
   margin-top: var(--space-md);
 }
 
-.category-filters a {
+.category-chip {
   display: inline-flex;
   align-items: center;
-  padding: 0.65rem 1rem;
+  gap: 0.7rem;
+  padding: 0.9rem 1.25rem;
   border: 1px solid var(--color-border);
   border-radius: 999px;
   background-color: var(--color-surface);
   color: var(--color-heading);
   font-weight: var(--font-weight-semibold);
-  transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+  transition:
+    background-color var(--transition),
+    color var(--transition),
+    border-color var(--transition);
 }
 
-.category-filters a:hover {
+.category-chip:hover,
+.category-chip:focus-visible {
   background-color: var(--color-dark-green);
   border-color: var(--color-dark-green);
   color: var(--color-white);
 }
 
+.category-chip-icon {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.category-chip-icon img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity var(--transition);
+}
+
+.category-chip-icon img:last-child {
+  opacity: 0;
+}
+
+.category-chip:hover .category-chip-icon img:first-child,
+.category-chip:focus-visible .category-chip-icon img:first-child {
+  opacity: 0;
+}
+
+.category-chip:hover .category-chip-icon img:last-child,
+.category-chip:focus-visible .category-chip-icon img:last-child {
+  opacity: 1;
+}
+
+/* VEHICLE GRID */
 .vehicle-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-lg);
-  margin-top: var(--space-md);
+  margin-top: var(--space-lg);
 }
 
 .vehicle-card {
@@ -57,27 +93,45 @@
   margin-bottom: var(--space-sm);
 }
 
-.vehicle-card p {
-  margin-bottom: 0.4rem;
+.vehicle-card h3 a {
+  color: var(--color-heading);
 }
 
-.vehicle-card p:last-of-type {
+.vehicle-card h3 a:hover {
+  color: var(--color-link-hover);
+}
+
+/* VEHICLE META */
+.vehicle-meta {
+  display: grid;
+  gap: 0.55rem;
   margin-bottom: var(--space-md);
 }
 
-.vehicle-card a.button-link,
-.vehicle-card p a {
+.vehicle-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0;
+}
+
+.vehicle-meta-item img {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-bottom: 0;
+}
+
+.vehicle-card-link {
+  margin-top: auto;
+  margin-bottom: 0;
+}
+
+.vehicle-card-link a {
   font-weight: var(--font-weight-semibold);
 }
 
-.vehicle-card p:last-child {
-  margin-top: auto;
-}
-
-/* ================================
-   DETAILS PAGE
-   ================================ */
-
+/* DETAILS PAGE */
 .vehicle-gallery {
   display: grid;
   gap: var(--space-md);
@@ -120,6 +174,7 @@
   margin-bottom: 0;
 }
 
+/* REVIEWS */
 .reviews-section {
   margin-top: var(--space-xl);
 }
@@ -153,10 +208,7 @@
   border-top: 1px solid var(--color-light-tan);
 }
 
-/* ================================
-   RESPONSIVE
-   ================================ */
-
+/* RESPONSIVE */
 @media (max-width: 1100px) {
   .vehicle-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -175,5 +227,15 @@
   .vehicle-gallery-thumbs img {
     width: 88px;
     height: 66px;
+  }
+
+  .category-chip {
+    padding: 0.8rem 1rem;
+  }
+
+  .category-chip-icon,
+  .category-chip-icon img {
+    width: 28px;
+    height: 28px;
   }
 }

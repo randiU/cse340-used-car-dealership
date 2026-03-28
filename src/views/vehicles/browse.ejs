@@ -6,13 +6,46 @@
         <section>
             <h2>Browse by Category</h2>
             <nav class="category-filters">
-                <a href="/vehicles">All Vehicles</a>
+                <a href="/vehicles" class="category-chip">
+                    <span class="category-chip-icon">
+                        <img src="/images/icons/categories-green.svg" alt="" aria-hidden="true">
+                        <img src="/images/icons/categories-white.svg" alt="" aria-hidden="true">
+                    </span>
+                    <span>All Vehicles</span>
+                </a>
 
                 <% categories.forEach(category => { %>
-                <a href="/vehicles/category/<%= category.slug %>"><%= category.name %></a>
+                <%
+            let iconName = "categories-green.svg";
+            let iconHoverName = "categories-white.svg";
+
+            if (category.slug === "car") {
+                iconName = "car-green.svg";
+                iconHoverName = "car-white.svg";
+            } else if (category.slug === "suv") {
+                iconName = "suv-green.svg";
+                iconHoverName = "suv-white.svg";
+            } else if (category.slug === "truck") {
+                iconName = "truck-green.svg";
+                iconHoverName = "truck-white.svg";
+            } else if (category.slug === "van") {
+                iconName = "van-green.svg";
+                iconHoverName = "van-white.svg";
+            }
+        %>
+
+                <a href="/vehicles/category/<%= category.slug %>" class="category-chip">
+                    <span class="category-chip-icon">
+                        <img src="/images/icons/<%= iconName %>" alt="" aria-hidden="true">
+                        <img src="/images/icons/<%= iconHoverName %>" alt="" aria-hidden="true">
+                    </span>
+                    <span><%= category.name %></span>
+                </a>
                 <% }) %>
             </nav>
+
         </section>
+
 
         <% } %>
 
