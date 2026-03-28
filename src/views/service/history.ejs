@@ -1,8 +1,7 @@
 <%- include("../partials/header") %>
-
-<h1><%= title %></h1>
-
 <main>
+    <div class="site-container">
+    <h1 class="page-title"><%= title %></h1>
     <% if (requests && requests.length > 0) { %>
     <% requests.forEach(request => { %>
     <article>
@@ -17,6 +16,7 @@
     <% } else { %>
     <p>You have not submitted any service requests yet.</p>
     <% } %>
+    </div>
 </main>
 
 <%- include("../partials/footer") %>

@@ -1,65 +1,92 @@
 <%- include("partials/header") %>
 
+<main class="home-main">
+    <div class="site-container">
+        <section class="hero-banner">
+            <img src="/images/home-banner-2.jpg" alt="Wasatch Auto Group Banner" class="home-banner">
 
-<img src="/images/home-banner.jpg" alt="Wasatch Auto Group Banner" class="home-banner">
-<h1>Welcome to Wasatch Auto Group</h1>
-<p>Welcome to Wasatch Auto Group — where finding the right vehicle is simple, honest, and stress-free. We’re proud to
-    offer quality used cars, fair pricing, and friendly service you can trust. Whether you’re buying your first car or
-    upgrading for your family, we’re here to help you drive away with confidence.</p>
+            <aside class="hero-testimonial">
+                <p class="hero-testimonial-label">Customer Testimonial</p>
+                <blockquote>
+                    “Wasatch Auto made the whole process easy. We found the perfect SUV, got honest answers, and drove
+                    away feeling confident in our purchase.”
+                </blockquote>
+                <p class="hero-testimonial-author">— The Martinez Family</p>
+            </aside>
+        </section>
 
-<section class="featured-vehicles">
-    <h2>Featured Vehicles</h2>
-    <p>Check out some of our top picks from our inventory. These vehicles are popular among our customers and offer
-        great value for their price.</p>
+        <h1 class="home-title">Welcome to Wasatch Auto</h1>
+        <p>
+            Welcome to Wasatch Auto — where finding the right vehicle is simple, honest, and stress-free. We’re proud to
+            offer quality used cars, fair pricing, and friendly service you can trust. Whether you’re buying your first
+            car or
+            upgrading for your family, we’re here to help you drive away with confidence.
+        </p>
 
-    <% if (featuredVehicles && featuredVehicles.length > 0) { %>
-    <div class="vehicle-grid">
-        <% featuredVehicles.forEach(vehicle => { %>
-        <article class="vehicle-card">
-            <a href="/vehicles/<%= vehicle.slug %>">
-                <img src="<%= vehicle.image_path || '/images/vehicles/placeholder.jpg' %>"
-                    alt="<%= vehicle.alt_text || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>" width="300"
-                    onerror="this.onerror=null;this.src='/images/vehicles/placeholder.jpg';">
+        <section class="featured-vehicles">
+            <h2>Featured Vehicles</h2>
+            <p>
+                Check out some of our top picks from our inventory. These vehicles are popular among our customers and
+                offer
+                great value for their price.
+            </p>
 
-            </a>
+            <% if (featuredVehicles && featuredVehicles.length > 0) { %>
+            <div class="vehicle-grid">
+                <% featuredVehicles.forEach(vehicle => { %>
+                <article class="vehicle-card">
+                    <a href="/vehicles/<%= vehicle.slug %>">
+                        <img src="<%= vehicle.image_path || '/images/vehicles/placeholder.jpg' %>"
+                            alt="<%= vehicle.alt_text || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>"
+                            width="300" onerror="this.onerror=null;this.src='/images/vehicles/placeholder.jpg';">
+                    </a>
 
-            <h3>
-                <a href="/vehicles/<%= vehicle.slug %>">
-                    <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
-                </a>
-            </h3>
-            <p><strong>Category:</strong> <%= vehicle.category_name || "Uncategorized" %></p>
-            <p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
-            <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %> miles</p>
-        </article>
-        <% }) %>
+                    <h3>
+                        <a href="/vehicles/<%= vehicle.slug %>">
+                            <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+                        </a>
+                    </h3>
+                    <p><strong>Category:</strong> <%= vehicle.category_name || "Uncategorized" %></p>
+                    <p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
+                    <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %> miles</p>
+                </article>
+                <% }) %>
+            </div>
+            <% } else { %>
+            <p>No featured vehicles available at this time.</p>
+            <% } %>
+        </section>
+
+        <section>
+            <h2>Browse Our Inventory</h2>
+            <p>
+                Explore our wide selection of pre-owned vehicles, from reliable sedans to rugged SUVs. Each car is
+                thoroughly
+                inspected and priced competitively to ensure you get the best value. Browse our inventory online or
+                visit us in
+                person to find your perfect match.
+            </p>
+
+            <nav class="category-filters">
+                <a href="/vehicles">All Vehicles</a>
+                <% if (categories && categories.length > 0) { %>
+                <% categories.forEach(category => { %>
+                <a href="/vehicles/category/<%= category.slug %>"><%= category.name %></a>
+                <% }) %>
+                <% } %>
+            </nav>
+        </section>
+
+        <section>
+            <h2>Contact Us</h2>
+            <p>
+                Have questions or want to schedule a test drive? Contact us today! Our friendly team is here to assist
+                you with
+                any inquiries and help you find the perfect vehicle.
+            </p>
+            <a href="/contact" class="contact-btn">Contact Us</a>
+        </section>
     </div>
-    <% } else { %>
-    <p>No featured vehicles available at this time.</p>
-    <% } %>
-</section>
+</main>
 
-<section>
-    <h2>Browse Our Inventory</h2>
-    <p>Explore our wide selection of pre-owned vehicles, from reliable sedans to rugged SUVs. Each car is thoroughly
-        inspected and priced competitively to ensure you get the best value. Browse our inventory online or visit us in
-        person to find your perfect match.</p>
-
-    <nav class="category-filters">
-        <a href="/vehicles">All Vehicles</a>
-        <% if (categories && categories.length > 0) { %>
-        <% categories.forEach(category => { %>
-        <a href="/vehicles/category/<%= category.slug %>">
-            <%= category.name %>
-        </a>
-        <% }) %>
-        <% } %>
-    </nav>
-</section>
-<section>
-    <h2>Contact Us</h2>
-    <p>Have questions or want to schedule a test drive? Contact us today! Our friendly team is here to assist you with
-        any inquiries and help you find the perfect vehicle.</p>
-    <a href="/contact" class="contact-btn">Contact Us</a>
-</section>
 <%- include("partials/footer") %>

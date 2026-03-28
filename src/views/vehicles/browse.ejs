@@ -1,57 +1,58 @@
 <%- include("../partials/header") %>
-
-<h1><%= title %></h1>
-
 <main>
-    <% if (categories && categories.length > 0) { %>
-    <section>
-        <h2>Browse by Category</h2>
-        <ul>
-            <% categories.forEach(category => { %>
-            <li>
+    <div class="site-container">
+        <h1 class="page-title"><%= title %></h1>
+        <% if (categories && categories.length > 0) { %>
+        <section>
+            <h2>Browse by Category</h2>
+            <nav class="category-filters">
+                <a href="/vehicles">All Vehicles</a>
+
+                <% categories.forEach(category => { %>
                 <a href="/vehicles/category/<%= category.slug %>"><%= category.name %></a>
-            </li>
-            <% }) %>
-        </ul>
-    </section>
-    <% } %>
+                <% }) %>
+            </nav>
+        </section>
 
-    <section>
-        <h2>Available Vehicles</h2>
-
-        <% if (vehicles && vehicles.length > 0) { %>
-        <div class="vehicle-list">
-            <% vehicles.forEach(vehicle => { %>
-            <article class="vehicle-card">
-                <a href="/vehicles/<%= vehicle.slug %>">
-                    <img src="<%= vehicle.image_path || '/images/vehicles/placeholder.jpg' %>"
-                        alt="<%= vehicle.alt_text || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>" width="300"
-                        onerror="this.onerror=null;this.src='/images/vehicles/placeholder.jpg';">
-
-                </a>
-
-                <h3>
-                    <a href="/vehicles/<%= vehicle.slug %>">
-                        <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
-                    </a>
-                </h3>
-
-                <p><strong>Category:</strong> <%= vehicle.category_name || "Uncategorized" %></p>
-                <p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
-                <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %></p>
-                <p><strong>Status:</strong> <%= vehicle.status %></p>
-                <p><%= vehicle.description %></p>
-
-                <p>
-                    <a href="/vehicles/<%= vehicle.slug %>">View Details</a>
-                </p>
-            </article>
-            <% }) %>
-        </div>
-        <% } else { %>
-        <p>No vehicles found.</p>
         <% } %>
-    </section>
+
+        <section>
+            <h2>Available Vehicles</h2>
+
+            <% if (vehicles && vehicles.length > 0) { %>
+            <div class="vehicle-list">
+                <% vehicles.forEach(vehicle => { %>
+                <article class="vehicle-card">
+                    <a href="/vehicles/<%= vehicle.slug %>">
+                        <img src="<%= vehicle.image_path || '/images/vehicles/placeholder.jpg' %>"
+                            alt="<%= vehicle.alt_text || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>"
+                            width="300" onerror="this.onerror=null;this.src='/images/vehicles/placeholder.jpg';">
+
+                    </a>
+
+                    <h3>
+                        <a href="/vehicles/<%= vehicle.slug %>">
+                            <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+                        </a>
+                    </h3>
+
+                    <p><strong>Category:</strong> <%= vehicle.category_name || "Uncategorized" %></p>
+                    <p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
+                    <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %></p>
+                    <p><strong>Status:</strong> <%= vehicle.status %></p>
+                    <p><%= vehicle.description %></p>
+
+                    <p>
+                        <a href="/vehicles/<%= vehicle.slug %>">View Details</a>
+                    </p>
+                </article>
+                <% }) %>
+            </div>
+            <% } else { %>
+            <p>No vehicles found.</p>
+            <% } %>
+        </section>
+    </div>
 </main>
 
 <%- include("../partials/footer") %>

@@ -1,8 +1,7 @@
 <%- include("../../partials/header") %>
-
-<h1><%= title %></h1>
-
 <main>
+    <div class="site-container">
+    <h1 class="page-title"><%= title %></h1>
     <p>Manage vehicle categories below.</p>
 
     <p><a href="/admin/categories/new">Add New Category</a></p>
@@ -41,6 +40,7 @@
     <% } %>
 
     <p><a href="/admin">Back to Admin Dashboard</a></p>
+    </div>
 </main>
 
 <%- include("../../partials/footer") %>

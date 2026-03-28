@@ -1,8 +1,7 @@
 <%- include("../../partials/header") %>
-
-<h1><%= title %></h1>
-
 <main>
+    <div class="site-container">
+    <h1 class="page-title"><%= title %></h1>
     <% if (messages && messages.length > 0) { %>
     <section class="contact-messages-list">
         <% messages.forEach(message => { %>
@@ -27,6 +26,7 @@
     <% } else { %>
     <p>No contact messages found.</p>
     <% } %>
+    </div>
 </main>
 
 <%- include("../../partials/footer") %>

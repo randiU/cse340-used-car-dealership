@@ -1,8 +1,7 @@
 <%- include("../partials/header") %>
-
-<h1><%= title %></h1>
-
 <main>
+    <div class="site-container">
+    <h1 class="page-title"><%= title %></h1>
     <form action="/service/request" method="post">
         <div>
             <label for="user_vehicle_id">My Vehicle</label>
@@ -36,6 +35,7 @@
 
         <button type="submit">Submit Request</button>
     </form>
+    </div>
 </main>
 
 <%- include("../partials/footer") %>

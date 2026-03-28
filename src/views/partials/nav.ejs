@@ -1,4 +1,4 @@
-<nav>
+<nav class="col-9">
   <% const dashboardPath = user?.roleName?.toLowerCase() === "admin"
     ? "/admin"
     : user?.roleName?.toLowerCase() === "employee"
@@ -16,7 +16,7 @@
 
     <% if (!isLoggedIn) { %>
     <li><a href="/login">Login</a></li>
-    <li><a href="/register">Register</a></li>
+    <li><a href="/register" class="button">Register</a></li>
     <% } %>
   </ul>
 </nav>

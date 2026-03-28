@@ -19,10 +19,10 @@ const handleAddUserVehicle = async (req, res, next) => {
 
     await createUserVehicle({
       userId,
-      make,
-      model,
-      year,
-      mileage
+      make: make.trim(),
+      model: model.trim(),
+      year: Number(year),
+      mileage: Number(mileage)
     });
 
     req.flash("success", "Vehicle added successfully.");
@@ -88,10 +88,10 @@ const handleUpdateUserVehicle = async (req, res, next) => {
 
     await updateUserVehicleById({
       userVehicleId,
-      make,
-      model,
-      year,
-      mileage
+      make: make.trim(),
+      model: model.trim(),
+      year: Number(year),
+      mileage: Number(mileage)
     });
 
     req.flash("success", "Vehicle updated successfully.");

@@ -1,8 +1,7 @@
 <%- include("../../partials/header") %>
-
-<h1><%= title %></h1>
-
 <main>
+    <div class="site-container">
+    <h1 class="page-title"><%= title %></h1>
     <form action="/admin/categories/new" method="post">
         <div>
             <label for="name">Category Name</label>
@@ -24,6 +23,7 @@
     </form>
 
     <p><a href="/admin/categories">Back to Category Management</a></p>
+    </div>
 </main>
 
 <%- include("../../partials/footer") %>

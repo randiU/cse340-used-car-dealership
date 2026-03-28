@@ -1,8 +1,7 @@
 <%- include("../../partials/header") %>
-
-<h1><%= title %></h1>
-
 <main>
+    <div class="site-container">
+    <h1 class="page-title"><%= title %></h1>
     <form action="/employee/vehicles/<%= vehicle.vehicle_id %>/edit" method="post">
         <div>
             <label for="category_id">Category</label>
@@ -87,6 +86,7 @@
     </form>
 
     <p><a href="/employee/vehicles">Back to Inventory Management</a></p>
+    </div>
 </main>
 
 <%- include("../../partials/footer") %>

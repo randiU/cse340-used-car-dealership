@@ -70,17 +70,20 @@ const router = express.Router();
 
 // Middleware to add page-specific styles/scripts
 router.use("/vehicles", (req, res, next) => {
-  res.addStyle('<link rel="stylesheet" href="/browse.css">');
+  res.addStyle('<link rel="stylesheet" href="/css/browse.css">');
   next();
 });
 
 router.use("/contact", (req, res, next) => {
-  res.addStyle('<link rel="stylesheet" href="/contact.css">');
+  res.addStyle('<link rel="stylesheet" href="/css/contact.css">');
   next();
 });
 
 // Home page route
-router.get("/", homePage);
+router.get("/", (req, res, next) => {
+  res.addStyle('<link rel="stylesheet" href="/css/home.css">');
+  next();
+}, homePage);
 
 // Vehicle routes
 router.get("/vehicles", buildVehicleInventoryPage);

@@ -209,7 +209,9 @@ const userVehicleValidation = [
     .withMessage("Please enter a valid year"),
 
   body("mileage")
-    .optional({ values: "falsy" })
+    .notEmpty()
+    .withMessage("Mileage is required")
+    .bail()
     .isInt({ min: 0 })
     .withMessage("Mileage must be a valid non-negative number")
 ];

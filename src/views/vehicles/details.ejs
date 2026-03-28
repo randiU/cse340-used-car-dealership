@@ -1,8 +1,7 @@
 <%- include("../partials/header") %>
-
-<h1><%= title %></h1>
-
 <main>
+    <div class="site-container">
+    <h1 class="page-title"><%= title %></h1>
     <% if (images && images.length > 0) { %>
     <section>
         <h2>Vehicle Images</h2>
@@ -134,6 +133,7 @@
     </section>
 
     <p><a href="/vehicles">Back to Inventory</a></p>
+    </div>
 </main>
 
 <%- include("../partials/footer") %>

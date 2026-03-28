@@ -1,0 +1,140 @@
+/* ================================
+   HOME PAGE
+   ================================ */
+
+.home-main {
+  padding-top: 0;
+}
+
+/* ================================
+   HOME HERO
+   ================================ */
+.hero-banner {
+  position: relative;
+  margin-bottom: var(--space-xl);
+}
+
+.home-banner {
+  width: 100%;
+  min-height: 280px;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+}
+
+.hero-testimonial {
+  position: absolute;
+  left: var(--space-xl);
+  bottom: var(--space-xl);
+  max-width: 380px;
+  padding: var(--space-lg);
+  background-color: rgba(255, 255, 255, 0.94);
+  color: var(--color-text);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+}
+
+.hero-testimonial-label {
+  margin-bottom: var(--space-xs);
+  color: var(--color-dark-green);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hero-testimonial blockquote {
+  margin: 0 0 var(--space-sm);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.5;
+}
+
+.hero-testimonial-author {
+  margin: 0;
+  color: var(--color-dark-green);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ================================
+   HOME TITLE BLOCK
+   ================================ */
+
+ .home-title {
+  display: inline-block;
+  margin-bottom: var(--space-md);
+  padding: 0.85rem 3rem 0.85rem 1.25rem;
+  background: var(--color-dark-green);
+  color: var(--color-white);
+  border-radius: 16px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+  box-shadow: inset 8px 0 0 var(--color-light-green);
+}
+
+.home-title + p {
+  position: relative;
+  margin-top: var(--space-md);
+}
+
+.home-title + p::before {
+  content: "";
+  display: block;
+  width: 120px;
+  height: 4px;
+  margin-bottom: 1rem;
+  background: var(--color-tan);
+  border-radius: 999px;
+}
+
+
+/* ================================
+   HOME CONTENT
+   ================================ */
+.featured-vehicles {
+  margin-top: var(--space-lg);
+}
+
+.featured-vehicles h2,
+.category-filters,
+.contact-btn {
+  margin-top: var(--space-md);
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+@media (max-width: 900px) {
+  .hero-testimonial {
+    max-width: 340px;
+  }
+
+  .hero-testimonial blockquote {
+    font-size: var(--font-size-base);
+  }
+
+  .home-title {
+    min-width: 75%;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-testimonial {
+    position: static;
+    max-width: none;
+    margin-top: var(--space-md);
+  }
+
+  .home-title {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    padding-right: 2rem;
+    overflow: hidden;
+  }
+
+  .home-title::after {
+    right: 0;
+    width: 52px;
+    clip-path: polygon(0 0, 100% 0, 68% 100%, 0 100%);
+  }
+}
