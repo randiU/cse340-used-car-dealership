@@ -1,31 +1,36 @@
 <%- include("../partials/header") %>
 <main>
-    <div class="site-container">
-    <h1 class="page-title"><%= title %></h1>
-  <form action="/register" method="post">
-    <div>
-      <label for="first_name">First Name</label>
-      <input type="text" id="first_name" name="first_name" required>
-    </div>
+  <div class="site-container">
+    <section class="form-page">
+      <h1 class="page-title page-title-accent"><%= title %></h1>
 
-    <div>
-      <label for="last_name">Last Name</label>
-      <input type="text" id="last_name" name="last_name" required>
-    </div>
+      <div class="form-card">
+        <form action="/register" method="post">
+          <div>
+            <label for="first_name">First Name</label>
+            <input type="text" id="first_name" name="first_name" required>
+          </div>
 
-    <div>
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
-    </div>
+          <div>
+            <label for="last_name">Last Name</label>
+            <input type="text" id="last_name" name="last_name" required>
+          </div>
 
-    <div>
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required>
-    </div>
+          <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
 
-    <button type="submit">Create Account</button>
-  </form>
-    </div>
+          <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+          </div>
+
+          <button type="submit">Create Account</button>
+        </form>
+      </div>
+    </section>
+  </div>
 </main>
 
 <%- include("../partials/footer") %>

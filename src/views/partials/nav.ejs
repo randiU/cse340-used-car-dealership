@@ -1,10 +1,11 @@
-<nav class="col-9">
+<nav class="col-9 site-nav" id="site-nav">
   <% const dashboardPath = user?.roleName?.toLowerCase() === "admin"
     ? "/admin"
     : user?.roleName?.toLowerCase() === "employee"
       ? "/employee"
       : "/dashboard"; %>
-  <ul>
+
+  <ul class="site-nav-list">
     <li><a href="/">Home</a></li>
     <li><a href="/vehicles">Browse Vehicles</a></li>
     <li><a href="/contact">Contact Us</a></li>

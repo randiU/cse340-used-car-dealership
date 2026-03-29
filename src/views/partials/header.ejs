@@ -17,15 +17,20 @@
 </head>
 
 <body>
-    <header class="site-header">
-        <div class="site-container">
-            <div class="site-header-inner row">
-                <a href="/" class="col-3 site-logo-link">
-                    <img src="/images/brand/wasatch-auto-logo-full.png" alt="Wasatch Auto" class="site-logo">
-                </a>
+    <header>
+        <div class="site-container row site-header-row">
+            <a href="/" class="col-3 site-logo-link">
+                <img src="/images/brand/wasatch-auto-logo-full.png" alt="Wasatch Auto" class="site-logo">
+            </a>
 
-                <%- include("../partials/nav") %>
-            </div>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"
+                aria-label="Open menu">
+                <span class="nav-toggle-line"></span>
+                <span class="nav-toggle-line"></span>
+                <span class="nav-toggle-line"></span>
+            </button>
+
+            <%- include("../partials/nav") %>
         </div>
     </header>
 
@@ -35,8 +40,8 @@
     %>
 
     <% if (hasMessages) { %>
-    <div class="flash-messages">
-        <div class="site-container">
+    <div class="site-container">
+        <div class="flash-messages">
             <% Object.keys(messages).forEach(type => { %>
             <% messages[type].forEach(message => { %>
             <div class="flash <%= type %>">

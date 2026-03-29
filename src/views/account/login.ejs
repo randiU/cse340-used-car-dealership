@@ -1,20 +1,25 @@
 <%- include("../partials/header") %>
 <main>
     <div class="site-container">
-    <h1 class="page-title"><%= title %></h1>
-    <form action="/login" method="post">
-        <div>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
-        </div>
+        <section class="form-page">
+            <h1 class="page-title page-title-accent"><%= title %></h1>
 
-        <div>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-        </div>
+            <div class="form-card">
+                <form action="/login" method="post">
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
 
-        <button type="submit">Login</button>
-    </form>
+                    <div>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </section>
     </div>
 </main>
 
