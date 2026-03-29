@@ -101,6 +101,138 @@
 }
 
 /* ================================
+   HOME CONTENT SECTIONS
+   ================================ */
+
+.home-section-card {
+  margin-top: var(--space-xl);
+  padding: var(--space-xl);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.section-title {
+  display: inline-block;
+  margin-bottom: var(--space-md);
+  padding-left: 0.9rem;
+  color: var(--color-dark-green);
+  border-left: 6px solid var(--color-light-green);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+}
+
+/* ================================
+   FEATURED VEHICLE GRID
+   ================================ */
+
+.home-vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.home-vehicle-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-md);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-light-tan);
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+   transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.home-vehicle-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: var(--space-md);
+}
+
+.home-vehicle-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.home-card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin-top: auto;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--color-dark-green);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--color-dark-green);
+  font-weight: var(--font-weight-semibold);
+  transition:
+    background-color var(--transition),
+    color var(--transition),
+    border-color var(--transition);
+}
+
+.home-card-link:hover {
+  background: var(--color-dark-green);
+  color: var(--color-white); 
+}
+
+.home-vehicle-card h3 {
+  margin-bottom: var(--space-sm);
+}
+
+.home-vehicle-card h3 a {
+  color: var(--color-heading);
+}
+
+.home-vehicle-meta {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: var(--space-md);
+}
+
+.home-vehicle-meta p {
+  margin-bottom: 0;
+}
+
+
+
+/* ================================
+   HOME FILTER SPACING
+   ================================ */
+
+.home-section-card .category-filters {
+  margin-top: var(--space-lg);
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media (max-width: 1100px) {
+  .home-vehicle-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .home-section-card {
+    padding: var(--space-lg);
+  }
+
+  .home-vehicle-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+/* ================================
    RESPONSIVE
    ================================ */
 @media (max-width: 900px) {

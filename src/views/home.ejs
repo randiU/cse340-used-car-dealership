@@ -25,8 +25,8 @@
         </section>
 
 
-        <section class="featured-vehicles">
-            <h2>Featured Vehicles</h2>
+        <section class="featured-section home-section-card">
+            <h2 class="section-title">Featured Vehicles</h2>
             <p>
                 Check out some of our top picks from our inventory. These vehicles are popular among our customers and
                 offer
@@ -34,13 +34,13 @@
             </p>
 
             <% if (featuredVehicles && featuredVehicles.length > 0) { %>
-            <div class="vehicle-grid">
+            <div class="home-vehicle-grid">
                 <% featuredVehicles.forEach(vehicle => { %>
-                <article class="vehicle-card">
+                <article class="home-vehicle-card">
                     <a href="/vehicles/<%= vehicle.slug %>">
                         <img src="<%= vehicle.image_path || '/images/vehicles/placeholder.jpg' %>"
                             alt="<%= vehicle.alt_text || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>"
-                            width="300" onerror="this.onerror=null;this.src='/images/vehicles/placeholder.jpg';">
+                            onerror="this.onerror=null;this.src='/images/vehicles/placeholder.jpg';">
                     </a>
 
                     <h3>
@@ -48,9 +48,14 @@
                             <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
                         </a>
                     </h3>
-                    <p><strong>Category:</strong> <%= vehicle.category_name || "Uncategorized" %></p>
-                    <p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
-                    <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %> miles</p>
+
+                    <div class="home-vehicle-meta">
+                        <p><strong>Category:</strong> <%= vehicle.category_name || "Uncategorized" %></p>
+                        <p><strong>Price:</strong> $<%= Number(vehicle.price).toLocaleString() %></p>
+                        <p><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %> miles</p>
+                    </div>
+
+                    <a href="/vehicles/<%= vehicle.slug %>" class="home-card-link">View Details</a>
                 </article>
                 <% }) %>
             </div>
@@ -59,34 +64,63 @@
             <% } %>
         </section>
 
-        <section>
-            <h2>Browse Our Inventory</h2>
+        <section class="home-section-card">
+            <h2 class="section-title">Browse Our Inventory</h2>
             <p>
                 Explore our wide selection of pre-owned vehicles, from reliable sedans to rugged SUVs. Each car is
                 thoroughly
-                inspected and priced competitively to ensure you get the best value. Browse our inventory online or
-                visit us in
-                person to find your perfect match.
+                inspected and priced competitively to ensure you get the best value.
             </p>
 
             <nav class="category-filters">
-                <a href="/vehicles">All Vehicles</a>
+                <a href="/vehicles" class="category-chip">
+                    <span class="category-chip-icon">
+                        <img src="/images/icons/categories-green.svg" alt="" aria-hidden="true">
+                        <img src="/images/icons/categories-white.svg" alt="" aria-hidden="true">
+                    </span>
+                    <span>All Vehicles</span>
+                </a>
+
                 <% if (categories && categories.length > 0) { %>
                 <% categories.forEach(category => { %>
-                <a href="/vehicles/category/<%= category.slug %>"><%= category.name %></a>
+                <%
+                let iconName = "categories-green.svg";
+                let iconHoverName = "categories-white.svg";
+
+                if (category.slug === "car") {
+                    iconName = "car-green.svg";
+                    iconHoverName = "car-white.svg";
+                } else if (category.slug === "suv") {
+                    iconName = "suv-green.svg";
+                    iconHoverName = "suv-white.svg";
+                } else if (category.slug === "truck") {
+                    iconName = "truck-green.svg";
+                    iconHoverName = "truck-white.svg";
+                } else if (category.slug === "van") {
+                    iconName = "van-green.svg";
+                    iconHoverName = "van-white.svg";
+                }
+            %>
+
+                <a href="/vehicles/category/<%= category.slug %>" class="category-chip">
+                    <span class="category-chip-icon">
+                        <img src="/images/icons/<%= iconName %>" alt="" aria-hidden="true">
+                        <img src="/images/icons/<%= iconHoverName %>" alt="" aria-hidden="true">
+                    </span>
+                    <span><%= category.name %></span>
+                </a>
                 <% }) %>
                 <% } %>
             </nav>
+
         </section>
 
-        <section>
-            <h2>Contact Us</h2>
+        <section class="home-section-card">
+            <h2 class="section-title">Contact Us</h2>
             <p>
-                Have questions or want to schedule a test drive? Contact us today! Our friendly team is here to assist
-                you with
-                any inquiries and help you find the perfect vehicle.
+                Have questions or want to schedule a test drive? Our team is here to help.
             </p>
-            <a href="/contact" class="contact-btn">Contact Us</a>
+            <a href="/contact" class="button">Contact Us</a>
         </section>
     </div>
 </main>
