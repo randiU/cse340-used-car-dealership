@@ -1,49 +1,50 @@
-<%- include("../../partials/header") %>
+<%- include("../../partials/dashboard-header") %>
 <main>
     <div class="site-container">
-    <h1 class="page-title"><%= title %></h1>
-    <p>Use this page to manage employee access.</p>
+        <h1 class="page-title"><%= title %></h1>
+        <p>Use this page to manage employee access.</p>
 
-    <% if (users && users.length > 0) { %>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Current Role</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% users.forEach(account => { %>
-            <tr>
-                <td><%= account.first_name %> <%= account.last_name %></td>
-                <td><%= account.email %></td>
-                <td><%= account.role_name %></td>
-                <td>
-                    <% if (account.role_name === "admin") { %>
-                    <span>Admin account</span>
-                    <% } else { %>
-                    <form action="/admin/employees/<%= account.user_id %>/role" method="post">
-                        <label for="role_name_<%= account.user_id %>" class="sr-only">Role</label>
-                        <select name="role_name" id="role_name_<%= account.user_id %>">
-                            <option value="user" <%= account.role_name === "user" ? "selected" : "" %>>User</option>
-                            <option value="employee" <%= account.role_name === "employee" ? "selected" : "" %>>Employee
-                            </option>
-                        </select>
-                        <button type="submit">Update Role</button>
-                    </form>
-                    <% } %>
-                </td>
-            </tr>
-            <% }) %>
-        </tbody>
-    </table>
-    <% } else { %>
-    <p>No users found.</p>
-    <% } %>
+        <% if (users && users.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Current Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(account => { %>
+                <tr>
+                    <td><%= account.first_name %> <%= account.last_name %></td>
+                    <td><%= account.email %></td>
+                    <td><%= account.role_name %></td>
+                    <td>
+                        <% if (account.role_name === "admin") { %>
+                        <span>Admin account</span>
+                        <% } else { %>
+                        <form action="/admin/employees/<%= account.user_id %>/role" method="post">
+                            <label for="role_name_<%= account.user_id %>" class="sr-only">Role</label>
+                            <select name="role_name" id="role_name_<%= account.user_id %>">
+                                <option value="user" <%= account.role_name === "user" ? "selected" : "" %>>User</option>
+                                <option value="employee" <%= account.role_name === "employee" ? "selected" : "" %>>
+                                    Employee
+                                </option>
+                            </select>
+                            <button type="submit">Update Role</button>
+                        </form>
+                        <% } %>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <% } else { %>
+        <p>No users found.</p>
+        <% } %>
 
-    <p><a href="/admin">Back to Admin Dashboard</a></p>
+        <p><a href="/admin">Back to Admin Dashboard</a></p>
     </div>
 </main>
 

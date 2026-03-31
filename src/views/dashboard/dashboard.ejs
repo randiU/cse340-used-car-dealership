@@ -1,120 +1,134 @@
-<%- include("../partials/header") %>
+<%- include("../partials/dashboard-header") %>
+
 <main>
     <div class="site-container">
-    <h1 class="page-title"><%= title %></h1>
-    <section>
-        <h2>Welcome</h2>
-        <p>Hello, <%= user ? user.firstName : "User" %>.</p>
-        <p>Your role: <%= user ? user.roleName : "" %></p>
-    </section>
+        <h1 class="page-title page-title-accent"><%= title %></h1>
 
-    <section>
-        <h2>My Vehicles</h2>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Welcome</h2>
+            <p>Hello, <%= user ? user.firstName : "User" %>.</p>
+            <p>Your role: <%= user ? user.roleName : "" %></p>
+        </section>
 
-        <% if (vehicles && vehicles.length > 0) { %>
-        <% vehicles.forEach(vehicle => { %>
-        <article>
-            <h3><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h3>
-            <p><strong>Mileage:</strong> <%= Number(vehicle.mileage || 0).toLocaleString() %></p>
-            <p><strong>Added:</strong> <%= new Date(vehicle.created_at).toLocaleString() %></p>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">My Vehicles</h2>
 
-            <p>
-                <a href="/my-vehicles/<%= vehicle.user_vehicle_id %>/edit">Edit Vehicle</a>
-            </p>
+            <% if (vehicles && vehicles.length > 0) { %>
+            <div class="dashboard-card-grid">
+                <% vehicles.forEach(vehicle => { %>
+                <article class="dashboard-item-card">
+                    <h3><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></h3>
+                    <p><strong>Mileage:</strong> <%= Number(vehicle.mileage || 0).toLocaleString() %></p>
+                    <p><strong>Added:</strong> <%= new Date(vehicle.created_at).toLocaleDateString() %></p>
 
-            <form action="/my-vehicles/<%= vehicle.user_vehicle_id %>/delete" method="post">
-                <button type="submit">Delete Vehicle</button>
-            </form>
-        </article>
-        <hr>
-        <% }) %>
-        <% } else { %>
-        <p>You have not added any vehicles yet.</p>
-        <% } %>
-    </section>
+                    <div class="action-group">
+                        <a href="/my-vehicles/<%= vehicle.user_vehicle_id %>/edit" class="button">Edit Vehicle</a>
 
-    <section>
-        <h2>My Reviews</h2>
-
-        <% if (reviews && reviews.length > 0) { %>
-        <% reviews.forEach(review => { %>
-        <article>
-            <h3>
-                <a href="/vehicles/<%= review.slug %>">
-                    <%= review.year %> <%= review.make %> <%= review.model %>
-                </a>
-            </h3>
-            <p><strong>Rating:</strong> <%= review.rating %>/5</p>
-            <p><%= review.review_text %></p>
-            <p><strong>Posted:</strong> <%= new Date(review.created_at).toLocaleDateString() %></p>
-
-            <p>
-                <a href="/vehicles/<%= review.slug %>">View / Edit Review</a>
-            </p>
-
-            <form action="/vehicles/<%= review.slug %>/reviews/<%= review.review_id %>/delete" method="post">
-                <button type="submit">Delete Review</button>
-            </form>
-        </article>
-        <hr>
-        <% }) %>
-        <% } else { %>
-        <p>You have not submitted any reviews yet.</p>
-        <% } %>
-    </section>
-
-    <section>
-        <h2>Add a Vehicle</h2>
-
-        <form action="/my-vehicles/add" method="post">
-            <div>
-                <label for="make">Make</label>
-                <select id="make" name="make" required>
-                    <option value="">Select a make</option>
-                    <option value="Toyota">Toyota</option>
-                    <option value="Honda">Honda</option>
-                    <option value="Ford">Ford</option>
-                    <option value="Chevrolet">Chevrolet</option>
-                    <option value="Nissan">Nissan</option>
-                    <option value="Hyundai">Hyundai</option>
-                    <option value="Kia">Kia</option>
-                    <option value="Subaru">Subaru</option>
-                    <option value="Mazda">Mazda</option>
-                    <option value="Jeep">Jeep</option>
-                    <option value="GMC">GMC</option>
-                    <option value="Ram">Ram</option>
-                    <option value="Volkswagen">Volkswagen</option>
-                    <option value="BMW">BMW</option>
-                    <option value="Mercedes-Benz">Mercedes-Benz</option>
-                    <option value="Audi">Audi</option>
-                    <option value="Tesla">Tesla</option>
-                </select>
+                        <form action="/my-vehicles/<%= vehicle.user_vehicle_id %>/delete" method="post">
+                            <button type="submit">Delete Vehicle</button>
+                        </form>
+                    </div>
+                </article>
+                <% }) %>
             </div>
-
-            <div>
-                <label for="model">Model</label>
-                <input type="text" id="model" name="model" required>
+            <% } else { %>
+            <div class="dashboard-empty-state">
+                <p>You have not added any vehicles yet.</p>
             </div>
+            <% } %>
+        </section>
 
-            <div>
-                <label for="year">Year</label>
-                <input type="number" id="year" name="year" required>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">My Reviews</h2>
+
+            <% if (reviews && reviews.length > 0) { %>
+            <div class="dashboard-card-grid">
+                <% reviews.forEach(review => { %>
+                <article class="dashboard-item-card">
+                    <h3>
+                        <a href="/vehicles/<%= review.slug %>">
+                            <%= review.year %> <%= review.make %> <%= review.model %>
+                        </a>
+                    </h3>
+
+                    <p><strong>Rating:</strong> <%= review.rating %>/5</p>
+                    <p><%= review.review_text %></p>
+                    <p><strong>Posted:</strong> <%= new Date(review.created_at).toLocaleDateString() %></p>
+
+                    <div class="action-group">
+                        <a href="/vehicles/<%= review.slug %>" class="button">View Review</a>
+
+                        <form action="/vehicles/<%= review.slug %>/reviews/<%= review.review_id %>/delete"
+                            method="post">
+                            <button type="submit">Delete Review</button>
+                        </form>
+                    </div>
+                </article>
+                <% }) %>
             </div>
-
-            <div>
-                <label for="mileage">Mileage</label>
-                <input type="number" id="mileage" name="mileage" required>
+            <% } else { %>
+            <div class="dashboard-empty-state">
+                <p>You have not submitted any reviews yet.</p>
             </div>
+            <% } %>
+        </section>
 
-            <button type="submit">Add Vehicle</button>
-        </form>
-    </section>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Add a Vehicle</h2>
 
-    <section>
-        <h2>Service Requests</h2>
-        <p><a href="/service/request">Submit Service Request</a></p>
-        <p><a href="/service/history">View Service History</a></p>
-    </section>
+            <div class="dashboard-form-card form-card">
+                <form action="/my-vehicles/add" method="post">
+                    <div>
+                        <label for="make">Make</label>
+                        <select id="make" name="make" required>
+                            <option value="">Select a make</option>
+                            <option value="Toyota">Toyota</option>
+                            <option value="Honda">Honda</option>
+                            <option value="Ford">Ford</option>
+                            <option value="Chevrolet">Chevrolet</option>
+                            <option value="Nissan">Nissan</option>
+                            <option value="Hyundai">Hyundai</option>
+                            <option value="Kia">Kia</option>
+                            <option value="Subaru">Subaru</option>
+                            <option value="Mazda">Mazda</option>
+                            <option value="Jeep">Jeep</option>
+                            <option value="GMC">GMC</option>
+                            <option value="Ram">Ram</option>
+                            <option value="Volkswagen">Volkswagen</option>
+                            <option value="BMW">BMW</option>
+                            <option value="Mercedes-Benz">Mercedes-Benz</option>
+                            <option value="Audi">Audi</option>
+                            <option value="Tesla">Tesla</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="model">Model</label>
+                        <input type="text" id="model" name="model" required>
+                    </div>
+
+                    <div>
+                        <label for="year">Year</label>
+                        <input type="number" id="year" name="year" required>
+                    </div>
+
+                    <div>
+                        <label for="mileage">Mileage</label>
+                        <input type="number" id="mileage" name="mileage">
+                    </div>
+
+                    <button type="submit">Add Vehicle</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Service Requests</h2>
+            <div class="dashboard-actions">
+                <a href="/service/request" class="button">Submit Service Request</a>
+                <a href="/service/history" class="button">View Service History</a>
+            </div>
+        </section>
     </div>
 </main>
 

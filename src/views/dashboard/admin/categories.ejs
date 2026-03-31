@@ -1,12 +1,12 @@
-<%- include("../../partials/header") %>
+<%- include("../../partials/dashboard-header") %>
 <main>
     <div class="site-container">
-    <h1 class="page-title"><%= title %></h1>
-    <p>Manage vehicle categories below.</p>
+        <h1 class="page-title"><%= title %></h1>
+        <p>Manage vehicle categories below.</p>
 
-    <p><a href="/admin/categories/new">Add New Category</a></p>
+        <p><a href="/admin/categories/new">Add New Category</a></p>
 
-    <% if (categories && categories.length > 0) { %>
+        <% if (categories && categories.length > 0) { %>
         <table>
             <thead>
                 <tr>
@@ -18,28 +18,29 @@
             </thead>
             <tbody>
                 <% categories.forEach(category => { %>
-                    <tr>
-                        <td><%= category.name %></td>
-                        <td><%= category.slug %></td>
-                        <td><%= category.description %></td>
-                        <td>
-                            <a href="/admin/categories/<%= category.category_id %>/edit">Edit</a>
+                <tr>
+                    <td><%= category.name %></td>
+                    <td><%= category.slug %></td>
+                    <td><%= category.description %></td>
+                    <td>
+                        <a href="/admin/categories/<%= category.category_id %>/edit">Edit</a>
 
-                            <form action="/admin/categories/<%= category.category_id %>/delete" method="post" style="display:inline;">
-                                <button type="submit" onclick="return confirm('Delete this category?')">
-                                    Delete
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
+                        <form action="/admin/categories/<%= category.category_id %>/delete" method="post"
+                            style="display:inline;">
+                            <button type="submit" onclick="return confirm('Delete this category?')">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
                 <% }) %>
             </tbody>
         </table>
-    <% } else { %>
+        <% } else { %>
         <p>No categories found.</p>
-    <% } %>
+        <% } %>
 
-    <p><a href="/admin">Back to Admin Dashboard</a></p>
+        <p><a href="/admin">Back to Admin Dashboard</a></p>
     </div>
 </main>
 

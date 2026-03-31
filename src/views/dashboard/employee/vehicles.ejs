@@ -1,61 +1,61 @@
-<%- include("../../partials/header") %>
+<%- include("../../partials/dashboard-header") %>
 <main>
     <div class="site-container">
-    <h1 class="page-title"><%= title %></h1>
-    <p>Manage dealership inventory below.</p>
+        <h1 class="page-title"><%= title %></h1>
+        <p>Manage dealership inventory below.</p>
 
-    <% if (user && user.roleName === "admin") { %>
-    <p><a href="/admin/vehicles/new">Add New Vehicle</a></p>
-    <p><a href="/admin/categories">Manage Categories</a></p>
-    <% } %>
+        <% if (user && user.roleName === "admin") { %>
+        <p><a href="/admin/vehicles/new">Add New Vehicle</a></p>
+        <p><a href="/admin/categories">Manage Categories</a></p>
+        <% } %>
 
-    <% if (vehicles && vehicles.length > 0) { %>
-    <table>
-        <thead>
-            <tr>
-                <th>Vehicle</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Mileage</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% vehicles.forEach(vehicle => { %>
-            <tr>
-                <td>
-                    <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
-                </td>
-                <td><%= vehicle.category_name || "Uncategorized" %></td>
-                <td>$<%= Number(vehicle.price).toLocaleString() %></td>
-                <td><%= Number(vehicle.mileage).toLocaleString() %></td>
-                <td><%= vehicle.status %></td>
-                <td>
-                    <a href="/employee/vehicles/<%= vehicle.vehicle_id %>/edit">Edit</a>
+        <% if (vehicles && vehicles.length > 0) { %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Mileage</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% vehicles.forEach(vehicle => { %>
+                <tr>
+                    <td>
+                        <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+                    </td>
+                    <td><%= vehicle.category_name || "Uncategorized" %></td>
+                    <td>$<%= Number(vehicle.price).toLocaleString() %></td>
+                    <td><%= Number(vehicle.mileage).toLocaleString() %></td>
+                    <td><%= vehicle.status %></td>
+                    <td>
+                        <a href="/employee/vehicles/<%= vehicle.vehicle_id %>/edit">Edit</a>
 
-                    <% if (user && user.roleName === "admin") { %>
-                    <form action="/admin/vehicles/<%= vehicle.vehicle_id %>/delete" method="post"
-                        style="display:inline;">
-                        <button type="submit" onclick="return confirm('Delete this vehicle?')">
-                            Delete
-                        </button>
-                    </form>
-                    <% } %>
-                </td>
-            </tr>
-            <% }) %>
-        </tbody>
-    </table>
-    <% } else { %>
-    <p>No vehicles found.</p>
-    <% } %>
+                        <% if (user && user.roleName === "admin") { %>
+                        <form action="/admin/vehicles/<%= vehicle.vehicle_id %>/delete" method="post"
+                            style="display:inline;">
+                            <button type="submit" onclick="return confirm('Delete this vehicle?')">
+                                Delete
+                            </button>
+                        </form>
+                        <% } %>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <% } else { %>
+        <p>No vehicles found.</p>
+        <% } %>
 
-    <p>
-        <a href="<%= user && user.roleName === 'admin' ? '/admin' : '/employee' %>">
-            Back to Dashboard
-        </a>
-    </p>
+        <p>
+            <a href="<%= user && user.roleName === 'admin' ? '/admin' : '/employee' %>">
+                Back to Dashboard
+            </a>
+        </p>
     </div>
 </main>
 

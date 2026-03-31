@@ -21,6 +21,7 @@ const showUserDashboard = async (req, res, next) => {
     const vehicleData = await getUserVehiclesByUserId(userId);
     const reviewData = await getReviewsByUserId(userId);
 
+    res.addStyle('<link rel="stylesheet" href="/css/dashboard.css">');
     res.render("dashboard/dashboard", {
       title: "Dashboard",
       vehicles: vehicleData.rows,
@@ -32,12 +33,14 @@ const showUserDashboard = async (req, res, next) => {
 };
 
 const showEmployeeDashboard = (req, res) => {
+  res.addStyle('<link rel="stylesheet" href="/css/dashboard.css">');
   res.render("dashboard/employee", {
     title: "Employee Dashboard"
   });
 };
 
 const showAdminDashboard = (req, res) => {
+  res.addStyle('<link rel="stylesheet" href="/css/dashboard.css">');
   res.render("dashboard/admin", {
     title: "Admin Dashboard"
   });

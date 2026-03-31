@@ -1,45 +1,45 @@
-<%- include("../../partials/header") %>
+<%- include("../../partials/dashboard-header") %>
 <main>
     <div class="site-container">
-    <h1 class="page-title"><%= title %></h1>
-    <% if (requests && requests.length > 0) { %>
-    <% requests.forEach(request => { %>
-    <article class="service-request-card">
-        <h2>
-            <%= request.year %> <%= request.make %> <%= request.model %>
-        </h2>
+        <h1 class="page-title"><%= title %></h1>
+        <% if (requests && requests.length > 0) { %>
+        <% requests.forEach(request => { %>
+        <article class="service-request-card">
+            <h2>
+                <%= request.year %> <%= request.make %> <%= request.model %>
+            </h2>
 
-        <p><strong>Customer:</strong> <%= request.first_name %> <%= request.last_name %></p>
-        <p><strong>Email:</strong> <%= request.email %></p>
-        <p><strong>Service Type:</strong> <%= request.service_type %></p>
-        <p><strong>Status:</strong> <%= request.status %></p>
-        <p><strong>Submitted:</strong> <%= new Date(request.created_at).toLocaleString() %></p>
-        <p><%= request.description %></p>
+            <p><strong>Customer:</strong> <%= request.first_name %> <%= request.last_name %></p>
+            <p><strong>Email:</strong> <%= request.email %></p>
+            <p><strong>Service Type:</strong> <%= request.service_type %></p>
+            <p><strong>Status:</strong> <%= request.status %></p>
+            <p><strong>Submitted:</strong> <%= new Date(request.created_at).toLocaleString() %></p>
+            <p><%= request.description %></p>
 
-        <form action="/employee/service-requests/<%= request.request_id %>/status" method="post">
-            <label for="status-<%= request.request_id %>">Update Status</label>
-            <select id="status-<%= request.request_id %>" name="status" required>
-                <option value="submitted" <%= request.status === "submitted" ? "selected" : "" %>>Submitted</option>
-                <option value="in_progress" <%= request.status === "in_progress" ? "selected" : "" %>>In Progress
-                </option>
-                <option value="completed" <%= request.status === "completed" ? "selected" : "" %>>Completed</option>
-            </select>
+            <form action="/employee/service-requests/<%= request.request_id %>/status" method="post">
+                <label for="status-<%= request.request_id %>">Update Status</label>
+                <select id="status-<%= request.request_id %>" name="status" required>
+                    <option value="submitted" <%= request.status === "submitted" ? "selected" : "" %>>Submitted</option>
+                    <option value="in_progress" <%= request.status === "in_progress" ? "selected" : "" %>>In Progress
+                    </option>
+                    <option value="completed" <%= request.status === "completed" ? "selected" : "" %>>Completed</option>
+                </select>
 
-            <button type="submit">Update</button>
-        </form>
+                <button type="submit">Update</button>
+            </form>
 
-        <form action="/employee/service-requests/<%= request.request_id %>/notes" method="post">
-            <label for="notes-<%= request.request_id %>">Add/Edit Notes</label>
-            <textarea id="notes-<%= request.request_id %>" name="notes" rows="3" placeholder="Enter notes here..."
-                required><%= request.notes || '' %></textarea>
-            <button type="submit">Save Notes</button>
-        </form>
-    </article>
-    <hr>
-    <% }) %>
-    <% } else { %>
-    <p>No service requests found.</p>
-    <% } %>
+            <form action="/employee/service-requests/<%= request.request_id %>/notes" method="post">
+                <label for="notes-<%= request.request_id %>">Add/Edit Notes</label>
+                <textarea id="notes-<%= request.request_id %>" name="notes" rows="3" placeholder="Enter notes here..."
+                    required><%= request.notes || '' %></textarea>
+                <button type="submit">Save Notes</button>
+            </form>
+        </article>
+        <hr>
+        <% }) %>
+        <% } else { %>
+        <p>No service requests found.</p>
+        <% } %>
     </div>
 </main>
 

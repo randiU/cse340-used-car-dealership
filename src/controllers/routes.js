@@ -68,34 +68,70 @@ import { showSystemOverview } from "./systemController.js";
 
 const router = express.Router();
 
-// Middleware to add page-specific styles/scripts
+/* ================================
+   PAGE-SPECIFIC STYLES
+   ================================ */
+
+// Vehicles browse/details pages
 router.use("/vehicles", (req, res, next) => {
   res.addStyle('<link rel="stylesheet" href="/css/browse.css">');
   next();
 });
 
+// Contact page
 router.use("/contact", (req, res, next) => {
   res.addStyle('<link rel="stylesheet" href="/css/contact.css">');
   next();
 });
 
-// Home page route
-router.get("/", (req, res, next) => {
-  res.addStyle('<link rel="stylesheet" href="/css/home.css">');
+// Dashboard-related pages
+router.use("/dashboard", (req, res, next) => {
+  res.addStyle('<link rel="stylesheet" href="/css/dashboard.css">');
   next();
-}, homePage);
+});
 
-// Vehicle routes
+router.use("/admin", (req, res, next) => {
+  res.addStyle('<link rel="stylesheet" href="/css/dashboard.css">');
+  next();
+});
+
+router.use("/employee", (req, res, next) => {
+  res.addStyle('<link rel="stylesheet" href="/css/dashboard.css">');
+  next();
+});
+
+router.use("/system", (req, res, next) => {
+  res.addStyle('<link rel="stylesheet" href="/css/dashboard.css">');
+  next();
+});
+
+// Home page
+router.get(
+  "/",
+  (req, res, next) => {
+    res.addStyle('<link rel="stylesheet" href="/css/home.css">');
+    next();
+  },
+  homePage
+);
+
+/* ================================
+   VEHICLE ROUTES
+   ================================ */
 router.get("/vehicles", buildVehicleInventoryPage);
 router.get("/vehicles/category/:slug", buildCategoryVehiclePage);
 router.get("/vehicles/:slug", buildVehicleDetailPage);
 
-// Review routes
+/* ================================
+   REVIEW ROUTES
+   ================================ */
 router.post("/vehicles/:slug/reviews", requireLogin, postReview);
 router.post("/vehicles/:slug/reviews/:reviewId/update", requireLogin, updateReview);
 router.post("/vehicles/:slug/reviews/:reviewId/delete", requireLogin, deleteReview);
 
-// Employee inventory management routes
+/* ================================
+   EMPLOYEE INVENTORY MANAGEMENT
+   ================================ */
 router.get("/employee/vehicles", requireEmployee, showVehicleManagementPage);
 router.get("/employee/vehicles/:vehicleId/edit", requireEmployee, showEditVehicleForm);
 router.post(
@@ -105,12 +141,16 @@ router.post(
   handleUpdateVehicle
 );
 
-// Admin routes for vehicle management
+/* ================================
+   ADMIN VEHICLE MANAGEMENT
+   ================================ */
 router.get("/admin/vehicles/new", requireAdmin, showAddVehicleForm);
 router.post("/admin/vehicles/new", requireAdmin, vehicleValidation, handleAddVehicle);
 router.post("/admin/vehicles/:vehicleId/delete", requireAdmin, handleDeleteVehicle);
 
-// Admin routes for category management
+/* ================================
+   ADMIN CATEGORY MANAGEMENT
+   ================================ */
 router.get("/admin/categories", requireAdmin, showCategoryManagementPage);
 router.get("/admin/categories/new", requireAdmin, showAddCategoryForm);
 router.post("/admin/categories/new", requireAdmin, categoryValidation, handleAddCategory);
@@ -123,25 +163,41 @@ router.post(
 );
 router.post("/admin/categories/:categoryId/delete", requireAdmin, handleDeleteCategory);
 
-// Contact routes
+/* ================================
+   CONTACT ROUTES
+   ================================ */
 router.get("/contact", showContactForm);
 router.post("/contact", contactValidation, handleContactSubmission);
 
-// Registration routes
+/* ================================
+   AUTH ROUTES
+   ================================ */
 router.get("/register", showRegistrationForm);
 router.post("/register", registrationValidation, processRegistration);
 
-// Login routes
 router.get("/login", showLoginForm);
 router.post("/login", loginValidation, processLogin);
 router.get("/logout", processLogout);
 
-// Dashboard routes
-router.get("/dashboard", requireLogin, showRoleDashboard);
-router.get("/employee", requireEmployee, showEmployeeDashboard);
-router.get("/admin", requireAdmin, showAdminDashboard);
+/* ================================
+   DASHBOARD ROUTES
+   ================================ */
+router.get("/dashboard", requireLogin, (req, res, next) => {
+  res.addStyle('<link rel="stylesheet" href="/css/dashboard.css">');
+  next();
+}, showRoleDashboard);
+router.get("/employee", requireEmployee, (req, res, next) => {
+  res.addStyle('<link rel="stylesheet" href="/css/dashboard.css">');
+  next();
+}, showEmployeeDashboard);
+router.get("/admin", requireAdmin, (req, res, next) => {
+  res.addStyle('<link rel="stylesheet" href="/css/dashboard.css">');
+  next();
+}, showAdminDashboard);
 
-// Admin contact message routes
+/* ================================
+   ADMIN CONTACT MESSAGE ROUTES
+   ================================ */
 router.get("/admin/contact-messages", requireEmployee, showContactMessages);
 router.post(
   "/admin/contact-messages/:messageId/delete",
@@ -149,7 +205,9 @@ router.post(
   deleteContactMessageById
 );
 
-// User vehicle routes
+/* ================================
+   USER VEHICLE ROUTES
+   ================================ */
 router.post("/my-vehicles/add", requireLogin, userVehicleValidation, handleAddUserVehicle);
 router.get("/my-vehicles/:userVehicleId/edit", requireLogin, showEditUserVehicleForm);
 router.post(
@@ -160,7 +218,9 @@ router.post(
 );
 router.post("/my-vehicles/:userVehicleId/delete", requireLogin, handleDeleteUserVehicle);
 
-// Service request routes
+/* ================================
+   SERVICE REQUEST ROUTES
+   ================================ */
 router.get("/service/request", requireLogin, showServiceRequestForm);
 router.post(
   "/service/request",
@@ -170,7 +230,9 @@ router.post(
 );
 router.get("/service/history", requireLogin, showUserServiceHistory);
 
-// Employee/admin service request management routes
+/* ================================
+   EMPLOYEE / ADMIN SERVICE REQUESTS
+   ================================ */
 router.get("/employee/service-requests", requireEmployee, showAllServiceRequests);
 router.post(
   "/employee/service-requests/:requestId/status",
@@ -183,14 +245,20 @@ router.post(
   updateServiceRequestNotesById
 );
 
-// Admin employee account routes
+/* ================================
+   ADMIN EMPLOYEE ROUTES
+   ================================ */
 router.get("/admin/employees", requireAdmin, showEmployeeAccounts);
 router.post("/admin/employees/:userId/role", requireAdmin, updateEmployeeRole);
 
-// Admin system overview route
+/* ================================
+   ADMIN SYSTEM ROUTE
+   ================================ */
 router.get("/admin/system", requireAdmin, showSystemOverview);
 
-// Test route for 500 error
+/* ================================
+   TEST ROUTE
+   ================================ */
 router.get("/test-error", (req, res, next) => {
   next(new Error("This is a test error"));
 });
