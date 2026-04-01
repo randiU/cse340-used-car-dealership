@@ -8,6 +8,8 @@ import {
   updateServiceRequestNotes
 } from "../models/serviceRequestModel.js";
 
+//AI helped with troubleshooting some of the complicated logic in these controllers like making sure only the owner of a service request can view their history and submit new requests, and making sure only employees/admins can view all service requests and update their status or notes. I also troubleshooted some error handling.
+
 // Show the service request form
 const showServiceRequestForm = async (req, res, next) => {
   try {

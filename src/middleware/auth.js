@@ -1,3 +1,5 @@
+//AI helped me with the logic for the authentication middleware to protect routes based on user roles.
+
 const requireLogin = (req, res, next) => {
   if (!req.session || !req.session.user) {
     req.flash("error", "You must be logged in to view that page.");

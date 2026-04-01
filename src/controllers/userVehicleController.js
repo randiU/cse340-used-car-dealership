@@ -6,6 +6,8 @@ import {
   deleteUserVehicleById
 } from "../models/userVehicleModel.js";
 
+//AI assisted with the add, edit and delete controller logic as this was more complicated because of having to check for ownership of the vehicle before allowing edits or deletion. I also had to troubleshoot some issues with the validation logic and error handling in these controllers.
+
 const handleAddUserVehicle = async (req, res, next) => {
   try {
     const errors = validationResult(req);

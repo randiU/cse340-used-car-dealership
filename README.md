@@ -136,6 +136,18 @@ This project is deployed on Render.
 - Deleting a category does not delete associated vehicles. Those vehicles remain in inventory and become uncategorized until reassigned.
 - The application is designed for course-project scope rather than production dealership scale.
 
+## AI Usage Disclosure
+
+AI was used as a learning aid throughout this project, primarily for:
+
+- troubleshooting flash messaging and redirect behavior
+- improving controller error-handling patterns
+- debugging route and form-action mismatches
+- assisting with SQL query and database-related logic
+- suggesting class updates and markup adjustments in EJS views to support styling
+
+Specific AI-assisted sections are identified with comments in relevant files, particularly in controllers where AI support was used most.
+
 ## Author
 
 Randi Umphrey

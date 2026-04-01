@@ -19,7 +19,7 @@
                     <p><strong>Status:</strong> <%= request.status %></p>
                     <p><strong>Submitted:</strong> <%= new Date(request.created_at).toLocaleString() %></p>
                     <p><%= request.description %></p>
-
+<%# AI helped with logic for updating service request status %>
                     <div class="dashboard-form-wrap">
                         <div class="dashboard-form-card form-card">
                             <form action="/employee/service-requests/<%= request.request_id %>/status" method="post">

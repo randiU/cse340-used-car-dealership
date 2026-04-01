@@ -29,6 +29,8 @@ const buildSlug = (make, model, year) => {
     .replace(/^-+|-+$/g, "");
 };
 
+//AI assisted with troubleshooting correct routes, error handling and some of the complex logic like in the review actions.
+
 const buildVehicleInventoryPage = async (req, res, next) => {
   try {
     const vehicleData = await getAllVehicles();

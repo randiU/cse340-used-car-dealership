@@ -7,6 +7,7 @@
             <div class="form-card">
                 <form action="/my-vehicles/<%= vehicle.user_vehicle_id %>/edit" method="post">
                     <div>
+                        <%# AI helped with logic behind rendering the vehicle make options %>
                         <label for="make">Make</label>
                         <select id="make" name="make" required>
                             <option value="">Select a make</option>

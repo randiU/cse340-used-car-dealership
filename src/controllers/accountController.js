@@ -9,6 +9,8 @@ import {
   getUserById
 } from "../models/accountModel.js";
 
+//AI helped with complex logic in updateEmployeeRole controller.
+
 // Show registration form
 const showRegistrationForm = (req, res) => {
   res.render("account/register", {

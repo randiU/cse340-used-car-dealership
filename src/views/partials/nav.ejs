@@ -1,4 +1,5 @@
 <nav class="col-9 site-nav" id="site-nav">
+  <%# AI helped with logic behind determining the dashboard path based on user role %>
   <% const dashboardPath = user?.roleName?.toLowerCase() === "admin"
     ? "/admin"
     : user?.roleName?.toLowerCase() === "employee"

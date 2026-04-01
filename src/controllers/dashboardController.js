@@ -1,6 +1,7 @@
 import { getUserVehiclesByUserId } from "../models/userVehicleModel.js";
 import { getReviewsByUserId } from "../models/inventoryModel.js";
 
+//Kept this in controller to simplify the folder.
 const getDashboardPathByRole = (roleName) => {
   const normalizedRole = roleName?.toLowerCase();
 
@@ -14,6 +15,9 @@ const getDashboardPathByRole = (roleName) => {
 
   return "/dashboard";
 };
+
+
+//AI helped me with checking ownership of the vehicles to make sure users can only edit or delete their own vehicles. It helped me troubleshoot a big styling error with the dashboard that I was stuck on for a while. The only way to get the styles to work was to add the styles in the controller instead of the routes file.
 
 const showUserDashboard = async (req, res, next) => {
   try {

@@ -38,7 +38,7 @@
         const messages = flash();
         const hasMessages = Object.values(messages).some(arr => arr.length > 0);
     %>
-
+    <%# AI helped with logic behind rendering flash messages %>
     <% if (hasMessages) { %>
     <div class="site-container">
         <div class="flash-messages">

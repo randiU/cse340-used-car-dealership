@@ -39,7 +39,7 @@
                             <td>
                                 <div class="dashboard-table-actions">
                                     <a href="/employee/vehicles/<%= vehicle.vehicle_id %>/edit" class="button">Edit</a>
-
+<%# AI helped with logic behind rendering the delete button based on user role %>
                                     <% if (user && user.roleName === "admin") { %>
                                     <form action="/admin/vehicles/<%= vehicle.vehicle_id %>/delete" method="post"
                                         class="dashboard-inline-form">
@@ -60,7 +60,7 @@
                 <p>No vehicles found.</p>
             </div>
             <% } %>
-
+<%# AI helped with logic behind determining the dashboard path based on user role %>
             <div class="dashboard-actions">
                 <a href="<%= user && user.roleName === 'admin' ? '/admin' : '/employee' %>" class="button">
                     Back to Dashboard
