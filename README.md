@@ -145,6 +145,10 @@ AI was used as a learning aid throughout this project, primarily for:
 - debugging route and form-action mismatches
 - assisting with SQL query and database-related logic
 - suggesting class updates and markup adjustments in EJS views to support styling
+- suggesting CSS approaches, layout techniques, and styling improvements
+- helping update classes and adjust EJS markup to support consistent styling and layout
+
+AI was used more heavily during the styling phase to explore layout options, refine CSS structure, and improve visual consistency across views.
 
 Specific AI-assisted sections are identified with comments in relevant files, particularly in controllers where AI support was used most.
 
