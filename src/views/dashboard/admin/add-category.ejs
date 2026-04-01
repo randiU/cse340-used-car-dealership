@@ -1,26 +1,31 @@
 <%- include("../../partials/dashboard-header") %>
 <main>
     <div class="site-container">
-        <h1 class="page-title"><%= title %></h1>
-        <form action="/admin/categories/new" method="post">
-            <div>
-                <label for="name">Category Name</label>
-                <input type="text" id="name" name="name" required>
-            </div>
+        <section class="form-page">
+            <h1 class="page-title page-title-accent"><%= title %></h1>
 
-            <div>
-                <label for="slug">Slug</label>
-                <input type="text" id="slug" name="slug" required>
-                <p>Example: luxury-suv</p>
-            </div>
+            <div class="form-card">
+                <form action="/admin/categories/new" method="post">
+                    <div>
+                        <label for="name">Category Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
 
-            <div>
-                <label for="description">Description</label>
-                <textarea id="description" name="description" rows="5"></textarea>
-            </div>
+                    <div>
+                        <label for="slug">Slug</label>
+                        <input type="text" id="slug" name="slug" required>
+                        <p>Example: luxury-suv</p>
+                    </div>
 
-            <button type="submit">Add Category</button>
-        </form>
+                    <div>
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" rows="5"></textarea>
+                    </div>
+
+                    <button type="submit">Add Category</button>
+                </form>
+            </div>
+        </section>
 
         <p><a href="/admin/categories">Back to Category Management</a></p>
     </div>

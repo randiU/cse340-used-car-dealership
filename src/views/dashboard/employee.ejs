@@ -1,17 +1,51 @@
 <%- include("../partials/dashboard-header") %>
+
 <main>
     <div class="site-container">
-        <h1 class="page-title"><%= title %></h1>
-        <p>Welcome to the employee dashboard.</p>
+        <h1 class="page-title page-title-accent"><%= title %></h1>
 
-        <section>
-            <h2>Employee Tools</h2>
-            <ul>
-                <li><a href="/vehicles">View Public Inventory</a></li>
-                <li><a href="/employee/vehicles">Manage Inventory</a></li>
-                <li><a href="/admin/contact-messages">View Contact Messages</a></li>
-                <li><a href="/employee/service-requests">Manage Service Requests</a></li>
-            </ul>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Welcome</h2>
+            <p>Welcome to the employee dashboard.</p>
+            <p>Use the tools below to manage inventory, messages, and service requests.</p>
+        </section>
+
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Employee Tools</h2>
+
+            <div class="dashboard-card-grid">
+                <article class="dashboard-item-card">
+                    <h3>Public Inventory</h3>
+                    <p>View the public vehicle inventory as customers see it.</p>
+                    <div class="action-group">
+                        <a href="/vehicles" class="button">View Inventory</a>
+                    </div>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Manage Inventory</h3>
+                    <p>Edit current inventory listings and dealership vehicle details.</p>
+                    <div class="action-group">
+                        <a href="/employee/vehicles" class="button">Manage Inventory</a>
+                    </div>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Contact Messages</h3>
+                    <p>Review customer messages submitted through the contact form.</p>
+                    <div class="action-group">
+                        <a href="/admin/contact-messages" class="button">View Messages</a>
+                    </div>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Service Requests</h3>
+                    <p>Review incoming service requests and update their status.</p>
+                    <div class="action-group">
+                        <a href="/employee/service-requests" class="button">Manage Requests</a>
+                    </div>
+                </article>
+            </div>
         </section>
     </div>
 </main>

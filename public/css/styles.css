@@ -344,6 +344,7 @@ a:focus-visible {
   flex-wrap: wrap;
   gap: var(--space-sm);
   margin-top: var(--space-md);
+  align-items: center;
 }
 
 /* ================================

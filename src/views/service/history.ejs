@@ -1,21 +1,30 @@
 <%- include("../partials/header") %>
+
 <main>
     <div class="site-container">
-    <h1 class="page-title"><%= title %></h1>
-    <% if (requests && requests.length > 0) { %>
-    <% requests.forEach(request => { %>
-    <article>
-        <h2><%= request.year %> <%= request.make %> <%= request.model %></h2>
-        <p><strong>Service Type:</strong> <%= request.service_type %></p>
-        <p><strong>Status:</strong> <%= request.status %></p>
-        <p><strong>Submitted:</strong> <%= new Date(request.created_at).toLocaleString() %></p>
-        <p><%= request.description %></p>
-    </article>
-    <hr>
-    <% }) %>
-    <% } else { %>
-    <p>You have not submitted any service requests yet.</p>
-    <% } %>
+        <h1 class="page-title page-title-accent"><%= title %></h1>
+
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Service History</h2>
+
+            <% if (requests && requests.length > 0) { %>
+            <div class="dashboard-card-grid">
+                <% requests.forEach(request => { %>
+                <article class="dashboard-item-card">
+                    <h3><%= request.year %> <%= request.make %> <%= request.model %></h3>
+                    <p><strong>Service Type:</strong> <%= request.service_type %></p>
+                    <p><strong>Status:</strong> <%= request.status %></p>
+                    <p><strong>Submitted:</strong> <%= new Date(request.created_at).toLocaleString() %></p>
+                    <p><%= request.description %></p>
+                </article>
+                <% }) %>
+            </div>
+            <% } else { %>
+            <div class="dashboard-empty-state">
+                <p>You have not submitted any service requests yet.</p>
+            </div>
+            <% } %>
+        </section>
     </div>
 </main>
 

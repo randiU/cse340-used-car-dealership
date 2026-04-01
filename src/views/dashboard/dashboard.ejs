@@ -56,12 +56,7 @@
                     <p><strong>Posted:</strong> <%= new Date(review.created_at).toLocaleDateString() %></p>
 
                     <div class="action-group">
-                        <a href="/vehicles/<%= review.slug %>" class="button">View Review</a>
-
-                        <form action="/vehicles/<%= review.slug %>/reviews/<%= review.review_id %>/delete"
-                            method="post">
-                            <button type="submit">Delete Review</button>
-                        </form>
+                        <a href="/vehicles/<%= review.slug %>" class="button">Manage Review</a>
                     </div>
                 </article>
                 <% }) %>

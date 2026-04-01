@@ -1,6 +1,12 @@
 <%- include("../partials/header") %>
 
-<h1 class="page-title"><%= title %></h1>
-<p>Sorry, the page you requested could not be found.</p>
+<main>
+    <div class="site-container">
+        <h1 class="page-title page-title-accent"><%= title %></h1>
+        <img src="/images/404-error.png" alt="404 Page Not Found">
+        <p>Sorry, the page you requested could not be found.</p>
+        <p><a href="/">Return to Homepage</a></p>
+    </div>
+</main>
 
 <%- include("../partials/footer") %>

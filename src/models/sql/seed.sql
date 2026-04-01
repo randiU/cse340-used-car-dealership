@@ -257,38 +257,143 @@ INSERT INTO vehicle_images (
     )
 VALUES (
         1,
-        '/images/vehicles/toyota-4runner-2021-1.jpg',
+        '/images/vehicles/toyota-4runner-2021-1.png',
         '2021 Toyota 4Runner front view',
         true,
         1
     ),
     (
         1,
-        '/images/vehicles/toyota-4runner-2021-2.jpg',
+        '/images/vehicles/toyota-4runner-2021-2.png',
         '2021 Toyota 4Runner side view',
         false,
         2
     ),
     (
         2,
-        '/images/vehicles/honda-crv-2022-1.jpg',
+        '/images/vehicles/honda-crv-2022-1.png',
         '2022 Honda CRV front view',
         true,
         1
     ),
     (
         2,
-        '/images/vehicles/honda-crv-2022-2.jpg',
+        '/images/vehicles/honda-crv-2022-2.png',
         '2022 Honda CRV interior view',
         false,
         2
     ),
     (
         3,
-        '/images/vehicles/ford-explorer-2020-1.jpg',
+        '/images/vehicles/ford-explorer-2020-1.png',
         '2020 Ford Explorer front view',
         true,
         1
+    ),
+    (
+        3,
+        '/images/vehicles/ford-explorer-2020-2.png',
+        '2020 Ford Explorer side view',
+        false,
+        2
+    ),
+    (
+        4,
+        '/images/vehicles/ford-f150-2020-1.png',
+        '2020 Ford F150 front view',
+        true,
+        1
+    ),
+    (
+        4,
+        '/images/vehicles/ford-f150-2020-2.png',
+        '2020 Ford F150 side view',
+        false,
+        2
+    ),
+    (
+        5,
+        '/images/vehicles/chevy-silverado-2021-1.png',
+        '2021 Chevrolet Silverado front view',
+        true,
+        1
+    ),
+    (
+        5,
+        '/images/vehicles/chevy-silverado-2021-2.png',
+        '2021 Chevrolet Silverado side view',
+        false,
+        2
+    ),
+    (
+        6,
+        '/images/vehicles/chrysler-pacifica-2021-1.png',
+        '2021 Chrysler Pacifica front view',
+        true,
+        1
+    ),
+    (
+        6,
+        '/images/vehicles/chrysler-pacifica-2021-2.png',
+        '2021 Chrysler Pacifica side view',
+        false,
+        2
+    ),
+    (
+        7,
+        '/images/vehicles/toyota-sienna-2022-1.png',
+        '2022 Toyota Sienna front view',
+        true,
+        1
+    ),
+    (
+        7,
+        '/images/vehicles/toyota-sienna-2022-2.png',
+        '2022 Toyota Sienna side view',
+        false,
+        2
+    ),
+    (
+        8,
+        '/images/vehicles/toyota-camry-2023-1.png',
+        '2023 Toyota Camry front view',
+        true,
+        1
+    ),
+    (
+        8,
+        '/images/vehicles/toyota-camry-2023-2.png',
+        '2023 Toyota Camry side view',
+        false,
+        2
+    ),
+    (
+        9,
+        '/images/vehicles/honda-accord-2022-1.png',
+        '2022 Honda Accord front view',
+        true,
+        1
+    ),
+    (
+        9,
+        '/images/vehicles/honda-accord-2022-2.png',
+        '2022 Honda Accord side view',
+        false,
+        2
+    ),
+    (
+        10,
+        '/images/vehicles/tesla-model-3-2022-1.png',
+        '2022 Tesla Model 3 front view',
+        true,
+        1
+    ),
+    (
+        10,
+        '/images/vehicles/tesla-model-3-2022-2.png',
+        '2022 Tesla Model 3 side view',
+        false,
+        2
     );
 /* ================================
  REVIEWS

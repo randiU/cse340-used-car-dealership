@@ -12,16 +12,16 @@
             <% if (images && images.length > 0) { %>
             <div class="vehicle-gallery">
                 <div class="vehicle-gallery-main">
-                    <img src="<%= images[0].path %>"
-                        alt="<%= images[0].alt || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>"
+                    <img src="<%= images[0].image_path || '/images/vehicles/placeholder.jpg' %>"
+                        alt="<%= images[0].alt_text || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>"
                         onerror="this.onerror=null;this.src='/images/vehicles/placeholder.jpg';">
                 </div>
 
                 <% if (images.length > 1) { %>
                 <div class="vehicle-gallery-thumbs">
                     <% images.slice(1).forEach(image => { %>
-                    <img src="<%= image.path %>"
-                        alt="<%= image.alt || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>"
+                    <img src="<%= image.image_path || '/images/vehicles/placeholder.jpg' %>"
+                        alt="<%= image.alt_text || `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>"
                         onerror="this.onerror=null;this.src='/images/vehicles/placeholder.jpg';">
                     <% }) %>
                 </div>
@@ -30,7 +30,8 @@
             <% } else { %>
             <div class="vehicle-gallery">
                 <div class="vehicle-gallery-main">
-                    <img src="/images/vehicles/placeholder.jpg" alt="Vehicle image coming soon">
+                    <img src="/images/vehicles/placeholder.jpg"
+                        alt="<%= `${vehicle.year} ${vehicle.make} ${vehicle.model}` %>">
                 </div>
             </div>
             <% } %>
@@ -41,11 +42,6 @@
 
             <div class="vehicle-details-card">
                 <div class="vehicle-meta">
-                    <p class="vehicle-meta-item">
-                        <img src="/images/icons/calendar-green.svg" alt="" aria-hidden="true">
-                        <span><strong>Year:</strong> <%= vehicle.year %></span>
-                    </p>
-
                     <p class="vehicle-meta-item">
                         <img src="/images/icons/categories-green.svg" alt="" aria-hidden="true">
                         <span><strong>Category:</strong> <%= vehicle.category_name || "Uncategorized" %></span>
@@ -58,7 +54,12 @@
 
                     <p class="vehicle-meta-item">
                         <img src="/images/icons/mileage-green.svg" alt="" aria-hidden="true">
-                        <span><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %> miles</span>
+                        <span><strong>Mileage:</strong> <%= Number(vehicle.mileage).toLocaleString() %></span>
+                    </p>
+
+                    <p class="vehicle-meta-item">
+                        <img src="/images/icons/calendar-green.svg" alt="" aria-hidden="true">
+                        <span><strong>Status:</strong> <%= vehicle.status %></span>
                     </p>
                 </div>
 
@@ -72,17 +73,89 @@
         <section class="browse-section-card reviews-section">
             <h2 class="section-title">Customer Reviews</h2>
 
+            <% if (isLoggedIn) { %>
+            <div class="form-card">
+                <form action="/vehicles/<%= vehicle.slug %>/reviews" method="post">
+                    <div>
+                        <label for="rating">Rating</label>
+                        <select id="rating" name="rating" required>
+                            <option value="">Select a rating</option>
+                            <option value="5">5 - Excellent</option>
+                            <option value="4">4 - Very Good</option>
+                            <option value="3">3 - Good</option>
+                            <option value="2">2 - Fair</option>
+                            <option value="1">1 - Poor</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="review_text">Review</label>
+                        <textarea id="review_text" name="review_text" rows="5" required></textarea>
+                    </div>
+
+                    <button type="submit">Submit Review</button>
+                </form>
+            </div>
+            <% } else { %>
+            <p><a href="/login">Log in</a> to leave a review.</p>
+            <% } %>
+
+            <hr class="review-divider">
+
             <% if (reviews && reviews.length > 0) { %>
             <% reviews.forEach(review => { %>
             <article class="review-card">
-                <p><strong>Rating:</strong> <%= review.rating %>/5</p>
+                <p>
+                    <strong><%= review.first_name %> <%= review.last_name %></strong>
+                    — <%= review.rating %>/5
+                </p>
                 <p><%= review.review_text %></p>
                 <p>
                     <small>
-                        Posted by <%= review.screen_name || "Anonymous" %>
-                        on <%= new Date(review.created_at).toLocaleDateString() %>
+                        Posted on
+                        <%= new Date(review.created_at).toLocaleDateString() %>
                     </small>
                 </p>
+
+                <% if (
+                            user &&
+                            (
+                                user.userId === review.user_id ||
+                                user.roleName === "employee" ||
+                                user.roleName === "admin"
+                            )
+                        ) { %>
+                <details>
+                    <summary>Edit or Delete Review</summary>
+
+                    <form action="/vehicles/<%= vehicle.slug %>/reviews/<%= review.review_id %>/update" method="post">
+                        <div>
+                            <label for="rating-<%= review.review_id %>">Rating</label>
+                            <select id="rating-<%= review.review_id %>" name="rating" required>
+                                <option value="5" <%= review.rating === 5 ? "selected" : "" %>>5 - Excellent</option>
+                                <option value="4" <%= review.rating === 4 ? "selected" : "" %>>4 - Very Good</option>
+                                <option value="3" <%= review.rating === 3 ? "selected" : "" %>>3 - Good</option>
+                                <option value="2" <%= review.rating === 2 ? "selected" : "" %>>2 - Fair</option>
+                                <option value="1" <%= review.rating === 1 ? "selected" : "" %>>1 - Poor</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="review_text-<%= review.review_id %>">Review</label>
+                            <textarea id="review_text-<%= review.review_id %>" name="review_text" rows="4"
+                                required><%= review.review_text %></textarea>
+                        </div>
+
+                        <div class="action-group">
+                            <button type="submit">Update Review</button>
+                        </div>
+                    </form>
+
+                    <form action="/vehicles/<%= vehicle.slug %>/reviews/<%= review.review_id %>/delete" method="post">
+                        <button type="submit">Delete Review</button>
+                    </form>
+                </details>
+                <% } %>
             </article>
             <% }) %>
             <% } else { %>
@@ -90,12 +163,7 @@
             <% } %>
         </section>
 
-        <section class="browse-section-card">
-            <h2 class="section-title">Leave a Review</h2>
-            <p>
-                <a href="/account/login">Log in</a> to leave a review.
-            </p>
-        </section>
+        <p><a href="/vehicles">Back to Inventory</a></p>
     </div>
 </main>
 

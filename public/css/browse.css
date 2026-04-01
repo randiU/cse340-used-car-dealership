@@ -172,6 +172,46 @@
   border-top: 1px solid var(--color-light-tan);
 }
 
+.review-card details {
+  margin-top: var(--space-md);
+}
+
+.review-card details summary {
+  margin-bottom: var(--space-md);
+  cursor: pointer;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-heading);
+}
+
+.review-card details form {
+  display: grid;
+  gap: var(--space-md);
+  max-width: 980px;
+}
+
+.review-card details form:first-of-type {
+  margin-bottom: var(--space-sm);
+}
+
+.review-card details textarea {
+  min-height: 170px;
+}
+
+.review-card details button {
+  width: fit-content;
+}
+
+.review-card details > form:last-of-type button {
+  background: transparent;
+  color: var(--color-dark-green);
+  border: 1px solid var(--color-dark-green);
+}
+
+.review-card details > form:last-of-type button:hover {
+  background: var(--color-dark-green);
+  color: var(--color-white);
+}
+
 /* RESPONSIVE */
 @media (max-width: 1100px) {
   .vehicle-list {

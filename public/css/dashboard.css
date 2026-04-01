@@ -56,6 +56,23 @@
   margin-top: var(--space-md);
 }
 
+.dashboard-item-card a.button {
+  margin-top: auto;
+}
+
+.dashboard-item-card p {
+  margin-bottom: var(--space-sm);
+}
+
+.dashboard-item-card p:last-of-type {
+  margin-bottom: var(--space-md);
+}
+
+.dashboard-section-card > p:last-child {
+  margin-bottom: 0;
+}
+
+
 @media (max-width: 768px) {
   .dashboard-section-card {
     padding: var(--space-lg);

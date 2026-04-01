@@ -1,22 +1,83 @@
 <%- include("../partials/dashboard-header") %>
+
 <main>
     <div class="site-container">
-        <h1 class="page-title"><%= title %></h1>
-        <p>Welcome to the admin dashboard.</p>
+        <h1 class="page-title page-title-accent"><%= title %></h1>
 
-        <section>
-            <h2>Admin Tools</h2>
-            <ul>
-                <li><a href="/vehicles">View Public Inventory</a></li>
-                <li><a href="/employee/vehicles">Manage Inventory</a></li>
-                <li><a href="/admin/vehicles/new">Add Vehicle</a></li>
-                <li><a href="/admin/categories">Manage Categories</a></li>
-                <li><a href="/admin/contact-messages">View Contact Messages</a></li>
-                <li><a href="/employee/service-requests">Manage Service Requests</a></li>
-                <li><a href="/admin/employees">Manage Employee Accounts</a></li>
-                <li><a href="/admin/system">View System Activity and User Data</a></li>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Welcome</h2>
+            <p>Welcome to the admin dashboard.</p>
+            <p>Use the tools below to manage inventory, categories, employees, service requests, and system data.</p>
+        </section>
 
-            </ul>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Admin Tools</h2>
+
+            <div class="dashboard-card-grid">
+                <article class="dashboard-item-card">
+                    <h3>Public Inventory</h3>
+                    <p>View the public vehicle inventory as customers see it.</p>
+                    <div class="action-group">
+                        <a href="/vehicles" class="button">View Inventory</a>
+                    </div>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Manage Inventory</h3>
+                    <p>Edit existing inventory records and keep dealership listings current.</p>
+                    <div class="action-group">
+                        <a href="/employee/vehicles" class="button">Manage Inventory</a>
+                    </div>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Add Vehicle</h3>
+                    <p>Create a new dealership inventory listing.</p>
+                    <div class="action-group">
+                        <a href="/admin/vehicles/new" class="button">Add Vehicle</a>
+                    </div>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Manage Categories</h3>
+                    <p>Update vehicle categories and maintain category structure.</p>
+                    <div class="action-group">
+                        <a href="/admin/categories" class="button">Manage Categories</a>
+                    </div>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Contact Messages</h3>
+                    <p>Review customer inquiries submitted through the contact form.</p>
+                    <div class="action-group">
+                        <a href="/admin/contact-messages" class="button">View Messages</a>
+                    </div>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Service Requests</h3>
+                    <p>Review and update dealership service requests.</p>
+                    <div class="action-group">
+                        <a href="/employee/service-requests" class="button">Manage Requests</a>
+                    </div>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Employee Accounts</h3>
+                    <p>Manage employee access and update account roles.</p>
+                    <div class="action-group">
+                        <a href="/admin/employees" class="button">Manage Employees</a>
+                    </div>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>System Overview</h3>
+                    <p>View system activity, user data, and summary metrics.</p>
+                    <div class="action-group">
+                        <a href="/admin/system" class="button">View System</a>
+                    </div>
+                </article>
+            </div>
         </section>
     </div>
 </main>
