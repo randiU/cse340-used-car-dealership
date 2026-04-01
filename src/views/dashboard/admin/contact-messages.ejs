@@ -1,31 +1,47 @@
 <%- include("../../partials/dashboard-header") %>
+
 <main>
     <div class="site-container">
-        <h1 class="page-title"><%= title %></h1>
-        <% if (messages && messages.length > 0) { %>
-        <section class="contact-messages-list">
-            <% messages.forEach(message => { %>
-            <article class="contact-message-card">
-                <h2><%= message.subject %></h2>
+        <h1 class="page-title page-title-accent"><%= title %></h1>
 
-                <p><strong>From:</strong> <%= message.name %></p>
-                <p><strong>Email:</strong> <%= message.email %></p>
-                <p><strong>Received:</strong> <%= new Date(message.created_at).toLocaleString() %></p>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Contact Messages</h2>
 
-                <div class="contact-message-body">
-                    <p><%= message.message %></p>
-                </div>
+            <% if (messages && messages.length > 0) { %>
+            <div class="dashboard-card-grid">
+                <% messages.forEach(message => { %>
+                <article class="dashboard-item-card">
+                    <h3><%= message.subject %></h3>
 
-                <form action="/admin/contact-messages/<%= message.message_id %>/delete" method="post">
-                    <button type="submit">Delete Message</button>
-                </form>
-            </article>
-            <hr>
-            <% }) %>
+                    <p><strong>From:</strong> <%= message.name %></p>
+                    <p><strong>Email:</strong> <%= message.email %></p>
+                    <p><strong>Received:</strong> <%= new Date(message.created_at).toLocaleString() %></p>
+
+                    <div class="dashboard-message-body">
+                        <p><%= message.message %></p>
+                    </div>
+
+                    <div class="action-group">
+                        <form action="/admin/contact-messages/<%= message.message_id %>/delete" method="post">
+                            <button type="submit">Delete Message</button>
+                        </form>
+                    </div>
+                </article>
+                <% }) %>
+            </div>
+            <% } else { %>
+            <div class="dashboard-empty-state">
+                <p>No contact messages found.</p>
+            </div>
+            <% } %>
         </section>
-        <% } else { %>
-        <p>No contact messages found.</p>
-        <% } %>
+<!-- AI assisted with logic -->
+        <p>
+            <a
+                href="<%= user?.roleName?.toLowerCase() === 'admin' ? '/admin' : user?.roleName?.toLowerCase() === 'employee' ? '/employee' : '/dashboard' %>">
+                Back to Dashboard
+            </a>
+        </p>
     </div>
 </main>
 

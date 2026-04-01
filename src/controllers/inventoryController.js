@@ -21,6 +21,7 @@ import {
   getImagesByVehicleId
 } from "../models/inventoryModel.js";
 
+//AI assisted with reg ex portion of this.
 const buildSlug = (make, model, year) => {
   return `${make}-${model}-${year}`
     .toLowerCase()

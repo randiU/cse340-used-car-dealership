@@ -1,5 +1,8 @@
+//Ai assisted with Regex patterns and debugging validation logic. 
+
 import { body } from "express-validator";
 
+//AI assisted in debugging error with subject field where the input was being rejected with regular characters.
 const contactValidation = [
   body("name")
     .trim()
@@ -20,7 +23,8 @@ const contactValidation = [
     .trim()
     .isLength({ min: 2, max: 255 })
     .withMessage("Subject must be between 2 and 255 characters")
-    .matches(/^[a-zA-Z0-9\s\-.,!?]+$/)
+    .bail()
+    .matches(/^[\p{L}\p{N}\s&'()\-.,!?]+$/u)
     .withMessage("Subject contains invalid characters"),
 
   body("message")

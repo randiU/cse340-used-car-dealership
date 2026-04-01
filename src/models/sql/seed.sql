@@ -1,3 +1,8 @@
+/* ================================
+ AI assisted with database schema design and seeding data for testing purposes. The schema includes tables for users, roles, vehicles, categories, reviews, service requests, contact messages, and session management. Sample data has been inserted to facilitate development and testing of the application.
+ ================================ */
+
+
 BEGIN;
 DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS service_requests CASCADE;

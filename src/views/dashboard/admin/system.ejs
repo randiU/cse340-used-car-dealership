@@ -1,136 +1,174 @@
 <%- include("../../partials/dashboard-header") %>
+
 <main>
     <div class="site-container">
-        <h1 class="page-title"><%= title %></h1>
-        <p>Use this page to view system-wide activity and user data.</p>
+        <h1 class="page-title page-title-accent"><%= title %></h1>
 
-        <section>
-            <h2>Summary</h2>
-            <ul>
-                <li>Total Users: <%= totals.users %></li>
-                <li>Total Contact Messages: <%= totals.contactMessages %></li>
-                <li>Total Service Requests: <%= totals.serviceRequests %></li>
-                <li>Total User Vehicles: <%= totals.userVehicles %></li>
-            </ul>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">System Summary</h2>
+
+            <div class="dashboard-card-grid">
+                <article class="dashboard-item-card">
+                    <h3>Total Users</h3>
+                    <p><strong><%= totals.users %></strong></p>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Total Contact Messages</h3>
+                    <p><strong><%= totals.contactMessages %></strong></p>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Total Service Requests</h3>
+                    <p><strong><%= totals.serviceRequests %></strong></p>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Total User Vehicles</h3>
+                    <p><strong><%= totals.userVehicles %></strong></p>
+                </article>
+            </div>
         </section>
 
-        <section>
-            <h2>Users</h2>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Users</h2>
+
             <% if (users && users.length > 0) { %>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Created</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% users.forEach(userAccount => { %>
-                    <tr>
-                        <td><%= userAccount.first_name %> <%= userAccount.last_name %></td>
-                        <td><%= userAccount.email %></td>
-                        <td><%= userAccount.role_name %></td>
-                        <td><%= new Date(userAccount.created_at).toLocaleDateString() %></td>
-                    </tr>
-                    <% }) %>
-                </tbody>
-            </table>
+            <div class="dashboard-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% users.forEach(userAccount => { %>
+                        <tr>
+                            <td><%= userAccount.first_name %> <%= userAccount.last_name %></td>
+                            <td><%= userAccount.email %></td>
+                            <td><%= userAccount.role_name %></td>
+                            <td><%= new Date(userAccount.created_at).toLocaleDateString() %></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
             <% } else { %>
-            <p>No users found.</p>
+            <div class="dashboard-empty-state">
+                <p>No users found.</p>
+            </div>
             <% } %>
         </section>
 
-        <section>
-            <h2>Service Requests</h2>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Service Requests</h2>
+
             <% if (serviceRequests && serviceRequests.length > 0) { %>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Customer</th>
-                        <th>Vehicle</th>
-                        <th>Service Type</th>
-                        <th>Status</th>
-                        <th>Created</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% serviceRequests.forEach(request => { %>
-                    <tr>
-                        <td><%= request.first_name %> <%= request.last_name %></td>
-                        <td><%= request.year %> <%= request.make %> <%= request.model %></td>
-                        <td><%= request.service_type %></td>
-                        <td><%= request.status %></td>
-                        <td><%= new Date(request.created_at).toLocaleDateString() %></td>
-                    </tr>
-                    <% }) %>
-                </tbody>
-            </table>
+            <div class="dashboard-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Vehicle</th>
+                            <th>Service Type</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% serviceRequests.forEach(request => { %>
+                        <tr>
+                            <td><%= request.first_name %> <%= request.last_name %></td>
+                            <td><%= request.year %> <%= request.make %> <%= request.model %></td>
+                            <td><%= request.service_type %></td>
+                            <td><%= request.status %></td>
+                            <td><%= new Date(request.created_at).toLocaleDateString() %></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
             <% } else { %>
-            <p>No service requests found.</p>
+            <div class="dashboard-empty-state">
+                <p>No service requests found.</p>
+            </div>
             <% } %>
         </section>
 
-        <section>
-            <h2>Contact Messages</h2>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Contact Messages</h2>
+
             <% if (contactMessages && contactMessages.length > 0) { %>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Subject</th>
-                        <th>Created</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% contactMessages.forEach(message => { %>
-                    <tr>
-                        <td><%= message.name %></td>
-                        <td><%= message.email %></td>
-                        <td><%= message.subject %></td>
-                        <td><%= new Date(message.created_at).toLocaleDateString() %></td>
-                    </tr>
-                    <% }) %>
-                </tbody>
-            </table>
+            <div class="dashboard-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Subject</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% contactMessages.forEach(message => { %>
+                        <tr>
+                            <td><%= message.name %></td>
+                            <td><%= message.email %></td>
+                            <td><%= message.subject %></td>
+                            <td><%= new Date(message.created_at).toLocaleDateString() %></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
             <% } else { %>
-            <p>No contact messages found.</p>
+            <div class="dashboard-empty-state">
+                <p>No contact messages found.</p>
+            </div>
             <% } %>
         </section>
 
-        <section>
-            <h2>User Vehicles</h2>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">User Vehicles</h2>
+
             <% if (userVehicles && userVehicles.length > 0) { %>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Owner</th>
-                        <th>Email</th>
-                        <th>Vehicle</th>
-                        <th>Mileage</th>
-                        <th>Added</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% userVehicles.forEach(vehicle => { %>
-                    <tr>
-                        <td><%= vehicle.first_name %> <%= vehicle.last_name %></td>
-                        <td><%= vehicle.email %></td>
-                        <td><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></td>
-                        <td><%= Number(vehicle.mileage).toLocaleString() %></td>
-                        <td><%= new Date(vehicle.created_at).toLocaleDateString() %></td>
-                    </tr>
-                    <% }) %>
-                </tbody>
-            </table>
+            <div class="dashboard-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Owner</th>
+                            <th>Email</th>
+                            <th>Vehicle</th>
+                            <th>Mileage</th>
+                            <th>Added</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% userVehicles.forEach(vehicle => { %>
+                        <tr>
+                            <td><%= vehicle.first_name %> <%= vehicle.last_name %></td>
+                            <td><%= vehicle.email %></td>
+                            <td><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></td>
+                            <td><%= Number(vehicle.mileage).toLocaleString() %></td>
+                            <td><%= new Date(vehicle.created_at).toLocaleDateString() %></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
             <% } else { %>
-            <p>No user vehicles found.</p>
+            <div class="dashboard-empty-state">
+                <p>No user vehicles found.</p>
+            </div>
             <% } %>
         </section>
 
-        <p><a href="/admin">Back to Admin Dashboard</a></p>
+        <div class="dashboard-actions">
+            <a href="/admin" class="button">Back to Admin Dashboard</a>
+        </div>
     </div>
 </main>
 

@@ -1,40 +1,58 @@
-<%- include("../partials/header") %>
+<%- include("../partials/dashboard-header") %>
+
 <main>
     <div class="site-container">
-    <h1 class="page-title"><%= title %></h1>
-    <form action="/service/request" method="post">
-        <div>
-            <label for="user_vehicle_id">My Vehicle</label>
-            <select id="user_vehicle_id" name="user_vehicle_id" required>
-                <option value="">Select a vehicle</option>
-                <% if (vehicles && vehicles.length > 0) { %>
-                <% vehicles.forEach(vehicle => { %>
-                <option value="<%= vehicle.user_vehicle_id %>">
-                    <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
-                </option>
-                <% }) %>
-                <% } %>
-            </select>
-        </div>
+        <section class="form-page">
+            <h1 class="page-title page-title-accent"><%= title %></h1>
 
-        <div>
-            <label for="service_type">Service Type</label>
-            <select id="service_type" name="service_type" required>
-                <option value="">Select a service</option>
-                <option value="Oil Change">Oil Change</option>
-                <option value="Tire Rotation">Tire Rotation</option>
-                <option value="Brake Inspection">Brake Inspection</option>
-                <option value="Engine Diagnostic">Engine Diagnostic</option>
-            </select>
-        </div>
+            <div class="form-card">
+                <form action="/service/request" method="post">
+                    <div>
+                        <label for="user_vehicle_id">Select Vehicle</label>
+                        <select id="user_vehicle_id" name="user_vehicle_id" required>
+                            <option value="">Choose a vehicle</option>
+                            <% if (vehicles && vehicles.length > 0) { %>
+                            <% vehicles.forEach(vehicle => { %>
+                            <option value="<%= vehicle.user_vehicle_id %>">
+                                <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
+                            </option>
+                            <% }) %>
+                            <% } %>
+                        </select>
+                    </div>
 
-        <div>
-            <label for="description">Description</label>
-            <textarea id="description" name="description" rows="6" required></textarea>
-        </div>
+                    <div>
+                        <label for="service_type">Service Type</label>
+                        <select id="service_type" name="service_type" required>
+                            <option value="">Select service type</option>
+                            <option value="Oil Change">Oil Change</option>
+                            <option value="Tire Rotation">Tire Rotation</option>
+                            <option value="Brake Inspection">Brake Inspection</option>
+                            <option value="Battery Check">Battery Check</option>
+                            <option value="Engine Diagnostics">Engine Diagnostics</option>
+                            <option value="Transmission Service">Transmission Service</option>
+                            <option value="General Maintenance">General Maintenance</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
 
-        <button type="submit">Submit Request</button>
-    </form>
+                    <div>
+                        <label for="description">Describe the issue or request</label>
+                        <textarea id="description" name="description" rows="5" required></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit">Submit Request</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+<!-- AI assisted with logic -->
+        <p>
+            <a href="<%= user?.roleName?.toLowerCase() === 'admin' ? '/admin' : user?.roleName?.toLowerCase() === 'employee' ? '/employee' : '/dashboard' %>">
+                Back to Dashboard
+            </a>
+        </p>
     </div>
 </main>
 

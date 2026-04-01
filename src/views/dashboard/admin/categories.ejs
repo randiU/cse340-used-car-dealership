@@ -1,46 +1,61 @@
 <%- include("../../partials/dashboard-header") %>
+
 <main>
     <div class="site-container">
-        <h1 class="page-title"><%= title %></h1>
-        <p>Manage vehicle categories below.</p>
+        <h1 class="page-title page-title-accent"><%= title %></h1>
 
-        <p><a href="/admin/categories/new">Add New Category</a></p>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Category Management</h2>
+            <p>Manage vehicle categories below.</p>
 
-        <% if (categories && categories.length > 0) { %>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Slug</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% categories.forEach(category => { %>
-                <tr>
-                    <td><%= category.name %></td>
-                    <td><%= category.slug %></td>
-                    <td><%= category.description %></td>
-                    <td>
-                        <a href="/admin/categories/<%= category.category_id %>/edit">Edit</a>
+            <div class="dashboard-actions">
+                <a href="/admin/categories/new" class="button">Add New Category</a>
+            </div>
 
-                        <form action="/admin/categories/<%= category.category_id %>/delete" method="post"
-                            style="display:inline;">
-                            <button type="submit" onclick="return confirm('Delete this category?')">
-                                Delete
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                <% }) %>
-            </tbody>
-        </table>
-        <% } else { %>
-        <p>No categories found.</p>
-        <% } %>
+            <% if (categories && categories.length > 0) { %>
+            <div class="dashboard-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Slug</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% categories.forEach(category => { %>
+                        <tr>
+                            <td><%= category.name %></td>
+                            <td><%= category.slug %></td>
+                            <td><%= category.description %></td>
+                            <td>
+                                <div class="dashboard-table-actions">
+                                    <a href="/admin/categories/<%= category.category_id %>/edit" class="button">Edit</a>
 
-        <p><a href="/admin">Back to Admin Dashboard</a></p>
+                                    <form action="/admin/categories/<%= category.category_id %>/delete" method="post"
+                                        class="dashboard-inline-form">
+                                        <button type="submit" onclick="return confirm('Delete this category?')">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <% } else { %>
+            <div class="dashboard-empty-state">
+                <p>No categories found.</p>
+            </div>
+            <% } %>
+
+            <div class="dashboard-actions">
+                <a href="/admin" class="button">Back to Admin Dashboard</a>
+            </div>
+        </section>
     </div>
 </main>
 

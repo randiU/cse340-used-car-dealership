@@ -1,61 +1,72 @@
 <%- include("../../partials/dashboard-header") %>
+
 <main>
     <div class="site-container">
-        <h1 class="page-title"><%= title %></h1>
-        <p>Manage dealership inventory below.</p>
+        <h1 class="page-title page-title-accent"><%= title %></h1>
 
-        <% if (user && user.roleName === "admin") { %>
-        <p><a href="/admin/vehicles/new">Add New Vehicle</a></p>
-        <p><a href="/admin/categories">Manage Categories</a></p>
-        <% } %>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Inventory Management</h2>
+            <p>Manage dealership inventory below.</p>
 
-        <% if (vehicles && vehicles.length > 0) { %>
-        <table>
-            <thead>
-                <tr>
-                    <th>Vehicle</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Mileage</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% vehicles.forEach(vehicle => { %>
-                <tr>
-                    <td>
-                        <%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %>
-                    </td>
-                    <td><%= vehicle.category_name || "Uncategorized" %></td>
-                    <td>$<%= Number(vehicle.price).toLocaleString() %></td>
-                    <td><%= Number(vehicle.mileage).toLocaleString() %></td>
-                    <td><%= vehicle.status %></td>
-                    <td>
-                        <a href="/employee/vehicles/<%= vehicle.vehicle_id %>/edit">Edit</a>
+            <% if (user && user.roleName === "admin") { %>
+            <div class="dashboard-actions">
+                <a href="/admin/vehicles/new" class="button">Add New Vehicle</a>
+                <a href="/admin/categories" class="button">Manage Categories</a>
+            </div>
+            <% } %>
 
-                        <% if (user && user.roleName === "admin") { %>
-                        <form action="/admin/vehicles/<%= vehicle.vehicle_id %>/delete" method="post"
-                            style="display:inline;">
-                            <button type="submit" onclick="return confirm('Delete this vehicle?')">
-                                Delete
-                            </button>
-                        </form>
-                        <% } %>
-                    </td>
-                </tr>
-                <% }) %>
-            </tbody>
-        </table>
-        <% } else { %>
-        <p>No vehicles found.</p>
-        <% } %>
+            <% if (vehicles && vehicles.length > 0) { %>
+            <div class="dashboard-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Vehicle</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Mileage</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% vehicles.forEach(vehicle => { %>
+                        <tr>
+                            <td><%= vehicle.year %> <%= vehicle.make %> <%= vehicle.model %></td>
+                            <td><%= vehicle.category_name || "Uncategorized" %></td>
+                            <td>$<%= Number(vehicle.price).toLocaleString() %></td>
+                            <td><%= Number(vehicle.mileage).toLocaleString() %></td>
+                            <td><%= vehicle.status %></td>
+                            <td>
+                                <div class="dashboard-table-actions">
+                                    <a href="/employee/vehicles/<%= vehicle.vehicle_id %>/edit" class="button">Edit</a>
 
-        <p>
-            <a href="<%= user && user.roleName === 'admin' ? '/admin' : '/employee' %>">
-                Back to Dashboard
-            </a>
-        </p>
+                                    <% if (user && user.roleName === "admin") { %>
+                                    <form action="/admin/vehicles/<%= vehicle.vehicle_id %>/delete" method="post"
+                                        class="dashboard-inline-form">
+                                        <button type="submit" onclick="return confirm('Delete this vehicle?')">
+                                            Delete
+                                        </button>
+                                    </form>
+                                    <% } %>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <% } else { %>
+            <div class="dashboard-empty-state">
+                <p>No vehicles found.</p>
+            </div>
+            <% } %>
+
+            <div class="dashboard-actions">
+                <a href="<%= user && user.roleName === 'admin' ? '/admin' : '/employee' %>" class="button">
+                    Back to Dashboard
+                </a>
+            </div>
+        </section>
     </div>
 </main>
 

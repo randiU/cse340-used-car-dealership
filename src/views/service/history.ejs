@@ -1,4 +1,4 @@
-<%- include("../partials/header") %>
+<%- include("../partials/dashboard-header") %>
 
 <main>
     <div class="site-container">
@@ -25,6 +25,13 @@
             </div>
             <% } %>
         </section>
+        <!-- AI assisted with logic -->
+        <p>
+            <a
+                href="<%= user?.roleName?.toLowerCase() === 'admin' ? '/admin' : user?.roleName?.toLowerCase() === 'employee' ? '/employee' : '/dashboard' %>">
+                Back to Dashboard
+            </a>
+        </p>
     </div>
 </main>
 

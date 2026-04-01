@@ -1,3 +1,5 @@
+//AI assisted with route order and organization.
+
 import express from "express";
 import { homePage } from "./index.js";
 import {
