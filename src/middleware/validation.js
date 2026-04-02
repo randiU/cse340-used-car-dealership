@@ -110,9 +110,7 @@ const serviceRequestValidation = [
     .bail()
     .isIn([
       "Oil Change",
-      "Tire Rotation",
-      "Brake Inspection",
-      "Engine Diagnostic"
+      "Brake Inspection"
     ])
     .withMessage("Please select a valid service type"),
 

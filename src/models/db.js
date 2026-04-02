@@ -7,9 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Read the CA certificate content
-// (BYU-I cert - commented out while using Neon)
-// const caCert = fs.readFileSync(path.join(__dirname, '../../bin', 'byuicse-psql-cert.pem'));
-const caCert = null;
+const caCert = fs.readFileSync(path.join(__dirname, '../../bin', 'byuicse-psql-cert.pem'));
 
 /**
  * Connection pool for PostgreSQL database.
@@ -27,15 +25,11 @@ const pool = new Pool({
     // BYU-I limits each student to 3 concurrent connections.
     // Set max to 2 so the shared session store can use the same pool
     // without exceeding the limit (pool + session store = 2 max, leaving 1 spare).
-    max: 2,
-    idleTimeoutMillis: 10000, // Close idle connections after 10s to free up slots
-    // BYU-I SSL config (commented out while using Neon)
-    // ssl: {
-    //     ca: caCert,
-    //     rejectUnauthorized: true,
-    //     checkServerIdentity: () => { return undefined; }
-    // }
-    ssl: true  // Neon uses standard SSL
+    ssl: {
+        ca: caCert,  // Use the certificate content, not the file path
+        rejectUnauthorized: true,  // Keep this true for proper security
+        checkServerIdentity: () => { return undefined; }  // Skip hostname verification but keep cert chain validation
+    }
 });
 
 /**
@@ -83,6 +77,4 @@ if (process.env.NODE_ENV.includes('dev') && process.env.ENABLE_SQL_LOGGING === '
     db = pool;
 }
 
-// Export pool separately so the session store in server.js can share it
-// instead of opening its own connection (helps stay within BYU-I's 3-connection limit)
-export { db, pool, caCert };
+export { db, caCert };
