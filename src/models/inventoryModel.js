@@ -433,6 +433,21 @@ const deleteCategoryById = async (categoryId) => {
   return db.query(sql, [categoryId]);
 };
 
+const getCategoryBySlug = async (slug) => {
+  const sql = `
+    SELECT
+      category_id,
+      name,
+      slug,
+      description
+    FROM categories
+    WHERE slug = $1
+    LIMIT 1;
+  `;
+
+  return db.query(sql, [slug]);
+};
+
 const getImagesByVehicleId = async (vehicleId) => {
   const sql = `
     SELECT
@@ -471,6 +486,7 @@ export {
   createCategory,
   updateCategoryById,
   deleteCategoryById,
+  getCategoryBySlug,
   getImagesByVehicleId
 };
 

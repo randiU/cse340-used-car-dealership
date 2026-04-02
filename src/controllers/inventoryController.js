@@ -18,6 +18,7 @@ import {
   createCategory,
   updateCategoryById,
   deleteCategoryById,
+  getCategoryBySlug,
   getImagesByVehicleId
 } from "../models/inventoryModel.js";
 
@@ -75,19 +76,20 @@ const buildVehicleDetailPage = async (req, res, next) => {
 const buildCategoryVehiclePage = async (req, res, next) => {
   try {
     const { slug } = req.params;
-    const vehicleData = await getVehiclesByCategorySlug(slug);
-    const categoryData = await getAllCategories();
+    const categoryResult = await getCategoryBySlug(slug);
 
-    if (!vehicleData.rows.length) {
+    if (!categoryResult.rows.length) {
       const err = new Error("Category not found");
       err.status = 404;
       return next(err);
     }
 
-    const categoryName = vehicleData.rows[0].category_name;
+    const category = categoryResult.rows[0];
+    const vehicleData = await getVehiclesByCategorySlug(slug);
+    const categoryData = await getAllCategories();
 
     res.render("vehicles/browse", {
-      title: `${categoryName} Vehicles`,
+      title: `${category.name} Vehicles`,
       vehicles: vehicleData.rows,
       categories: categoryData.rows
     });
