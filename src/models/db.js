@@ -22,9 +22,8 @@ const caCert = fs.readFileSync(path.join(__dirname, '../../bin', 'byuicse-psql-c
  */
 const pool = new Pool({
     connectionString: process.env.DB_URL,
-    // BYU-I limits each student to 3 concurrent connections.
-    // Set max to 2 so the shared session store can use the same pool
-    // without exceeding the limit (pool + session store = 2 max, leaving 1 spare).
+    max: 2,
+    idleTimeoutMillis: 10000,
     ssl: {
         ca: caCert,  // Use the certificate content, not the file path
         rejectUnauthorized: true,  // Keep this true for proper security
@@ -77,4 +76,6 @@ if (process.env.NODE_ENV.includes('dev') && process.env.ENABLE_SQL_LOGGING === '
     db = pool;
 }
 
-export { db, caCert };
+export { db, pool, caCert };
+// Original export (if not using shared pool):
+// export { db, caCert };
