@@ -5,59 +5,46 @@
         <h1 class="page-title page-title-accent"><%= title %></h1>
 
         <section class="dashboard-section-card">
-            <h2 class="section-title">Employee Access</h2>
-            <p>Use this page to manage employee access and account roles.</p>
+            <h2 class="section-title">Welcome</h2>
+            <p>Welcome to the employee dashboard.</p>
+            <p>Use the tools below to manage inventory, messages, and service requests.</p>
+        </section>
 
-            <% if (users && users.length > 0) { %>
-            <div class="dashboard-table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Current Role</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <%# AI helped with logic behind rendering the employee access table %>
-                    <tbody>
-                        <% users.forEach(account => { %>
-                        <tr>
-                            <td><%= account.first_name %> <%= account.last_name %></td>
-                            <td><%= account.email %></td>
-                            <td><%= account.role_name %></td>
-                            <td>
-                                <% if (account.role_name === "admin") { %>
-                                <span>Admin account</span>
-                                <% } else { %>
-                                <form action="/admin/employees/<%= account.user_id %>/role" method="post"
-                                    class="dashboard-inline-form">
-                                    <label for="role_name_<%= account.user_id %>" class="sr-only">Role</label>
-                                    <select name="role_name" id="role_name_<%= account.user_id %>">
-                                        <option value="user" <%= account.role_name === "user" ? "selected" : "" %>>User
-                                        </option>
-                                        <option value="employee"
-                                            <%= account.role_name === "employee" ? "selected" : "" %>>
-                                            Employee
-                                        </option>
-                                    </select>
-                                    <button type="submit">Update Role</button>
-                                </form>
-                                <% } %>
-                            </td>
-                        </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
-            </div>
-            <% } else { %>
-            <div class="dashboard-empty-state">
-                <p>No users found.</p>
-            </div>
-            <% } %>
+        <section class="dashboard-section-card">
+            <h2 class="section-title">Employee Tools</h2>
 
-            <div class="dashboard-actions">
-                <a href="/admin" class="button">Back to Admin Dashboard</a>
+            <div class="dashboard-card-grid">
+                <article class="dashboard-item-card">
+                    <h3>Public Inventory</h3>
+                    <p>View the public vehicle inventory as customers see it.</p>
+                    <div class="action-group">
+                        <a href="/vehicles" class="button">View Inventory</a>
+                    </div>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Manage Inventory</h3>
+                    <p>Edit current inventory listings and dealership vehicle details.</p>
+                    <div class="action-group">
+                        <a href="/employee/vehicles" class="button">Manage Inventory</a>
+                    </div>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Contact Messages</h3>
+                    <p>Review customer messages submitted through the contact form.</p>
+                    <div class="action-group">
+                        <a href="/admin/contact-messages" class="button">View Messages</a>
+                    </div>
+                </article>
+
+                <article class="dashboard-item-card">
+                    <h3>Service Requests</h3>
+                    <p>Review incoming service requests and update their status.</p>
+                    <div class="action-group">
+                        <a href="/employee/service-requests" class="button">Manage Requests</a>
+                    </div>
+                </article>
             </div>
         </section>
     </div>

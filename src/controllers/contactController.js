@@ -16,7 +16,6 @@ const showContactForm = async (req, res) => {
 //Route handler for contact form submission
 const handleContactSubmission = async (req, res) => {
   const errors = validationResult(req);
-
   if (!errors.isEmpty()) {
     const errorMessages = errors.array().map(error => error.msg);
 

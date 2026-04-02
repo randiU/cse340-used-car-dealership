@@ -8,6 +8,7 @@ const contactValidation = [
     .trim()
     .isLength({ min: 2, max: 100 })
     .withMessage("Name must be between 2 and 100 characters")
+    //Regex allows letters, spaces, hyphens, and apostrophes to accommodate common name formats while preventing numbers and special characters that are unlikely in names.
     .matches(/^[a-zA-Z\s'-]+$/)
     .withMessage("Name can only contain letters, spaces, hyphens, and apostrophes"),
 
@@ -24,6 +25,7 @@ const contactValidation = [
     .isLength({ min: 2, max: 255 })
     .withMessage("Subject must be between 2 and 255 characters")
     .bail()
+    //Regex allows letters, numbers, spaces, and common punctuation while preventing other special characters.
     .matches(/^[\p{L}\p{N}\s&'()\-.,!?]+$/u)
     .withMessage("Subject contains invalid characters"),
 
@@ -31,6 +33,7 @@ const contactValidation = [
     .trim()
     .isLength({ min: 10, max: 2000 })
     .withMessage("Message must be between 10 and 2000 characters")
+    //Checks for spam
     .custom((value) => {
       const words = value.split(/\s+/);
       const uniqueWords = new Set(words);
@@ -48,6 +51,7 @@ const registrationValidation = [
     .trim()
     .isLength({ min: 2, max: 50 })
     .withMessage("First name must be between 2 and 50 characters")
+    //regex allows letters, spaces, hyphens, and apostrophes to accommodate common name formats while preventing numbers and special characters that are unlikely in names.
     .matches(/^[a-zA-Z\s'-]+$/)
     .withMessage("First name can only contain letters, spaces, hyphens, and apostrophes"),
 
@@ -55,6 +59,7 @@ const registrationValidation = [
     .trim()
     .isLength({ min: 2, max: 50 })
     .withMessage("Last name must be between 2 and 50 characters")
+    //regex allows letters, spaces, hyphens, and apostrophes to accommodate common name formats while preventing numbers and special characters that are unlikely in names.
     .matches(/^[a-zA-Z\s'-]+$/)
     .withMessage("Last name can only contain letters, spaces, hyphens, and apostrophes"),
 
@@ -75,6 +80,7 @@ const registrationValidation = [
     .withMessage("Password must contain at least one lowercase letter")
     .matches(/[A-Z]/)
     .withMessage("Password must contain at least one uppercase letter")
+    //Regex for special characters allows common symbols while preventing spaces and other whitespace characters that can cause issues in passwords.
     .matches(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/)
     .withMessage("Password must contain at least one special character")
 ];
